@@ -1,0 +1,3 @@
+[submodule "forks/oss-fuzz"]
+	path = forks/oss-fuzz
+	url = https://github.com/google/oss-fuzz.git

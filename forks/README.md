@@ -4,7 +4,7 @@ This folder contains forks of the public repos used.
 
 ## OSS-Fuzz
 
-Creating the [oss-fuzz](/forks/oss-fuzz/) folder if it does not exists.
+Creating the [oss-fuzz](/forks/oss-fuzz/) folder if it does not exist.
 ```bash
 git clone https://github.com/google/oss-fuzz.git && cd oss-fuzz
 ```
