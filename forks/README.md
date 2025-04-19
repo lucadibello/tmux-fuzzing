@@ -38,4 +38,11 @@ python3 infra/helper.py coverage <project> --corpus-dir build/out/corpus --fuzz-
 ```
 This uses the `llvm-cov` command.
 
-## To Do: Project
+In each *project* of *OSS-Fuzz* (subdirectory in `oss-fuzz/projects`) there are the following files:
+- `project.yaml`, containing the Project Configuration, so homepage, language, supported Fuzzing Engines, Repository, Sanitizers and other options.
+- `Dockerfile`
+- `build.sh` Build Script that fuzzes specific  
+
+## To Do: Select Project
+
+[*OSS-Fuzz Introspector*](https://introspector.oss-fuzz.com/project-profile?project=libssh), the basic dashboard with the useful links for both the project and the fuzzing data. There the number of fuzzers can be found (`Fuzzer count`), as well as `Lines of code`, `Lines covered` or `Code coverage` percentage.
