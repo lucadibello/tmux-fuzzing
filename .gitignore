@@ -1,2 +1,4 @@
-
-
+.vscode/
+agent_fuzzer/*
+forks/oss-fuzz/projects/nginx
+forks/nginx
