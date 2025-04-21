@@ -14,29 +14,29 @@ git clone https://github.com/google/oss-fuzz.git && cd oss-fuzz
 Build docker image for the project:
 
 ```bash
-python3 infra/helper.py build_image <project>
+python3 infra/helper.py build_image tmux
 ```
 
 Build Project fuzzers:
 ```bash
-python3 infra/helper.py build_fuzzers <project>
+python3 infra/helper.py build_fuzzers tmux
 ```
 
 Run a fuzzer and store the result in a corpus directory:
 ```bash
 mkdir -p build/out/corpus
-python3 infra/helper.py run_fuzzer <project> <fuzz_target> --corpus-dir build/out/corpus
+python3 infra/helper.py run_fuzzer tmux input-fuzzer --corpus-dir build/out/corpus
 ```
 
 Build coverage-instrumented analysis:
 ```bash
-python3 infra/helper.py build_fuzzers --sanitizer coverage <project>
+python3 infra/helper.py build_fuzzers --sanitizer coverage tmux
 ```
 The option `--sanitizer coverage` build binaries with code coverage instrumentation.
 
 Generate a coverage report:
 ```bash
-python3 infra/helper.py coverage <project> --corpus-dir build/out/corpus --fuzz-target <fuzz_target>
+python3 infra/helper.py coverage tmux --corpus-dir build/out/corpus --fuzz-target input-fuzzer
 ```
 This uses the `llvm-cov` command.
 
@@ -44,8 +44,8 @@ This uses the `llvm-cov` command.
 
 In each *project* of *OSS-Fuzz* (subdirectory in `oss-fuzz/projects`) there are the following files:
 - `project.yaml`, containing the Project Configuration, so homepage, language, supported Fuzzing Engines, Repository, Sanitizers and other options.
-- `Dockerfile`
-- `build.sh` Build Script that fuzzes specific
+- `Dockerfile`, contains the configuration for the project's image for OSS-Fuzz 
+- `build.sh`: compiles the project (in our case *tmux* with fuzzing support and prepares the specified seed corpus). 
 
 ### OSS-Fuzzer Commands
 
@@ -55,6 +55,11 @@ In each *project* of *OSS-Fuzz* (subdirectory in `oss-fuzz/projects`) there are 
 - `coverage`: Generates a code coverage report for the fuzzers. Requires building fuzzers with `--sanitizer coverage` first. 
 - `check_build`: Verifies that the project and fuzzers are built correctly. 
 - `shell`: Starts an interactive shell inside the project's Docker container.
+- List Fuzzers for *tmux*: 
+    ```bash
+    python3 infra/helper.py shell tmux
+    ls /out/*-fuzzer
+    ```
 
 
 ## **tmux**
@@ -65,10 +70,18 @@ In each *project* of *OSS-Fuzz* (subdirectory in `oss-fuzz/projects`) there are 
 
 ### Current Fuzzing files
 
-- `input-fuzzer.c`
-- `input-fuzzer.dict`
-- `input-fuzzer.options`
-- `tmux-fuzzing-corpus`, [github repo](https://github.com/tmux/tmux-fuzzing-corpus) containing an initial set of input files designed for the fuzz testing. Those files simulate various terminal behaviors. Some of the provided corpus include:
+- `input-fuzzer.c`: fuzzer targeting tmux's input parsing logic. `LLVMFuzzerTestOneInput` simulates tmux processing fuzzed input data. It does so by:
+    1. Creating a *tmux* window.
+    2. Feeds fuzzed input (`data`) into tmux input parser (`input_parse_buffer`)
+    3. Handles tmux events and cleanup.
+
+    Inputs must be less that `FUZZER_MAXLEN = 512`.
+    The fuzzing is focused on input handling.
+
+- `input-fuzzer.dict`: dictionary of common tmux input patterns to guide the fuzzer.
+- `input-fuzzer.options`: libFuzzer runtime options.
+
+- `../tmux-fuzzing-corpus` (from `oss-fuzz` directory), [github repo](https://github.com/tmux/tmux-fuzzing-corpus) containing an initial set of input files designed for the fuzz testing. Those files simulate various terminal behaviors. Some of the provided corpus include:
     - `alacritty`, input files derived from the *Alacritty* terminal emulator
     - `esctest`, testing escape sequences
     - `iterm2`, testing *iTerm2* terminal emulator.

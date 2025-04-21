@@ -1,5 +1,14 @@
 # Fuzzing Lab - CS-412
 
+## Part 0: Clone the repo
+
+Clone the repo:
+```bash
+git clone --recurse-submodules git@github.com:federicovilla55/fuzzing-lab.git
+```
+
+A detailed explanation of OSS-Fuzz commands and other project related information can be found here.
+
 ## Part 1: Running Existing Fuzzing Harnesses
 
 Clone the *OSS-Fuzz* repo:
