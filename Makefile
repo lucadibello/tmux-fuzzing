@@ -15,7 +15,8 @@ ENGINE        = libfuzzer
 
 # NOTE: available options here: https://llvm.org/docs/LibFuzzer.html#options
 # WARNING: the "max_total_time" does not seem to work with oss-fuzz. For this reason
-# we still use the `timeout` utility to limit the runtime of the fuzzer.
+# we still use the `timeout` utility to limit the runtime of the fuzzer, and we kill
+# any docker containers that are still running after the timeout.
 LIBFUZZER_PARAMS = -jobs=$(JOBS) -workers=$(WORKERS) -max_total_time=$(RUNTIME)
 # coverage settings (overridable from command line)
 CORPUS        ?= $(WORK_CORPUS)
