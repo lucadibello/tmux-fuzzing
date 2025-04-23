@@ -42,14 +42,14 @@ define RUN_TEMPLATE
 	  timeout $(RUNTIME) \
 	    python3 infra/helper.py run_fuzzer \
 	      --engine $(ENGINE) \
-	      --corpus-dir ../$(WORK_CORPUS) \
+	      --corpus-dir work-corpus \
 	      $(PROJECT) $(FUZZER) -- $(LIBFUZZER_PARAMS) || true
 	@echo "== Finished fuzzer run =="
 	@docker stop $$(docker ps -q) || true
 	@mkdir -p experiments
 	@ts=$$(date +%Y%m%d_%H%M%S); \
 	  cp -r $(WORK_CORPUS) experiments/$${ts}-$(2); \
-	  zip -qr experiments/$${ts}-$(2).zip experiments/$${ts}-$(2); \
+	  zip -r experiments/$${ts}-$(2).zip experiments/$${ts}-$(2); \
 	  echo "== Corpus archived to experiments/$${ts}-$(2).zip =="
 endef
 
