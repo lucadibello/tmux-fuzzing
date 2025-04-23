@@ -1,4 +1,5 @@
 .vscode/
 agent_fuzzer/*
 forks/oss-fuzz/projects/nginx
+forks/oss-fuzz/work-corpus
 forks/nginx
