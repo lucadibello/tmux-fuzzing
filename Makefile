@@ -10,8 +10,7 @@ WITH_LABEL    = w_corpus
 # libfuzzer settings (mutithreading and timeout)
 JOBS          = 4
 WORKERS       = 2
-# RUNTIME       = 14400      # seconds (== 4 h)
-RUNTIME       = 10
+RUNTIME       = 14400      # seconds (== 4 h)
 ENGINE        = libfuzzer
 
 # NOTE: available options here: https://llvm.org/docs/LibFuzzer.html#options
