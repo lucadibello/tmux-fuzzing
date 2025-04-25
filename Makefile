@@ -3,8 +3,8 @@ PROJECT       = tmux
 FUZZER        = input-fuzzer
 OSS_FUZZ_DIR  = forks/oss-fuzz
 # corpus settings (with / without initial seeds)
-SEED_CORPUS   = forks/tmux-fuzzing-corpus          # initial seeds
-WORK_CORPUS   = $(OSS_FUZZ_DIR)/work-corpus        # scratch area inside oss-fuzz
+SEED_CORPUS   = forks/tmux-fuzzing-corpus
+WORK_CORPUS   = $(OSS_FUZZ_DIR)/work-corpus
 EMPTY_LABEL   = wo_corpus
 WITH_LABEL    = w_corpus
 # libfuzzer settings (mutithreading and timeout)
@@ -34,11 +34,11 @@ CORPUS        ?= $(WORK_CORPUS)
 # Reference: https://stackoverflow.com/questions/6783243/functions-in-makefiles
 # ----------------------------------------------------------------------------- 
 define RUN_TEMPLATE
-	@rm -rf $(WORK_CORPUS)
-	@mkdir -p $(WORK_CORPUS)
-	@$(3)
-	@echo "== Running fuzzer on $(1) corpus =="
-	@cd $(OSS_FUZZ_DIR) && \
+	rm -rf $(WORK_CORPUS)
+	mkdir -p $(WORK_CORPUS)
+	$(3)
+	echo "== Running fuzzer on $(1) corpus =="
+	cd $(OSS_FUZZ_DIR) && \
 	  timeout $(RUNTIME) \
 	    python3 infra/helper.py run_fuzzer \
 	      --engine $(ENGINE) \
