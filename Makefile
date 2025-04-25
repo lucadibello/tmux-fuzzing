@@ -22,8 +22,8 @@ LIBFUZZER_PARAMS = -jobs=$(JOBS) -workers=$(WORKERS) -max_total_time=$(RUNTIME)
 CORPUS        ?= $(WORK_CORPUS)
 
 # declare all targets as PHONY (utility targets)
-.PHONY: prepare run_w_corpus run_wo_corpus coverage clean \
-        full_w_corpus full_wo_corpus diff
+.PHONY: prepare prepare_image prepare_fuzzers prepare_fuzzers_coverage prepare_coverage \
+        run_w_corpus run_wo_corpus coverage clean full_w_corpus full_wo_corpus diff
 
 # ----------------------------------------------------------------------------- 
 # Internal template:
