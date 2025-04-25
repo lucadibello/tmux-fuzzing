@@ -55,7 +55,7 @@ endef
 
 # Target: prepare - build the OSS-Fuzz image for the project
 prepare_image:
-	@cd $(OSS_FUZZ_DIR) && python3 infra/helper.py build_image $(PROJECT)
+	@cd $(OSS_FUZZ_DIR) && python3 infra/helper.py build_image $(PROJECT) --pull
 
 # Target: prepare_fuzzers - build the fuzzers for the project
 prepare_fuzzers:
