@@ -53,11 +53,21 @@ define RUN_TEMPLATE
 	  echo "== Corpus archived to experiments/$${ts}-$(2).zip =="
 endef
 
-# Target: prepare - build the OSS-Fuzz image and fuzzers for tmux
-prepare:
-	@cd $(OSS_FUZZ_DIR) && \
-	  python3 infra/helper.py build_image $(PROJECT) && \
-	  python3 infra/helper.py build_fuzzers $(PROJECT)
+# Target: prepare - build the OSS-Fuzz image for the project
+prepare_image:
+	@cd $(OSS_FUZZ_DIR) && python3 infra/helper.py build_image $(PROJECT)
+
+# Target: prepare_fuzzers - build the fuzzers for the project
+prepare_fuzzers:
+	@cd $(OSS_FUZZ_DIR) && python3 infra/helper.py build_fuzzers $(PROJECT)
+
+# Target: prepare_fuzzers_coverage - build the fuzzers for the project with coverage sanitizer
+prepare_fuzzers_coverage:
+	@cd $(OSS_FUZZ_DIR) && python3 infra/helper.py build_fuzzers --sanitizer coverage $(PROJECT)
+
+# Target: prepare / prepare-coverage - build the OSS-Fuzz image and fuzzers for tmux
+prepare: clean prepare_image prepare_fuzzers
+prepare_coverage: clean prepare_image prepare_fuzzers_coverage
 
 # Target: run_w_corpus - fuzz starting from 
 run_w_corpus:
@@ -79,13 +89,14 @@ coverage:
 
 # Target: clean - removes any artifact generated from the fuzzer
 clean:
-	rm -rf $(WORK_CORPUS)
+	@rm -rf $(WORK_CORPUS)
+	@docker stop $$(docker ps -q) 2>/dev/null || true
 
 # Targets: full_w_corpus - full run with pre-populated corpus
-full_w_corpus: prepare run_w_corpus coverage
+full_w_corpus: prepare_coverage run_w_corpus coverage
 
 # Target: full_wo_corpus - full run with empty corpus
-full_wo_corpus: prepare run_wo_corpus coverage
+full_wo_corpus: prepare_coverage run_wo_corpus coverage
 
 # Target: diff - produce diff files for oss-fuzz and tmux forks
 diff:
