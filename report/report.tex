@@ -1,0 +1,63 @@
+\documentclass[11pt,a4paper,twocolumn]{article}
+
+% Title and authors
+\title{%
+  CS-412 Software Security Lab 2\\[0.5em]
+  \Large Fuzzing Lab Report\\
+  Spring Semester 2025\\[0.5em]
+  Project: Tmux
+}
+
+\author{%
+  Luca Di Bello (SCIPER 367552)
+  Federico Villa (SCIPER XYZ) \\
+  Noah El Hassanie (SCIPER 404885)
+  Cristina Morad (SCIPER 405241) \\
+}
+\date{Submitted: May 8, 2025}
+
+% Load custom styl
+\usepackage{report_style}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+	Briefly summarize goals, target project, and high-level results (coverage gains, crash triaged).
+\end{abstract}
+
+\section{Introduction}
+Outline the assignment objectives and your chosen OSS-Fuzz project.
+
+\section{Methodology}
+Describe your environment, hardware, OSS-Fuzz setup, and how you conducted each experiment.
+
+\section{Part 1: Baseline Evaluation}
+\subsection{With Seed Corpus}
+List the exact build/run commands and point to \texttt{run\_w\_corpus.sh}.
+\subsection{Without Seed Corpus}
+List the exact build/run commands and point to \texttt{run\_wo\_corpus.sh}.
+\subsection{Coverage Comparison}
+Discuss coverage percentages and key observations.
+
+\section{Part 2: Coverage Gaps}
+\subsection{Region A}
+Justification of significance; why existing harness misses it.
+\subsection{Region B}
+Justification of significance; why existing harness misses it.
+
+\section{Part 3: Fuzzer Improvements}
+\subsection{Improvement 1 (Region A)}
+Describe changes, refer to \texttt{improve1/run\_improve1.sh}, and summarize coverage delta.
+\subsection{Improvement 2 (Region B)}
+Describe changes, refer to \texttt{improve2/run\_improve2.sh}, and summarize coverage delta.
+
+\section{Part 4: Crash Analysis}
+Detail crash reproduction (\texttt{run\_poc.sh}), ASAN log snippet, root cause, proposed patch, and exploitability.
+
+\section{Conclusion and Future Work}
+Summarize achievements and outline possible next steps.
+
+\printbibliography
+
+\end{document}
