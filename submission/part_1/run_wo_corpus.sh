@@ -13,10 +13,8 @@ RUNTIME=14400 # 4 hours in seconds
 ## corpus settings
 ROOT=$(pwd)
 
-# Temporary working directories
-WORKDIR=$ROOT/part1_temp_wo
+# OSS Fuzz absolute path
 OSS_FUZZ_DIR=$ROOT/forks/oss-fuzz
-mkdir -p "$WORKDIR"
 
 # 1) Pull changes from submodules and update the working directory
 git submodule update --init --recursive
@@ -27,9 +25,10 @@ python3 infra/helper.py build_image "$PROJECT" --pull
 python3 infra/helper.py build_fuzzers --sanitizer coverage "$PROJECT"
 
 # 3) Prepare empty corpus
-mkdir -p work-corpus # (no seed corpus is copied here)
+mkdir -p "$OSS_FUZZ_DIR/work-corpus"
 
 # 4) Run the fuzzer for RUNTIME
+cd "$OSS_FUZZ_DIR"python3 -m http.server
 timeout "$RUNTIME" \
   python3 infra/helper.py run_fuzzer \
   --engine "$ENGINE" \
@@ -42,21 +41,37 @@ docker stop "$(docker ps -q)" 2>/dev/null || true
 # 6) Zip and store the corpus in `experiments/{timestamp}_wo_corpus`
 ts=$(date +%Y%m%d_%H%M%S)
 mkdir -p "$ROOT/experiments"
-cp -r work-corpus "$ROOT/experiments/${ts}_wo_corpus"
+cp -r "$OSS_FUZZ_DIR/work-corpus" "$ROOT/experiments/${ts}_wo_corpus"
 (cd "$ROOT/experiments" && zip -qr "${ts}_wo_corpus.zip" "${ts}_wo_corpus")
 
 # 7) Generate HTML coverage report
+cd "$OSS_FUZZ_DIR"
 python3 infra/helper.py coverage \
   "$PROJECT" \
   --corpus-dir work-corpus \
-  --fuzz-target "$FUZZER"
+  --fuzz-target "$FUZZER" &
 
-# 8) Copy results to submission directory
-DEST=$ROOT/submission/part1/coverage_wo_corpus
+# --- wait for the coverage report to be generated ---
+REPORT_DIR="build/out/$PROJECT/report"
+TIMEOUT=300 # total wait time in seconds (300s = 5 minutes)
+echo "Waiting for coverage report to be generated..."
+for ((i = 0; i < TIMEOUT; i += 5)); do
+  sleep 5 # sleep 5 seconds
+
+  # if the report directory exists, break the loop
+  if [[ -d "$REPORT_DIR" ]]; then
+    break
+  fi
+  echo "Waiting... ($i seconds elapsed)"
+done
+
+# 8) Stop any remaining Docker containers
+docker stop "$(docker ps -q)" 2>/dev/null || true
+
+# 9) Copy results to submission directory
+DEST=$ROOT/submission/part_1/${ts}-coverage_wo_corpus
+REPORT_ABS_PATH="$OSS_FUZZ_DIR/$REPORT_DIR"
 mkdir -p "$DEST"
-cp -r build/out/report "$DEST/"
-
-# 9) Clean up
-rm -rf "$WORKDIR"
+cp -r "$REPORT_ABS_PATH" "$DEST/"
 
 echo "✅ Done: coverage WITHOUT corpus in $DEST"
