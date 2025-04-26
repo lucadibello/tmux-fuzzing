@@ -9,7 +9,8 @@ ENGINE=libfuzzer
 ## libfuzzer settings
 JOBS=4
 WORKERS=2
-RUNTIME=14400 # 4 hours in seconds
+# RUNTIME=14400 # 4 hours in seconds
+RUNTIME=60 # 4 hours in seconds
 ## corpus settings
 ROOT=$(pwd)
 
@@ -25,10 +26,11 @@ python3 infra/helper.py build_image "$PROJECT" --pull
 python3 infra/helper.py build_fuzzers --sanitizer coverage "$PROJECT"
 
 # 3) Prepare empty corpus
+rm -rf "$OSS_FUZZ_DIR/work-corpus" || true
 mkdir -p "$OSS_FUZZ_DIR/work-corpus"
 
 # 4) Run the fuzzer for RUNTIME
-cd "$OSS_FUZZ_DIR"python3 -m http.server
+cd "$OSS_FUZZ_DIR"
 timeout "$RUNTIME" \
   python3 infra/helper.py run_fuzzer \
   --engine "$ENGINE" \
@@ -36,7 +38,7 @@ timeout "$RUNTIME" \
   "$PROJECT" "$FUZZER" -- -jobs="$JOBS" -workers="$WORKERS" -max_total_time="$RUNTIME" || true
 
 # 5) Stop any remaining Docker containers
-docker stop "$(docker ps -q)" 2>/dev/null || true
+docker stop "$(docker ps -q)" || true
 
 # 6) Zip and store the corpus in `experiments/{timestamp}_wo_corpus`
 ts=$(date +%Y%m%d_%H%M%S)
@@ -45,14 +47,15 @@ cp -r "$OSS_FUZZ_DIR/work-corpus" "$ROOT/experiments/${ts}_wo_corpus"
 (cd "$ROOT/experiments" && zip -qr "${ts}_wo_corpus.zip" "${ts}_wo_corpus")
 
 # 7) Generate HTML coverage report
+REPORT_DIR="build/out/$PROJECT/report"
 cd "$OSS_FUZZ_DIR"
+rm -rf REPORT_DIR || true
 python3 infra/helper.py coverage \
   "$PROJECT" \
   --corpus-dir work-corpus \
   --fuzz-target "$FUZZER" &
 
 # --- wait for the coverage report to be generated ---
-REPORT_DIR="build/out/$PROJECT/report"
 TIMEOUT=300 # total wait time in seconds (300s = 5 minutes)
 echo "Waiting for coverage report to be generated..."
 for ((i = 0; i < TIMEOUT; i += 5)); do
@@ -66,7 +69,7 @@ for ((i = 0; i < TIMEOUT; i += 5)); do
 done
 
 # 8) Stop any remaining Docker containers
-docker stop "$(docker ps -q)" 2>/dev/null || true
+docker stop "$(docker ps -q)" || true
 
 # 9) Copy results to submission directory
 DEST=$ROOT/submission/part_1/${ts}-coverage_wo_corpus

@@ -48,13 +48,15 @@ cp -r "$OSS_FUZZ_DIR/work-corpus" "$ROOT/experiments/${ts}_w_corpus"
 
 # 7) Generate HTML coverage report
 cd "$OSS_FUZZ_DIR"
+REPORT_DIR="build/out/$PROJECT/report"
+cd "$OSS_FUZZ_DIR"
+rm -rf REPORT_DIR || true
 python3 infra/helper.py coverage \
   "$PROJECT" \
   --corpus-dir work-corpus \
   --fuzz-target "$FUZZER" &
 
 # --- wait for the coverage report to be generated ---
-REPORT_DIR="build/out/$PROJECT/report"
 TIMEOUT=300 # total wait time in seconds (300s = 5 minutes)
 echo "Waiting for coverage report to be generated..."
 for ((i = 0; i < TIMEOUT; i += 5)); do
