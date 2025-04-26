@@ -85,7 +85,7 @@ run_wo_corpus:
 #     b) make coverage CORPUS=$(EMPTY_CORPUS)
 coverage:
 	@python3 $(OSS_FUZZ_DIR)/infra/helper.py coverage $(PROJECT) \
-	    --corpus-dir $(CORPUS) --fuzz-target $(FUZZER)
+	    --corpus-dir ../../$(CORPUS) --fuzz-target $(FUZZER)
 
 # Target: clean - removes any artifact generated from the fuzzer
 clean:
