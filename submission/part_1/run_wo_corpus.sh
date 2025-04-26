@@ -8,7 +8,8 @@ HARNESS=input-fuzzer
 ENGINE=libfuzzer
 REBUILD=true
 ## libfuzzer settings
-RUNTIME=14400 # 4 hours in seconds
+# RUNTIME=14400 # 4 hours in seconds
+RUNTIME=10 # 4 hours in seconds
 FLAGS="\
   -max_total_time=$RUNTIME \
   -timeout=25 \
@@ -37,7 +38,6 @@ mkdir -p "$OSS_FUZZ_DIR/work-corpus"
 mkdir -p "$OSS_FUZZ_DIR/work-corpus/crashes"
 
 # 3) Run the fuzzer for RUNTIME
-echo "Fuzzer run completed. Stopping any remaining Docker containers..."
 cd "$OSS_FUZZ_DIR"
 python3 infra/helper.py run_fuzzer \
   --engine "$ENGINE" \
@@ -63,13 +63,13 @@ python3 infra/helper.py coverage \
 
 # --- wait for the coverage report to be generated ---
 TIMEOUT=300 # total wait time in seconds (300s = 5 minutes)
-REPORT_DIR="$OSS_FUZZ_DIR/build/out/$PROJECT/report_target/$HARNESS"
+GLOBAL_REPORT_DIR="$OSS_FUZZ_DIR/build/out/$PROJECT/report"
 echo "Waiting for coverage report to be generated..."
 for ((i = 0; i < TIMEOUT; i += 5)); do
   sleep 5 # sleep 5 seconds
 
   # if the report directory exists, break the loop
-  if [[ -d "$REPORT_DIR" ]]; then
+  if [[ -d "$GLOBAL_REPORT_DIR" ]]; then
     break
   fi
   echo "Waiting... ($i seconds elapsed)"
@@ -81,6 +81,6 @@ docker stop "$(docker ps -q)" || true
 # 8) Copy results to submission directory
 DEST=$ROOT/submission/part_1/${ts}_coverage_wo_corpus
 mkdir -p "$DEST"
-cp -r "$REPORT_DIR" "$DEST/"
+cp -r "$GLOBAL_REPORT_DIR" "$DEST/"
 
 echo "✅ Done: coverage WITHOUT corpus in $DEST"
