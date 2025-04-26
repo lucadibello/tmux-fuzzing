@@ -6,7 +6,7 @@ set -euo pipefail
 PROJECT=tmux
 HARNESS=input-fuzzer
 ENGINE=libfuzzer
-REBUILD=false
+REBUILD=true
 ## libfuzzer settings
 RUNTIME=14400 # 4 hours in seconds
 FLAGS="\
