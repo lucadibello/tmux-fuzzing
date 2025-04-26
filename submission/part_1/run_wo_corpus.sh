@@ -6,9 +6,9 @@ set -euo pipefail
 PROJECT=tmux
 HARNESS=input-fuzzer
 ENGINE=libfuzzer
-REBUILD=false
+REBUILD=true
 ## libfuzzer settings
-RUNTIME=10 # 4 hours in seconds
+RUNTIME=14400 # 4 hours in seconds
 FLAGS="\
   -max_total_time=$RUNTIME \
   -timeout=25 \
@@ -32,7 +32,7 @@ if [ "$REBUILD" = true ]; then
 fi
 
 # 2) Prepare empty corpus
-CORPUS_DIR=$OSS_FUZZ_DIR/build/out/empty-corpus
+CORPUS_DIR=$OSS_FUZZ_DIR/build/out/corpus
 rm -rf "$CORPUS_DIR" || true
 mkdir -p "$CORPUS_DIR"
 mkdir -p "$CORPUS_DIR/crashes"
@@ -41,7 +41,7 @@ mkdir -p "$CORPUS_DIR/crashes"
 cd "$OSS_FUZZ_DIR"
 python3 infra/helper.py run_fuzzer \
   --engine "$ENGINE" "$PROJECT" \
-  --corpus-dir build/out/empty-corpus \
+  --corpus-dir build/out/corpus \
   "$HARNESS" "$FLAGS"
 
 # 4) Stop any remaining Docker containers
