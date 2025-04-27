@@ -23,18 +23,77 @@
 \maketitle
 
 \begin{abstract}
-	Briefly summarize goals, target project, and high-level results (coverage gains, crash triaged).
+	In this lab, we integrate and evaluate a fuzzing harness for the \texttt{tmux} terminal
+	multiplexer using Google’s OSS-Fuzz infrastructure. We first establish a baseline
+	by measuring line coverage of the existing \texttt{tmux\_fuzzer} both with and without the
+	provided seed corpus, observing a significant coverage boost when seeds are present.
+
+	We then identify two major code regions not exercised by the baseline harness, implement
+	targeted harness improvements to cover those regions, and finally triage a crash uncovered
+	in the session-detach logic, proposing a patch and assessing its exploitability.
 \end{abstract}
 
 \section{Introduction}
-Outline the assignment objectives and your chosen OSS-Fuzz project.
+
+Fuzzing is a proven technique for uncovering memory‐safety and logic bugs in C/C++ code. In this assignment we chose \texttt{tmux}, an open-source terminal multiplexer for Unix-like systems, as our target because it (1) has a relatively small OSS-Fuzz integration (only one harness), (2) shows very low runtime coverage, and (3) is widely used daily by developers and DevOps engineers across countless systems.  By improving its fuzzing harness, we aim both to increase \texttt{tmux}’s coverage under OSS-Fuzz and to demonstrate how targeted harness modifications can uncover real bugs in a piece of critical infrastructure.
 
 \section{Methodology}
-Describe your environment, hardware, OSS-Fuzz setup, and how you conducted each experiment.
+
+Experiments were conducted on Ubuntu 22.04 LTS with Docker 20.10 and Python 3.10. We used a local fork of OSS-Fuzz in \texttt{forks/oss-fuzz} and the \texttt{tmux} seed corpus in \texttt{forks/tmux-fuzzing-corpus}. Two bash scripts (\texttt{run\_w\_corpus.sh} and \texttt{run\_wo\_corpus.sh}) automate each 4 h campaign. The main steps are as follows:
+
+\textbf{Reset build and cleanup:} the script will first reset the build scripts to the latest version using the \texttt{git reset ---hard} command. This ensures that the user is working with a clean slate (without any modifications from previous runs). Furthermore, all files in the \texttt{build/out} directory are removed to ensure that the user is working with a clean build environment.
+
+\textbf{Apply patch:} the user is running the fuzzing campaign without the seed corpus, the script will apply a git patch named \texttt{remove\_seed\_corpus.patch}. This patch will remove the seed corpus from the build scripts, ensuring that the fuzzing campaign runs without any pre-existing input seeds.
+
+\textbf{Build with coverage:} in order to build the fuzzing harness with coverage instrumentation, we use the \texttt{build\_image} and \texttt{build\_fuzzers} commands from the \texttt{helper.py} script.
+
+\begin{verbatim}
+cd forks/oss-fuzz
+python3 infra/helper.py build_image \
+  tmux --pull
+python3 infra/helper.py build_fuzzers \
+  --sanitizer coverage tmux
+\end{verbatim}
+
+The \texttt{--sanitizer coverage} flag ensures that the fuzzing harness is built with coverage instrumentation, allowing us to measure the code coverage during the fuzzing campaign.
+
+\textbf{Prepare corpus:}
+
+\begin{itemize}
+	\item Seeded run: copy all files from \texttt{forks/tmux-fuzzing-corpus} into \texttt{build/out/corpus}.
+	\item Unseeded run: ensure \texttt{build/out/corpus} is empty.
+\end{itemize}
+
+\textbf{Run fuzzing campaign:} the script will run the fuzzing campaign using the \texttt{run\_fuzzer} command from the \texttt{helper.py} script. The \texttt{---max\_total\_time} flag is set to 14400 seconds (4 hours) to limit the duration of the fuzzing campaign.
+
+\begin{verbatim}
+python3 infra/helper.py run_fuzzer \
+  --engine libfuzzer tmux \
+  --corpus-dir build/out/corpus \
+  input-fuzzer \
+  -max_total_time=14400 \
+  -timeout=25 \
+  -print_final_stats=1 \
+  -artifact_prefix=./crashes \
+  -jobs=$(nproc) \
+  -workers=0
+\end{verbatim}
+
+\textbf{Generate coverage:} finally, the script will generate the coverage report using the \texttt{coverage} command from the \texttt{helper.py} script, and copy the coverage report to the \texttt{assignment/part\_1} directory.
+
+\begin{verbatim}
+python3 infra/helper.py coverage \
+  tmux \
+  --corpus-dir build/out/corpus \
+  --fuzz-target input-fuzzer
+\end{verbatim}
+
+The \texttt{---corpus-dir} flag is set to \texttt{build/out/corpus} to ensure that the coverage report is generated using the same corpus used during the fuzzing campaign.
 
 \section{Part 1: Baseline Evaluation}
 
 \subsection{With Seed Corpus}
+
 List the exact build/run commands and point to \texttt{run\_w\_corpus.sh}.
 
 \subsection{Without Seed Corpus}
