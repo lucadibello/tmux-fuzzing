@@ -70,7 +70,7 @@ The \texttt{--sanitizer coverage} flag ensures that the fuzzing harness is built
 python3 infra/helper.py run_fuzzer \
   --engine libfuzzer tmux \
   --corpus-dir build/out/corpus \
-  input-fuzzer \
+  input-fuzzer -- \
   -max_total_time=14400 \
   -timeout=25 \
   -print_final_stats=1 \
