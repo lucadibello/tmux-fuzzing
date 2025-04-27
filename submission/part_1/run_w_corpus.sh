@@ -25,7 +25,8 @@ SEED_CORPUS=$ROOT/forks/tmux-fuzzing-corpus
 OSS_FUZZ_DIR=$ROOT/forks/oss-fuzz
 
 # ---- reset to default build.sh file ----
-git reset --hard HEAD
+# FIXME: Uncomment for final submission
+# git reset --hard HEAD
 
 # 1) Build OSS-Fuzz image and fuzzers with coverage instrumentation
 cd "$OSS_FUZZ_DIR"

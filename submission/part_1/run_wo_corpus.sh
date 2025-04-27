@@ -24,7 +24,8 @@ ROOT=$(pwd)
 OSS_FUZZ_DIR=$ROOT/forks/oss-fuzz
 
 # ---- apply git diff to remove the corpus from the build.sh file ----
-git reset --hard HEAD
+# FIXME: Uncomment for final submission
+# git reset --hard HEAD
 git apply submission/part_1/remove_seed_corpus.patch
 
 # 1) Build OSS-Fuzz image and fuzzers with coverage instrumentation
