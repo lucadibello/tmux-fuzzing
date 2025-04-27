@@ -6,14 +6,14 @@ set -euo pipefail
 PROJECT=tmux
 HARNESS=input-fuzzer
 ENGINE=libfuzzer
-REBUILD=true
+REBUILD=false
 ## libfuzzer settings
-RUNTIME=14400 # 4 hours in seconds
+RUNTIME=60 # 4 hours in seconds
 FLAGS="\
   -max_total_time=$RUNTIME \
   -timeout=25 \
   -print_final_stats=1 \
-  -artifact_prefix=./crashes \
+  -artifact_prefix=./crashes
   -jobs=$(nproc) \
   -workers=0"
 
@@ -70,9 +70,8 @@ python3 infra/helper.py coverage \
 TIMEOUT=300 # total wait time in seconds (300s = 5 minutes)
 GLOBAL_REPORT_DIR="$OSS_FUZZ_DIR/build/out/$PROJECT/report"
 echo "Waiting for coverage report to be generated..."
-for ((i = 0; i < TIMEOUT; i += 5)); do
-  sleep 5 # sleep 5 seconds
-
+for ((i = 0; i < TIMEOUT; i += 1)); do
+  sleep 1
   # if the report directory exists, break the loop
   if [[ -d "$GLOBAL_REPORT_DIR" ]]; then
     break
