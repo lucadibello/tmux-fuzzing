@@ -51,6 +51,8 @@ python3 infra/helper.py run_fuzzer \
 # 4) Stop any remaining Docker containers
 docker stop "$(docker ps -q)" || true
 
+echo "[!] Done: corpus generation complete. Exporting.."
+
 # 5) Zip and store the corpus in `experiments/{timestamp}_wo_corpus`
 ts=$(date +%Y%m%d_%H%M%S)
 mkdir -p "$ROOT/experiments"
@@ -58,6 +60,7 @@ cp -r "$CORPUS_DIR" "$ROOT/experiments/${ts}_wo_corpus"
 (cd "$ROOT/experiments" && zip -qr "${ts}_wo_corpus.zip" "${ts}_wo_corpus")
 
 # 6) Generate HTML coverage report
+echo "Generating HTML coverage report..."
 cd "$OSS_FUZZ_DIR"
 python3 infra/helper.py build_fuzzers --sanitizer coverage "$PROJECT"
 python3 infra/helper.py coverage \
@@ -81,9 +84,11 @@ done
 # 7) Stop any remaining Docker containers
 docker stop "$(docker ps -q)" || true
 
+echo "[!] Done: coverage report generation complete. Exporting.."
+
 # 8) Copy results to submission directory
 DEST=$ROOT/submission/part_1/${ts}_coverage_wo_corpus
 mkdir -p "$DEST"
 cp -r "$GLOBAL_REPORT_DIR" "$DEST/"
 
-echo "✅ Done: coverage WITHOUT corpus in $DEST"
+echo "[!] Done: coverage WITHOUT corpus in $DEST"
