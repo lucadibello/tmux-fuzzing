@@ -7,16 +7,14 @@ PROJECT=tmux
 HARNESS=input-fuzzer
 ENGINE=libfuzzer
 SANITIZER=address # address or undefined
-REBUILD=false
+REBUILD=true
 ## libfuzzer settings
-RUNTIME=60 # 4 hours in seconds
+RUNTIME=14400 # 4 hours in seconds
 FLAGS="\
   -max_total_time=$RUNTIME \
   -timeout=25 \
   -print_final_stats=1 \
-  -artifact_prefix=./crashes \
-  -jobs=$(nproc) \
-  -workers=0"
+  -artifact_prefix=./crashes"
 
 ## corpus settings
 ROOT=$(pwd)

@@ -14,14 +14,12 @@ FLAGS="\
   -max_total_time=$RUNTIME \
   -timeout=25 \
   -print_final_stats=1 \
-  -artifact_prefix=./crashes \
-  -jobs=$(nproc) \
-  -workers=0"
+  -artifact_prefix=./crashes"
 
 ## corpus settings
 ROOT=$(pwd)
 
-# OSS Fuzz absolute path
+# OSS Fuzz directory
 OSS_FUZZ_DIR=$ROOT/forks/oss-fuzz
 
 # ---- apply git diff to remove the corpus from the build.sh file ----
