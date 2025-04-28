@@ -6,6 +6,7 @@ set -euo pipefail
 PROJECT=tmux
 HARNESS=input-fuzzer
 ENGINE=libfuzzer
+SANITIZER=address # address or undefined
 REBUILD=false
 ## libfuzzer settings
 RUNTIME=60 # 4 hours in seconds
@@ -32,8 +33,8 @@ cd "$OSS_FUZZ_DIR"
 if [ "$REBUILD" = true ]; then
   rm -rf "$OSS_FUZZ_DIR/build" || true
   python3 infra/helper.py build_image "$PROJECT" --pull
-  python3 infra/helper.py build_fuzzers --sanitizer coverage "$PROJECT"
 fi
+python3 infra/helper.py build_fuzzers --sanitizer "$SANITIZER" "$PROJECT"
 
 # 2) Ensure crashes directory is present
 CORPUS_DIR="$OSS_FUZZ_DIR/build/work/$PROJECT/fuzzing_corpus"
@@ -58,6 +59,7 @@ cp -r "$CORPUS_DIR" "$ROOT/experiments/${ts}_w_corpus"
 
 # 6) Generate HTML coverage report
 cd "$OSS_FUZZ_DIR"
+python3 infra/helper.py build_fuzzers --sanitizer coverage "$PROJECT"
 python3 infra/helper.py coverage \
   --corpus-dir "build/work/$PROJECT/fuzzing_corpus" \
   --fuzz-target "$HARNESS" \
