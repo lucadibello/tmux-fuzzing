@@ -13,7 +13,7 @@ FLAGS="\
   -max_total_time=$RUNTIME \
   -timeout=25 \
   -print_final_stats=1 \
-  -artifact_prefix=./crashes
+  -artifact_prefix=./crashes \
   -jobs=$(nproc) \
   -workers=0"
 
