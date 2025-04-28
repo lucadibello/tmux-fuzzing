@@ -19,7 +19,6 @@ FLAGS="\
 
 ## corpus settings
 ROOT=$(pwd)
-SEED_CORPUS=$ROOT/forks/tmux-fuzzing-corpus
 
 # OSS Fuzz directory
 OSS_FUZZ_DIR=$ROOT/forks/oss-fuzz
@@ -43,9 +42,10 @@ mkdir -p "$CORPUS_DIR/crashes"
 # 3) Run the fuzzer for RUNTIME
 cd "$OSS_FUZZ_DIR"
 python3 infra/helper.py run_fuzzer \
-  --engine "$ENGINE" "$PROJECT" \
+  --engine "$ENGINE" \
   --corpus-dir "build/work/$PROJECT/fuzzing_corpus" \
-  "$HARNESS" -- "$FLAGS"
+  "$PROJECT" "$HARNESS" -- \
+  "$FLAGS"
 
 # 4) Stop any remaining Docker containers
 docker stop "$(docker ps -q)" || true
@@ -59,9 +59,9 @@ cp -r "$CORPUS_DIR" "$ROOT/experiments/${ts}_w_corpus"
 # 6) Generate HTML coverage report
 cd "$OSS_FUZZ_DIR"
 python3 infra/helper.py coverage \
-  "$PROJECT" \
   --corpus-dir "build/work/$PROJECT/fuzzing_corpus" \
-  --fuzz-target "$HARNESS" &
+  --fuzz-target "$HARNESS" \
+  "$PROJECT" &
 
 # --- wait for the coverage report to be generated ---
 TIMEOUT=300 # total wait time in seconds (300s = 5 minutes)
