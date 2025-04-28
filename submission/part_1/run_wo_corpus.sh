@@ -47,7 +47,7 @@ cd "$OSS_FUZZ_DIR"
 python3 infra/helper.py run_fuzzer \
   --engine "$ENGINE" "$PROJECT" \
   --corpus-dir build/out/corpus \
-  "$HARNESS" "$FLAGS"
+  "$HARNESS" -- "$FLAGS"
 
 # 4) Stop any remaining Docker containers
 docker stop "$(docker ps -q)" || true
