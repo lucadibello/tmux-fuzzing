@@ -36,8 +36,8 @@ if [ "$REBUILD" = true ]; then
   python3 infra/helper.py build_fuzzers --sanitizer coverage "$PROJECT"
 fi
 
-# 2) Prepare empty corpus
-CORPUS_DIR=$OSS_FUZZ_DIR/build/out/corpus
+# 2) Ensure the corpus directory is empty
+CORPUS_DIR="$OSS_FUZZ_DIR/build/work/$PROJECT/fuzzing_corpus"
 rm -rf "$CORPUS_DIR" || true
 mkdir -p "$CORPUS_DIR"
 mkdir -p "$CORPUS_DIR/crashes"
@@ -46,7 +46,7 @@ mkdir -p "$CORPUS_DIR/crashes"
 cd "$OSS_FUZZ_DIR"
 python3 infra/helper.py run_fuzzer \
   --engine "$ENGINE" "$PROJECT" \
-  --corpus-dir build/out/corpus \
+  --corpus-dir "build/work/$PROJECT/fuzzing_corpus" \
   "$HARNESS" -- "$FLAGS"
 
 # 4) Stop any remaining Docker containers
@@ -62,7 +62,7 @@ cp -r "$CORPUS_DIR" "$ROOT/experiments/${ts}_wo_corpus"
 cd "$OSS_FUZZ_DIR"
 python3 infra/helper.py coverage \
   "$PROJECT" \
-  --corpus-dir build/out/corpus \
+  --corpus-dir "build/work/$PROJECT/fuzzing_corpus" \
   --fuzz-target "$HARNESS" &
 
 # --- wait for the coverage report to be generated ---
