@@ -103,12 +103,18 @@ List the exact build/run commands and point to \texttt{run\_wo\_corpus.sh}.
 Discuss coverage percentages and key observations.
 
 \section{Part 2: Coverage Gaps}
+By analyzing the OSS-Fuzz introspector, we observed that several regions are not covered by the current fuzzer. Two significant uncovered regions are \texttt{client.c} and \texttt{server.c}. In the following subsections, we justify their relevance and explain the shared limitations of the current fuzzing harness that prevent them from being covered.
 
-\subsection{Region A}
-Justification of significance; why existing harness misses it.
+\subsection{Region A: \texttt{client.c} – Justification of Significance}
+The \texttt{client.c} file implements the logic for launching a tmux client, connecting to the tmux server via a UNIX socket, and sending user commands for execution. This file is crucial because any malformed command-line input or unexpected interaction with the server could lead to vulnerabilities or instability. Testing this area is essential to ensure the robustness of the client-side logic, particularly because it processes direct user input.
 
-\subsection{Region B}
-Justification of significance; why existing harness misses it.
+\subsection{Region B: \texttt{server.c} – Justification of Significance}
+The \texttt{server.c} file contains the core logic for accepting client connections, managing sessions, and dispatching commands. It includes the entry point for the server loop and handles critical functionality such as authentication, command execution, and process management. Bugs or vulnerabilities in this region could be exploited by malicious clients to crash the server.
+
+\subsection*{Shared Explanation of Coverage Shortcomings}
+The existing fuzzing harness, \texttt{input-fuzzer}, operates within a simulated tmux environment by directly creating a mock window and pane, and parsing raw input as if it were typed into an active terminal. However, this harness does not instantiate a real tmux client or server, nor does it set up socket-based communication between the two.
+
+As a result, any code related to the actual startup of the client process (\texttt{client.c}) or the server's handling of connections and command dispatching (\texttt{server.c}) lies entirely outside the execution scope of the current harness. These components are only triggered in a full client-server lifecycle, which is not simulated or exercised by the current fuzzing setup. Therefore, the input-fuzzer is fundamentally limited to user-interface-level input processing, leaving the network and process-management layers untested.
 
 \section{Part 3: Fuzzer Improvements}
 
