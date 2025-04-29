@@ -10,7 +10,7 @@
 
 \author{%
   Luca Di Bello (SCIPER 367552)
-  Federico Villa (SCIPER XYZ) \\
+  Federico Villa (SCIPER 386986) \\
   Noah El Hassanie (SCIPER 404885)
   Cristina Morad (SCIPER 405241) \\
 }
@@ -26,9 +26,9 @@
 	In this lab, we integrate and evaluate a fuzzing harness for the \texttt{tmux} terminal
 	multiplexer using Google’s OSS-Fuzz infrastructure. We first establish a baseline
 	by measuring line coverage of the existing \texttt{tmux\_fuzzer} both with and without the
-	provided seed corpus, observing a significant coverage boost when seeds are present.
+	provided seed corpus, observing similar results in both cases.
 
-	We then identify two major code regions not exercised by the baseline harness, implement
+	We then identify two major code regions not exercised by the baseline harness, implemented
 	targeted harness improvements to cover those regions, and finally triage a crash uncovered
 	in the session-detach logic, proposing a patch and assessing its exploitability.
 \end{abstract}
