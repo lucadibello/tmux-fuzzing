@@ -39,56 +39,88 @@ Fuzzing is a proven technique for uncovering memory‐safety and logic bugs in C
 
 \section{Methodology}
 
-Experiments were conducted on Ubuntu 22.04 LTS with Docker 20.10 and Python 3.10. We used a local fork of OSS-Fuzz in \texttt{forks/oss-fuzz} and the \texttt{tmux} seed corpus in \texttt{forks/tmux-fuzzing-corpus}. Two bash scripts (\texttt{run\_w\_corpus.sh} and \texttt{run\_wo\_corpus.sh}) automate each 4 h campaign. The main steps are as follows:
+All experiments were performed on Ubuntu 22.04 LTS with Docker 20.10 and Python 3.10. We maintain a local fork of OSS-Fuzz under \texttt{forks/oss-fuzz}. Two helper scripts (\texttt{run\_w\_corpus.sh} and \texttt{run\_wo\_corpus.sh}) each run a 4 h fuzzing campaign (seeded vs.\ unseeded) and then produce coverage reports. Each script follows the same high-level steps:
 
-\textbf{Reset build and cleanup:} the script will first reset the build scripts to the latest version using the \texttt{git reset ---hard} command. This ensures that the user is working with a clean slate (without any modifications from previous runs). Furthermore, all files in the \texttt{build/out} directory are removed to ensure that the user is working with a clean build environment.
+\begin{enumerate}
+	\item \textbf{Configuration.}
+	      At the top of the script we set:
+	      \begin{itemize}
+		      \item \texttt{PROJECT=tmux}, \texttt{HARNESS=input-fuzzer}, \texttt{ENGINE=libfuzzer}
+		      \item \texttt{SANITIZER=address} (or \texttt{undefined} for uninstrumented runs)
+		      \item \texttt{REBUILD=true} controls whether to wipe previous build artifacts
+		      \item \texttt{RUNTIME=14400} (fuzz for 4 h) and
+		            \texttt{FLAGS="-max\_total\_time=\$RUNTIME -timeout=25 -print\_final\_stats=1 -artifact\_prefix=./crashes"}.
+	      \end{itemize}
 
-\textbf{Apply patch:} the user is running the fuzzing campaign without the seed corpus, the script will apply a git patch named \texttt{remove\_seed\_corpus.patch}. This patch will remove the seed corpus from the build scripts, ensuring that the fuzzing campaign runs without any pre-existing input seeds.
+	\item \textbf{Clean build directory.}
+	      If \texttt{\$REBUILD} is true, we remove the entire \texttt{forks/oss-fuzz/build} directory:
+	      \begin{verbatim}
+rm -rf "$OSS_FUZZ_DIR/build" || true
+    \end{verbatim}
+	      This ensures no stale build artifacts remain.
 
-\textbf{Build with coverage:} in order to build the fuzzing harness with coverage instrumentation, we use the \texttt{build\_image} and \texttt{build\_fuzzers} commands from the \texttt{helper.py} script.
+	\item \textbf{Apply patch (unseeded only).}
+	      In \texttt{run\_wo\_corpus.sh} we apply
+	      \texttt{submission/part\_1/remove\_seed\_corpus.patch} so that the OSS-Fuzz build scripts no longer package any initial seeds:
+	      \begin{verbatim}
+git apply submission/part_1/remove_seed_corpus.patch
+    \end{verbatim}
 
-\begin{verbatim}
-cd forks/oss-fuzz
-python3 infra/helper.py build_image \
-  tmux --pull
-python3 infra/helper.py build_fuzzers \
-  --sanitizer coverage tmux
+	\item \textbf{Build OSS-Fuzz image and fuzzers.}
+	      \begin{verbatim}
+cd "$OSS_FUZZ_DIR"
+python3 infra/helper.py build_image "$PROJECT" --pull
+python3 infra/helper.py build_fuzzers --sanitizer "$SANITIZER" "$PROJECT"
+    \end{verbatim}
+
+	\item \textbf{Prepare corpus directory.}
+	      Both scripts use
+	      \texttt{build/work/\$PROJECT/fuzzing\_corpus} as the input corpus:
+	      \begin{itemize}
+		      \item \emph{Seeded run:} leave whatever files OSS-Fuzz has placed there.
+		      \item \emph{Unseeded run:} delete and recreate it empty:
+		            \begin{verbatim}
+rm -rf "$CORPUS_DIR" || true
+mkdir -p "$CORPUS_DIR/crashes"
 \end{verbatim}
+	      \end{itemize}
 
-The \texttt{--sanitizer coverage} flag ensures that the fuzzing harness is built with coverage instrumentation, allowing us to measure the code coverage during the fuzzing campaign.
-
-\textbf{Prepare corpus:}
-
-\begin{itemize}
-	\item Seeded run: copy all files from \texttt{forks/tmux-fuzzing-corpus} into \texttt{build/out/corpus}.
-	\item Unseeded run: ensure \texttt{build/out/corpus} is empty.
-\end{itemize}
-
-\textbf{Run fuzzing campaign:} the script will run the fuzzing campaign using the \texttt{run\_fuzzer} command from the \texttt{helper.py} script. The \texttt{---max\_total\_time} flag is set to 14400 seconds (4 hours) to limit the duration of the fuzzing campaign.
-
-\begin{verbatim}
+	\item \textbf{Run the fuzzer (4 h).}
+	      \begin{verbatim}
 python3 infra/helper.py run_fuzzer \
-  --engine libfuzzer tmux \
-  --corpus-dir build/out/corpus \
-  input-fuzzer -- \
-  -max_total_time=14400 \
-  -timeout=25 \
-  -print_final_stats=1 \
-  -artifact_prefix=./crashes \
-  -jobs=$(nproc) \
-  -workers=0
-\end{verbatim}
+  --engine "$ENGINE" \
+  --corpus-dir "build/work/$PROJECT/fuzzing_corpus" \
+  "$PROJECT" "$HARNESS" -- $FLAGS
+    \end{verbatim}
 
-\textbf{Generate coverage:} finally, the script will generate the coverage report using the \texttt{coverage} command from the \texttt{helper.py} script, and copy the coverage report to the \texttt{assignment/part\_1} directory.
+	\item \textbf{Stop Docker.}
+	      After fuzzing we clean up any running containers:
+	      \begin{verbatim}
+docker stop "$(docker ps -q)" || true
+    \end{verbatim}
 
-\begin{verbatim}
+	\item \textbf{Export the corpus.}
+	      Timestamp and zip the resulting corpus into \texttt{experiments/}\(\langle\)ts\(\rangle\)\texttt{\_w\_corpus.zip} (or \texttt{\_wo\_corpus.zip}) for later analysis.
+
+	\item \textbf{Generate coverage report.}
+	      We rebuild the fuzzers with coverage instrumentation:
+	      \begin{verbatim}
+python3 infra/helper.py build_fuzzers --sanitizer coverage "$PROJECT"
+    \end{verbatim}
+	      Then invoke OSS-Fuzz’s coverage tool:
+	      \begin{verbatim}
 python3 infra/helper.py coverage \
-  tmux \
-  --corpus-dir build/out/corpus \
-  --fuzz-target input-fuzzer
-\end{verbatim}
+  --corpus-dir "build/work/$PROJECT/fuzzing_corpus" \
+  --fuzz-target "$HARNESS" \
+  "$PROJECT" &
+    \end{verbatim}
+	      We poll \texttt{build/out/\$PROJECT/report} (up to 5 min) until the HTML is ready.
 
-The \texttt{---corpus-dir} flag is set to \texttt{build/out/corpus} to ensure that the coverage report is generated using the same corpus used during the fuzzing campaign.
+	\item \textbf{Export coverage.}
+	      Finally, we stop any remaining containers again and copy the fully generated
+	      coverage report from \texttt{build/out/\$PROJECT/report} into
+	      \texttt{submission/part\_1/\(\langle\)ts\(\rangle\)\_coverage\_{\{w,wo\}\_corpus}}.
+\end{enumerate}
 
 \section{Part 1: Baseline Evaluation}
 
