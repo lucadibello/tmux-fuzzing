@@ -5,5 +5,5 @@ forks/oss-fuzz/work-corpus
 forks/nginx
 
 # push only zip files
-experiments/*
-!experiments/*.zip
+experiments/**
+!experiments/**/*.zip
