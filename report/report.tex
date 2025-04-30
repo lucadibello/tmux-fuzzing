@@ -109,42 +109,52 @@ mkdir -p "$CORPUS_DIR/crashes"
 
 By default, we configured LibFuzzer to ensure that all crash-inducing inputs are stored within the designated \texttt{crashes} subdirectory. This is done by setting the \texttt{---artifact\_prefix} flag to \texttt{./crashes} in the \texttt{\$FLAGS} variable (refer to \autoref{sec:methodology_configuration} for more details). This allows us to easily access and analyze any inputs that caused the target program to crash during the fuzzing process.
 
-\noindent \paragraph{Run the fuzzer (4 h).}
+\noindent \paragraph{Run the fuzzer (4 h)}
+
+To start the fuzzing campaign with the configured fuzzer, we use the \texttt{run\_fuzzer} command provided by the OSS-Fuzz helper script. We explicitly set the fuzzing engine (e.g., \texttt{libfuzzer}), the input corpus directory, the target project, and the specific harness to be used. By default the fuzzer runs for 4 hours (14400 seconds), as specified by the \texttt{\$RUNTIME} variable.
 
 \begin{verbatim}
 python3 infra/helper.py run_fuzzer \
   --engine "$ENGINE" \
-  --corpus-dir "build/work/$PROJECT/fuzzing_corpus" \
+  --corpus-dir "build/work/\
+    $PROJECT/fuzzing_corpus" \
   "$PROJECT" "$HARNESS" -- $FLAGS
     \end{verbatim}
 
-\noindent \paragraph{Stop Docker.}
-After fuzzing we clean up any running containers:
+\noindent \paragraph{Stop Docker}
+
+To ensure that all Docker containers are stopped after the fuzzing campaign, we use the following command.
+
 \begin{verbatim}
 docker stop "$(docker ps -q)" || true
     \end{verbatim}
 
-\noindent \paragraph{Export the corpus.}
-Timestamp and zip the resulting corpus into \texttt{experiments/}\(\langle\)ts\(\rangle\)\texttt{\_w\_corpus.zip} (or \texttt{\_wo\_corpus.zip}) for later analysis.
+This is important to avoid leaving any running containers that may consume system resources or interfere with subsequent runs.
 
-\textbf{Generate coverage report.}
-We rebuild the fuzzers with coverage instrumentation:
+\noindent \paragraph{Export the corpus}
+
+After each fuzzing campaign, we export the generated corpus from the \texttt{build/work/\$PROJECT/fuzzing\_corpus} directory to a zip file in the \texttt{experiments} directory, including in the filename the timestamp and the corpus type (seeded or unseeded). This step allows us to keep track of the corpus used in each run and facilitates further analysis or sharing of the corpus within the team.
+
+\noindent \paragraph{Generate and export coverage report}
+
+To generate the coverage report, we first rebuild the fuzzers with the \texttt{coverage} sanitizer enabled:
+
 \begin{verbatim}
-python3 infra/helper.py build_fuzzers --sanitizer coverage "$PROJECT"
-    \end{verbatim}
-Then invoke OSS-Fuzz’s coverage tool:
+python3 infra/helper.py build_fuzzers \
+  --sanitizer coverage "$PROJECT"
+\end{verbatim}
+
+Then, we use the OSS-Fuzz's coverage analysis tool, specifying the corpus directory and the target fuzzing harness:
+
 \begin{verbatim}
 python3 infra/helper.py coverage \
-  --corpus-dir "build/work/$PROJECT/fuzzing_corpus" \
+  --corpus-dir "build/work/\
+    $PROJECT/fuzzing_corpus" \
   --fuzz-target "$HARNESS" \
   "$PROJECT" &
     \end{verbatim}
-We poll \texttt{build/out/\$PROJECT/report} (up to 5 min) until the HTML is ready.
 
-\textbf{Export coverage.}
-Finally, we stop any remaining containers again and copy the fully generated
-coverage report from \texttt{build/out/\$PROJECT/report} into
-\texttt{submission/part\_1/\(\langle\)ts\(\rangle\)\_coverage\_{\{w,wo\}\_corpus}}.
+By default, the coverage tool starts a local web server to serve the HTML report. To ensure our script remains fully automated and headless, we run the coverage command in the background and poll the output directory (\texttt{build/out/\$PROJECT/report}) for up to 5 minutes, waiting until the report becomes available. Once generated, the HTML report directory is saved as \texttt{<timestamp>\_coverage\_{\{w,wo\}\_corpus}} and stored in the \texttt{submission} directory.
 
 \section{Part 1: Baseline Evaluation}
 
