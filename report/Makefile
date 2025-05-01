@@ -13,8 +13,8 @@ LATEXFLAGS = -interaction=nonstopmode -halt-on-error
 all: $(TEX).pdf
 
 # If you don't yet have a refs.bib, make an empty one:
-refs.bib:
-	@echo "% dummy bibliography file" > refs.bib
+# refs.bib:
+# 	@test -f refs.bib || echo "% dummy bibliography file" > refs.bib
 
 # Build sequence: LaTeX → Biber → LaTeX ×2
 $(TEX).pdf: $(TEX).tex report_style.sty refs.bib
