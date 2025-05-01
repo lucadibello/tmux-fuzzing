@@ -14,6 +14,7 @@ FLAGS="\
   -max_total_time=$RUNTIME \
   -timeout=25 \
   -print_final_stats=1 \
+  -ignore_crashes=1 \
   -artifact_prefix=./crashes"
 
 ## corpus settings
