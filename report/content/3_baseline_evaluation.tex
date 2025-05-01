@@ -1,9 +1,139 @@
-\subsection{With Seed Corpus}
+\subsection{With Seed Corpus} \label{sec:with-seed}
 
-List the exact build/run commands and point to \texttt{run\_w\_corpus.sh}.
+We ran a 4-hour fuzzing campaign using the predefined \texttt{input-fuzzer} harness and the official tmux seed corpus, with \texttt{libfuzzer} as the fuzzing engine and \texttt{AddressSanitizer} enabled. This configuration corresponds to the default parameters outlined in \autoref{sec:methodology_configuration}.
 
-\subsection{Without Seed Corpus}
-List the exact build/run commands and point to \texttt{run\_wo\_corpus.sh}.
+The entire process, from Docker image preparation to fuzzer execution and coverage report generation, is fully automated by the script \texttt{run\_w\_corpus.sh}, located in \texttt{submission/part\_1}. This script is intended to be run from the project root and performs automatically all required steps. For a detailed breakdown of its internal logic, refer to \autoref{sec:methodology}.
+
+\begin{verbatim}
+submission/part_1/run_w_corpus.sh
+\end{verbatim}
+
+The seeded fuzzing campaign completed successfully and produced the following coverage results, summarized in \autoref{tbl:coverage-w-corpus}.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{@{}ll@{}}
+		\toprule
+		\textbf{Metric}   & \textbf{Coverage}    \\
+		\midrule
+		Line Coverage     & 14.00\% (7281/51997) \\
+		Function Coverage & 24.44\% (558/2283)   \\
+		Region Coverage   & 13.41\% (5481/40874) \\
+		\bottomrule
+	\end{tabular}
+	\caption{Coverage with seed corpus after a 4-hour fuzzing run.}
+	\label{tbl:coverage-w-corpus}
+\end{table}
+
+\subsection{Without Seed Corpus} \label{sec:without-seed}
+
+To ensure comparable results between the two runs, we used the same configuration, including the fuzzing engine, harness, and sanitizer. The only difference between the two campaigns is that we removed the seed corpus from build script by applying the patch \texttt{remove\_seed\_corpus.patch} using the \texttt{git apply} utility,and ran the fuzzing with an empty seed corpus directory. For more information on how the seed corpus was excluded, refer to \autoref{sec:methodology_patching}.
+
+Similarly as the seeded run script, the unseeded run script is designed to be run from the root of the project, and it takes care of all necessary steps, including building the patched Docker image, compiling the fuzzers, running the fuzzing campaign, and generating the coverage report:
+
+\begin{verbatim}
+submission/part_1/run_wo_corpus.sh
+\end{verbatim}
+
+The unseeded fuzzing campaign completed successfully and produced the following coverage results, summarized in \autoref{tbl:coverage-wo-corpus}.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{@{}ll@{}}
+		\toprule
+		\textbf{Metric}   & \textbf{Coverage}    \\
+		\midrule
+		Line Coverage     & 13.94\% (7248/51997) \\
+		Function Coverage & 24.31\% (555/2283)   \\
+		Region Coverage   & 13.35\% (5457/40874) \\
+		\bottomrule
+	\end{tabular}
+	\caption{Coverage without seed corpus after a 4-hour fuzzing run.}
+	\label{tbl:coverage-wo-corpus}
+\end{table}
+
+The results are very similar to those obtained with the seed corpus, with only minor differences across all metrics. This suggests that the fuzzer is able to reach most of the currently covered code paths even without initial inputs. A detailed comparison of both runs is provided in \autoref{sec:coverage-comparison}.
 
 \subsection{Coverage Comparison}
-Discuss coverage percentages and key observations.
+\label{sec:coverage-comparison}
+
+\autoref{tbl:coverage-comparison} summarizes the per-file differences in coverage between the two fuzzing runs, with and without the seed corpus. The table shows the percentage of lines covered by the fuzzer in each file, along with the difference in coverage between the two runs. Since the coverage is very sparse, we only show the files with at least 0.5\% coverage in either run.
+
+\begin{table*}[ht]
+	\centering
+	\scriptsize
+	\tablehead{%
+		\toprule
+		Path & Cov$_{\mathrm{wo}}$ (\%) & Cov$_{\mathrm{w}}$ (\%) & $\Delta$ (\%) \\
+		\midrule
+	}
+	\begin{supertabular}{lrrr}
+		src/tmux/alerts.c                  & 15.18 & 15.18 &  0.00 \\
+		src/tmux/arguments.c               &  5.82 &  5.82 &  0.00 \\
+		src/tmux/cmd-find.c                &  6.54 &  6.54 &  0.00 \\
+		src/tmux/cmd-parse.c               & 26.95 & 26.95 &  0.00 \\
+		src/tmux/cmd-queue.c               & 21.25 & 21.25 &  0.00 \\
+		src/tmux/cmd.c                     & 26.70 & 26.70 &  0.00 \\
+		\rowcolor{yellow} src/tmux/colour.c                  & 70.38 & 70.78 &  0.40 \\
+		src/tmux/compat/recallocarray.c    & 13.89 & 13.89 &  0.00 \\
+		src/tmux/compat/strlcat.c          & 90.48 & 90.48 &  0.00 \\
+		src/tmux/compat/strtonum.c         & 96.97 & 96.97 &  0.00 \\
+		src/tmux/compat/tree.h             & 93.86 & 93.86 &  0.00 \\
+		src/tmux/compat/vis.c              & 15.69 & 15.69 &  0.00 \\
+		src/tmux/control-notify.c          &  8.28 &  8.28 &  0.00 \\
+		src/tmux/environ.c                 &  3.68 &  3.68 &  0.00 \\
+		src/tmux/format.c                  & 28.37 & 28.37 &  0.00 \\
+		src/tmux/fuzz/input-fuzzer.c       & 93.88 & 93.88 &  0.00 \\
+		src/tmux/grid-view.c               & 69.64 & 69.64 &  0.00 \\
+		src/tmux/grid.c                    & 33.52 & 33.52 &  0.00 \\
+		src/tmux/hyperlinks.c              & 81.25 & 81.25 &  0.00 \\
+		\rowcolor{yellow} src/tmux/input.c                   & 91.64 & 92.31 &  0.67 \\
+		src/tmux/layout.c                  &  1.52 &  1.52 &  0.00 \\
+		src/tmux/log.c                     &  8.54 &  8.54 &  0.00 \\
+		src/tmux/notify.c                  & 49.30 & 49.30 &  0.00 \\
+		src/tmux/options.c                 & 25.85 & 25.85 &  0.00 \\
+		src/tmux/osdep-linux.c             & 12.73 & 12.73 &  0.00 \\
+		\rowcolor{yellow} src/tmux/paste.c                   & 36.67 & 38.33 &  1.66 \\
+		src/tmux/screen-write.c            & 64.14 & 64.14 &  0.00 \\
+		src/tmux/screen.c                  & 50.23 & 50.23 &  0.00 \\
+		src/tmux/server-fn.c               &  2.45 &  2.45 &  0.00 \\
+		src/tmux/style.c                   & 27.27 & 27.27 &  0.00 \\
+		src/tmux/tmux.c                    &  0.79 &  0.79 &  0.00 \\
+		src/tmux/tty.c                     &  1.87 &  1.87 &  0.00 \\
+		src/tmux/utf8-combined.c           & 38.18 & 38.18 &  0.00 \\
+		src/tmux/utf8.c                    & 26.85 & 26.85 &  0.00 \\
+		\rowcolor{yellow} src/tmux/window.c                  & 14.40 & 15.46 &  1.06 \\
+		src/tmux/xmalloc.c                 & 80.46 & 80.46 &  0.00 \\
+	\end{supertabular}
+	\caption{Per-file line coverage comparison between two \texttt{libfuzzer} runs---one with and one without a seed corpus---using the \texttt{input-fuzzer} harness compiled with \texttt{AddressSanitizer}. Highlighted rows indicate files with different coverage in the two runs.}
+	\label{tbl:coverage-comparison}
+\end{table*}
+
+From the summary tables in \autoref{tbl:coverage-w-corpus} and \autoref{tbl:coverage-wo-corpus} and the detailed comparison in \autoref{tbl:coverage-comparison}, we can observe the following key points:
+
+\begin{itemize}
+	\item The overall coverage is very similar between the two runs, with only a few files showing differences in coverage.
+	\item Introducing the seed corpus adds just a few dozen lines ($\approx$40 lines; $\approx$0.13\% change in regions/functions coverage).
+	\item Across the entire codebase, the only difference in coverage are observed in the following files. All of them showcased a small increase in coverage with the seed corpus.
+
+	      \begin{center}
+		      \begin{tabular}{@{}r@{\hspace{1em}}l@{}}
+			      \texttt{input.c:}  & 91.64\% $\rightarrow$ 92.31\% \\
+			                         & $\Delta = 0.67$               \\[1.5ex]
+			      \texttt{colour.c:} & 70.38\% $\rightarrow$ 70.78\% \\
+			                         & $\Delta = 0.40$               \\[1.5ex]
+			      \texttt{paste.c:}  & 36.67\% $\rightarrow$ 38.33\% \\
+			                         & $\Delta = 1.66$               \\[1.5ex]
+			      \texttt{window.c:} & 14.40\% $\rightarrow$ 15.46\% \\
+			                         & $\Delta = 1.06$
+		      \end{tabular}
+	      \end{center}
+
+	      The overall increase in coverage is minimal, but still provides some insight into the fuzzer's behavior.
+
+	\item These small deltas confirm that the fuzzer is already able to reach most of the code paths in the \texttt{input.c} module, which is responsible for parsing and processing user input. The small increase in coverage in \texttt{colour.c}, \texttt{paste.c}, and \texttt{window.c} suggests that the seed corpus may help explore some additional code paths which are difficult to reach with random inputs alone (e.g. color combinations, paste buffer handling, window management).
+
+	      As \texttt{tmux} is a hotkey-based terminal multiplexer, we expected to get high coverage results in both runs as, as soon as the fuzzer identifies a valid hotkey sequence, it can trigger a large number of code paths with minimal effort.
+
+	\item Overall coverage remains low ($\sim$14\%), indicating large untested areas. By inspecting the full coverage reports, was discovered that \texttt{client.c}, \texttt{server.c}, and most \texttt{cmd-*.c} modules are not covered using the \texttt{input-fuzzer}
+\end{itemize}

@@ -32,6 +32,11 @@
 	margin=5pt
 }
 
+% Tables
+\RequirePackage{supertabular}
+\RequirePackage{booktabs}
+\RequirePackage[table]{xcolor}
+
 % Code listings
 \RequirePackage{listings}
 \RequirePackage{xcolor}
@@ -55,14 +60,6 @@
 	captionpos=b
 }
 
-% Hyperlinks
-\RequirePackage[
-	colorlinks=true,
-	linkcolor=black,
-	citecolor=blue,
-	urlcolor=blue
-]{hyperref}
-
 % Bibliography
 \RequirePackage[backend=biber,style=numeric,sorting=none]{biblatex}
 \addbibresource{refs.bib}
@@ -80,5 +77,13 @@
 \RequirePackage{microtype} % better typography
 \RequirePackage{enumitem}
 \setlist{nosep}
+
+% Hyperlinks
+\RequirePackage[
+	colorlinks=true,
+	linkcolor=black,
+	citecolor=blue,
+	urlcolor=blue
+]{hyperref}
 
 \endinput
