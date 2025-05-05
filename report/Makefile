@@ -6,7 +6,6 @@ LATEX    = pdflatex
 BIBER    = biber
 LATEXMK  = latexmk
 ENTR     = entr
-VIERWER  = zathura
 
 # Flags
 LATEXFLAGS   = -interaction=nonstopmode -halt-on-error
@@ -54,5 +53,4 @@ clean:
 	  $(TEX).out \
 	  $(TEX).run.xml \
 	  $(TEX).toc \
-	  $(TEX).pdf \
-	  refs.bib
+	  $(TEX).pdf
