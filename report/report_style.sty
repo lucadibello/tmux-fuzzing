@@ -11,10 +11,11 @@
 	headheight=14pt
 ]{geometry}
 
-% Fonts
+% Fonts + Math
 \RequirePackage{lmodern}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
+\usepackage{amsmath}
 
 % Headings
 \RequirePackage{sectsty}
@@ -35,29 +36,31 @@
 % Tables
 \RequirePackage{supertabular}
 \RequirePackage{booktabs}
+\RequirePackage{stfloats}     % lets table* appear at bottom if needed
 \RequirePackage[table]{xcolor}
+\renewcommand{\floatpagefraction}{.9} % insist that float pages are almost full
+\renewcommand{\textfloatsep}{6pt}     % tighten float spacing (optional)
 
 % Code listings
 \RequirePackage{listings}
 \RequirePackage{xcolor}
 \lstdefinelanguage{bash}{
-	keywords={bash, exit, if, then, fi, for, do, done, mkdir, rm, python3},
+	% keywords={bash, exit, if, then, fi, for, do, done, mkdir, rm, python3},
 	sensitive=false,
 	comment=[l]{\#},
 	morestring=[b]"
 }
 \lstset{
-	basicstyle=\ttfamily\small,
-	keywordstyle=\color{blue}\bfseries,
-	commentstyle=\color{gray}\itshape,
-	stringstyle=\color{olive},
-	numbers=left,
+	basicstyle=\ttfamily\footnotesize,
+	% keywordstyle=\color{blue}\bfseries,
+	% commentstyle=\color{gray}\itshape,
+	% stringstyle=\color{teal},
 	numberstyle=\tiny,
-	stepnumber=1,
-	numbersep=8pt,
-	frame=single,
+	frame=lines,
 	breaklines=true,
-	captionpos=b
+	captionpos=b,
+	showstringspaces=false,
+	language=C
 }
 
 % Bibliography
