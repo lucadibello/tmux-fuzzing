@@ -4,9 +4,9 @@ We ran a 4-hour fuzzing campaign using the predefined \texttt{input-fuzzer} harn
 
 The entire process, from Docker image preparation to fuzzer execution and coverage report generation, is fully automated by the script \texttt{run\_w\_corpus.sh}, located in \texttt{submission/part\_1}. This script is intended to be run from the project root and performs automatically all required steps. For a detailed breakdown of its internal logic, refer to \autoref{sec:methodology}.
 
-\begin{verbatim}
+\begin{lstlisting}[language=bash, caption=Bash command to run an automated fuzzing campaign with seed corpus]
 submission/part_1/run_w_corpus.sh
-\end{verbatim}
+\end{lstlisting}
 
 The seeded fuzzing campaign completed successfully and produced the following coverage results, summarized in \autoref{tbl:coverage-w-corpus}.
 
@@ -31,9 +31,9 @@ To ensure comparable results between the two runs, we used the same configuratio
 
 Similarly as the seeded run script, the unseeded run script is designed to be run from the root of the project, and it takes care of all necessary steps, including building the patched Docker image, compiling the fuzzers, running the fuzzing campaign, and generating the coverage report:
 
-\begin{verbatim}
+\begin{lstlisting}[language=bash, caption=Bash command to run an automated fuzzing campaign without seed corpus]
 submission/part_1/run_wo_corpus.sh
-\end{verbatim}
+\end{lstlisting}
 
 The unseeded fuzzing campaign completed successfully and produced the following coverage results, summarized in \autoref{tbl:coverage-wo-corpus}.
 
@@ -59,58 +59,63 @@ The results are very similar to those obtained with the seed corpus, with only m
 
 \autoref{tbl:coverage-comparison} summarizes the per-file differences in coverage between the two fuzzing runs, with and without the seed corpus. The table shows the percentage of lines covered by the fuzzer in each file, along with the difference in coverage between the two runs. Since the coverage is very sparse, we only show the files with at least 0.5\% coverage in either run.
 
-\begin{table*}[ht]
+\begin{table*}[!tb]  % two-column float, top or bottom only
 	\centering
 	\scriptsize
-	\tablehead{%
+	\setlength{\tabcolsep}{4pt}    % a bit narrower columns
+	\renewcommand{\arraystretch}{1.1}
+
+	\begin{tabular}{@{}lrrr@{}}     % ordinary, non-splitting table
 		\toprule
-		Path & Cov$_{\mathrm{wo}}$ (\%) & Cov$_{\mathrm{w}}$ (\%) & $\Delta$ (\%) \\
+		Path                                &
+		Cov\_$\text{wo}$ (\%)               &
+		Cov\_$\text{w}$ (\%)                &
+		$\Delta$ (\%)                                              \\
 		\midrule
-	}
-	\begin{supertabular}{lrrr}
-		src/tmux/alerts.c                  & 15.18 & 15.18 &  0.00 \\
-		src/tmux/arguments.c               &  5.82 &  5.82 &  0.00 \\
-		src/tmux/cmd-find.c                &  6.54 &  6.54 &  0.00 \\
-		src/tmux/cmd-parse.c               & 26.95 & 26.95 &  0.00 \\
-		src/tmux/cmd-queue.c               & 21.25 & 21.25 &  0.00 \\
-		src/tmux/cmd.c                     & 26.70 & 26.70 &  0.00 \\
-		\rowcolor{yellow} src/tmux/colour.c                  & 70.38 & 70.78 &  0.40 \\
-		src/tmux/compat/recallocarray.c    & 13.89 & 13.89 &  0.00 \\
-		src/tmux/compat/strlcat.c          & 90.48 & 90.48 &  0.00 \\
-		src/tmux/compat/strtonum.c         & 96.97 & 96.97 &  0.00 \\
-		src/tmux/compat/tree.h             & 93.86 & 93.86 &  0.00 \\
-		src/tmux/compat/vis.c              & 15.69 & 15.69 &  0.00 \\
-		src/tmux/control-notify.c          &  8.28 &  8.28 &  0.00 \\
-		src/tmux/environ.c                 &  3.68 &  3.68 &  0.00 \\
-		src/tmux/format.c                  & 28.37 & 28.37 &  0.00 \\
-		src/tmux/fuzz/input-fuzzer.c       & 93.88 & 93.88 &  0.00 \\
-		src/tmux/grid-view.c               & 69.64 & 69.64 &  0.00 \\
-		src/tmux/grid.c                    & 33.52 & 33.52 &  0.00 \\
-		src/tmux/hyperlinks.c              & 81.25 & 81.25 &  0.00 \\
-		\rowcolor{yellow} src/tmux/input.c                   & 91.64 & 92.31 &  0.67 \\
-		src/tmux/layout.c                  &  1.52 &  1.52 &  0.00 \\
-		src/tmux/log.c                     &  8.54 &  8.54 &  0.00 \\
-		src/tmux/notify.c                  & 49.30 & 49.30 &  0.00 \\
-		src/tmux/options.c                 & 25.85 & 25.85 &  0.00 \\
-		src/tmux/osdep-linux.c             & 12.73 & 12.73 &  0.00 \\
-		\rowcolor{yellow} src/tmux/paste.c                   & 36.67 & 38.33 &  1.66 \\
-		src/tmux/screen-write.c            & 64.14 & 64.14 &  0.00 \\
-		src/tmux/screen.c                  & 50.23 & 50.23 &  0.00 \\
-		src/tmux/server-fn.c               &  2.45 &  2.45 &  0.00 \\
-		src/tmux/style.c                   & 27.27 & 27.27 &  0.00 \\
-		src/tmux/tmux.c                    &  0.79 &  0.79 &  0.00 \\
-		src/tmux/tty.c                     &  1.87 &  1.87 &  0.00 \\
-		src/tmux/utf8-combined.c           & 38.18 & 38.18 &  0.00 \\
-		src/tmux/utf8.c                    & 26.85 & 26.85 &  0.00 \\
-		\rowcolor{yellow} src/tmux/window.c                  & 14.40 & 15.46 &  1.06 \\
-		src/tmux/xmalloc.c                 & 80.46 & 80.46 &  0.00 \\
-	\end{supertabular}
-	\caption{Per-file line coverage comparison between two \texttt{libfuzzer} runs---one with and one without a seed corpus---using the \texttt{input-fuzzer} harness compiled with \texttt{AddressSanitizer}. Highlighted rows indicate files with different coverage in the two runs.}
+		src/tmux/alerts.c                   & 15.18 & 15.18 & 0.00 \\
+		src/tmux/arguments.c                & 5.82  & 5.82  & 0.00 \\
+		src/tmux/cmd-find.c                 & 6.54  & 6.54  & 0.00 \\
+		src/tmux/cmd-parse.c                & 26.95 & 26.95 & 0.00 \\
+		src/tmux/cmd-queue.c                & 21.25 & 21.25 & 0.00 \\
+		src/tmux/cmd.c                      & 26.70 & 26.70 & 0.00 \\
+		\rowcolor{yellow} src/tmux/colour.c & 70.38 & 70.78 & 0.40 \\
+		src/tmux/compat/recallocarray.c     & 13.89 & 13.89 & 0.00 \\
+		src/tmux/compat/strlcat.c           & 90.48 & 90.48 & 0.00 \\
+		src/tmux/compat/strtonum.c          & 96.97 & 96.97 & 0.00 \\
+		src/tmux/compat/tree.h              & 93.86 & 93.86 & 0.00 \\
+		src/tmux/compat/vis.c               & 15.69 & 15.69 & 0.00 \\
+		src/tmux/control-notify.c           & 8.28  & 8.28  & 0.00 \\
+		src/tmux/environ.c                  & 3.68  & 3.68  & 0.00 \\
+		src/tmux/format.c                   & 28.37 & 28.37 & 0.00 \\
+		src/tmux/fuzz/input-fuzzer.c        & 93.88 & 93.88 & 0.00 \\
+		src/tmux/grid-view.c                & 69.64 & 69.64 & 0.00 \\
+		src/tmux/grid.c                     & 33.52 & 33.52 & 0.00 \\
+		src/tmux/hyperlinks.c               & 81.25 & 81.25 & 0.00 \\
+		\rowcolor{yellow} src/tmux/input.c  & 91.64 & 92.31 & 0.67 \\
+		src/tmux/layout.c                   & 1.52  & 1.52  & 0.00 \\
+		src/tmux/log.c                      & 8.54  & 8.54  & 0.00 \\
+		src/tmux/notify.c                   & 49.30 & 49.30 & 0.00 \\
+		src/tmux/options.c                  & 25.85 & 25.85 & 0.00 \\
+		src/tmux/osdep-linux.c              & 12.73 & 12.73 & 0.00 \\
+		\rowcolor{yellow} src/tmux/paste.c  & 36.67 & 38.33 & 1.66 \\
+		src/tmux/screen-write.c             & 64.14 & 64.14 & 0.00 \\
+		src/tmux/screen.c                   & 50.23 & 50.23 & 0.00 \\
+		src/tmux/server-fn.c                & 2.45  & 2.45  & 0.00 \\
+		src/tmux/style.c                    & 27.27 & 27.27 & 0.00 \\
+		src/tmux/tmux.c                     & 0.79  & 0.79  & 0.00 \\
+		src/tmux/tty.c                      & 1.87  & 1.87  & 0.00 \\
+		src/tmux/utf8-combined.c            & 38.18 & 38.18 & 0.00 \\
+		src/tmux/utf8.c                     & 26.85 & 26.85 & 0.00 \\
+		\rowcolor{yellow} src/tmux/window.c & 14.40 & 15.46 & 1.06 \\
+		src/tmux/xmalloc.c                  & 80.46 & 80.46 & 0.00 \\
+		\bottomrule
+	\end{tabular}
+
+	\caption{Per-file line-coverage comparison between two \texttt{libfuzzer} runs (with and without a seed corpus) using the \texttt{input-fuzzer} harness compiled with \texttt{AddressSanitizer}.  Highlighted rows show differing coverage.}
 	\label{tbl:coverage-comparison}
 \end{table*}
 
-From the summary tables in \autoref{tbl:coverage-w-corpus} and \autoref{tbl:coverage-wo-corpus} and the detailed comparison in \autoref{tbl:coverage-comparison}, we can observe the following key points:
-
+From the summary tables in \autoref{tbl:coverage-w-corpus} and \autoref{tbl:coverage-wo-corpus} and the detailed comparison in \autoref{tbl:coverage-comparison}, we can observe the following key points
 \begin{itemize}
 	\item The overall coverage is very similar between the two runs, with only a few files showing differences in coverage.
 	\item Introducing the seed corpus adds just a few dozen lines ($\approx$40 lines; $\approx$0.13\% change in regions/functions coverage).
