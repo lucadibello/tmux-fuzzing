@@ -1,4 +1,12 @@
-All experiments were performed on a Debian system with Linux kernel 6.1 (LTS), Docker 28.1.1, and Python 3.11. We used a local fork of OSS-Fuzz located at \texttt{forks/oss-fuzz}. To streamline execution, we developed two scripts---\texttt{run\_w\_corpus.sh} and \texttt{run\_wo\_corpus.sh}---that autonomously perform 4-hour fuzzing campaigns (with and without the seed corpus, respectively) and generate corresponding coverage reports. Both scripts are located in \texttt{submission/part\_1}. Their internal logic is modularized to share a common sequence of operations, which are detailed in the following subsections.
+All experiments were performed on a Debian system with Linux kernel 6.1 (LTS),
+Docker 28.1.1, and Python 3.11. We used a local fork of OSS-Fuzz located at
+\texttt{forks/oss-fuzz}. To streamline execution, we developed two
+scripts---\texttt{run\_w\_corpus.sh} and \texttt{run\_wo\_corpus.sh}---that
+autonomously perform 4-hour fuzzing campaigns (with and without the seed corpus,
+respectively) and generate corresponding coverage reports. Both scripts are
+located in \texttt{submission/part\_1}. Their internal logic is modularized to
+share a common sequence of operations, which are detailed in the following
+subsections.
 
 \noindent \paragraph{Configuration} \label{sec:methodology_configuration} Both scripts are highly configurable and can be run with different parameters. The following variables are set at the top of each script:
 \begin{itemize}
@@ -53,7 +61,7 @@ Regardless of the \texttt{\$REBUILD} variable, the script always rebuilds the fu
 
 \begin{verbatim}
 python3 infra/helper.py build_fuzzers \
-  "$PROJECT" --sanitizer "$SANITIZER" 
+  "$PROJECT" --sanitizer "$SANITIZER"
 \end{verbatim}
 
 This command compiles the fuzzers for the specified project, applying the selected sanitizer to instrument the code for better error detection and reporting. This generates the fuzzing binaries under \texttt{build/out/\$PROJECT}, which are later needed to run the fuzzing campaigns.
@@ -123,4 +131,3 @@ python3 infra/helper.py coverage \
     \end{verbatim}
 
 By default, the coverage tool starts a local web server to serve the HTML report. To ensure our script remains fully automated and headless, we run the coverage command in the background and poll the output directory (\texttt{build/out/\$PROJECT/report}) for up to 5 minutes, waiting until the report becomes available. Once generated, the HTML report directory is saved as \texttt{<timestamp>\_coverage\_{\{w,wo\}\_corpus}} and stored in the \texttt{submission} directory.
-
