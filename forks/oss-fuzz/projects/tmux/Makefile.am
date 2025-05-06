@@ -228,13 +228,17 @@ dist_tmux_SOURCES += image.c image-sixel.c
 endif
 
 if NEED_FUZZING
-check_PROGRAMS = fuzz/input-fuzzer fuzz/client-fuzzer
+check_PROGRAMS = fuzz/input-fuzzer fuzz/client-fuzzer fuzz/cmd-fuzzer
 
 fuzz_input_fuzzer_LDFLAGS = $(FUZZING_LIBS)
 fuzz_input_fuzzer_LDADD = $(LDADD) $(tmux_OBJECTS)
 
+fuzz_client_fuzzer_LDFLAGS = $(FUZZING_LIBS)
+fuzz_client_fuzzer_LDADD = $(LDADD) $(tmux_OBJECTS)
+
 fuzz_cmd_fuzzer_LDFLAGS = $(FUZZING_LIBS)
 fuzz_cmd_fuzzer_LDADD = $(LDADD) $(tmux_OBJECTS)
+
 endif
 
 # Install tmux.1 in the right format.
