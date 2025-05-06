@@ -1,0 +1,68 @@
+\documentclass[11pt,a4paper,twocolumn]{article}
+
+% Title and authors
+\title{%
+  CS-412 Software Security Lab 2\\[0.5em]
+  \Large Fuzzing Lab Report\\
+  Spring Semester 2025\\[0.5em]
+  Project: Tmux
+}
+
+\author{%
+  Luca Di Bello (SCIPER 367552)
+  Federico Villa (SCIPER 386986) \\
+  Noah El Hassanie (SCIPER 404885)
+  Cristina Morad (SCIPER 405241) \\
+}
+\date{Submitted: May 8, 2025}
+
+% Load custom styl
+\usepackage{report_style}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+	In this lab, we integrate and evaluate a fuzzing harness for the \texttt{tmux} terminal
+	multiplexer using Google’s OSS-Fuzz infrastructure. We first establish a baseline
+	by measuring line coverage of the existing \texttt{tmux\_fuzzer} both with and without the
+	provided seed corpus, observing similar results in both cases.
+
+	We then identify two major code regions not exercised by the baseline harness, implemented
+	targeted harness improvements to cover those regions, and finally triage a crash uncovered
+	in the session-detach logic, proposing a patch and assessing its exploitability.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+
+\input{content/1_introduction.tex}
+
+\section{Methodology}
+\label{sec:methodology}
+
+\input{content/2_methodology.tex}
+
+\section{Part 1: Baseline Evaluation}
+
+\input{content/3_baseline_evaluation.tex}
+
+\section{Part 2: Coverage Gaps}
+
+\input{content/4_coverage_gaps.tex}
+
+\section{Part 3: Fuzzer Improvements}
+
+\input{content/5_fuzzer_improvements.tex}
+
+\section{Part 4: Crash Analysis}
+
+\input{content/6_crash_analysis.tex}
+
+\section{Conclusion and Future Work}
+
+\input{content/7_conclusion.tex}
+
+\printbibliography
+
+\end{document}

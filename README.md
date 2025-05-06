@@ -3,6 +3,7 @@
 ## Part 0: Clone the repo
 
 Clone the repo:
+
 ```bash
 git clone --recurse-submodules git@github.com:federicovilla55/fuzzing-lab.git
 ```
@@ -11,7 +12,7 @@ A detailed explanation of OSS-Fuzz commands and other project related informatio
 
 ## Part 1: Running Existing Fuzzing Harnesses
 
-Clone the *OSS-Fuzz* repo:
+Clone the _OSS-Fuzz_ repo:
 
 ```bash
 git clone https://github.com/google/oss-fuzz && cd oss-fuzz
@@ -53,14 +54,14 @@ Compare the coverage of the seeded and empty corpus fuzzing, for example check t
 The deliverables for this first part are:
 
 - [ ] Running scripts:
-    - [ ] `run_w_corpus.sh`
-    - [ ] `run_wo_corpus.sh`
+  - [ ] `run_w_corpus.sh`
+  - [ ] `run_wo_corpus.sh`
 - [ ] Coverage Reports:
-    - [ ] `w_corpus/`
-    - [ ] `w_o_corpus`
+  - [ ] `w_corpus/`
+  - [ ] `w_o_corpus`
 - [ ] Differences files:
-    - [ ] `oss-fuzz.diff`
-    - [ ] `project.diff`
+  - [ ] `oss-fuzz.diff`
+  - [ ] `project.diff`
 
 ## Part 2: Analyzing Existing Fuzzing Harnesses
 
@@ -72,28 +73,28 @@ Deliverables for the second part:
 
 ## Part 3: Improving the Fuzzers
 
-Enhance coverage for the two regions identified in *Part 2*.
+Enhance coverage for the two regions identified in _Part 2_.
 
 Deliverables:
 
 - [ ] Scripts enhancing the coverage:
-    - [ ] `improve1/run_improve1.sh`
-    - [ ] `improve2/run_improve2.sh`
+  - [ ] `improve1/run_improve1.sh`
+  - [ ] `improve2/run_improve2.sh`
 - [ ] Coverage of such regions without improvements
-    - [ ] `coverage_noimprove/`
+  - [ ] `coverage_noimprove/`
 - [ ] Coverage improved
-    - [ ] `improve1/coverage_improve1/`
-    - [ ] `improve2/coverage_improve2/`
+  - [ ] `improve1/coverage_improve1/`
+  - [ ] `improve2/coverage_improve2/`
 - [ ] Diff files showing the changes in harness and build scripts:
-    - [ ] `improve1/oss-fuzz.diff`
-    - [ ] `improve1/project.diff`
-    - [ ] `improve2/oss-fuzz.diff`
-    - [ ] `improve1/project.diff`
+  - [ ] `improve1/oss-fuzz.diff`
+  - [ ] `improve1/project.diff`
+  - [ ] `improve2/oss-fuzz.diff`
+  - [ ] `improve1/project.diff`
 
 ## Part 4: Crash Analysis
 
 Triage a crash found by the improved fuzzer.  
-If a crash is found, describe the steps and commands to reproduce it, otherwise use a previous *CVE* or an old bug (in this case provide a proof of concept that can be run to reproduce the crash.
+If a crash is found, describe the steps and commands to reproduce it, otherwise use a previous _CVE_ or an old bug (in this case provide a proof of concept that can be run to reproduce the crash.
 
 Deliverables:
 
@@ -109,7 +110,7 @@ Deliverables:
 - [forks](/forks/): Clones of the used repositories, so [oss-fuzz](https://github.com/google/oss-fuzz) and [project_to_select]().
 - [submission](/submission/): Final submission files
 
-
-## How to run *LibFuzzer* (in *OSS-Fuzz*)?
+## How to run _LibFuzzer_ (in _OSS-Fuzz_)?
 
 Clone the Repo, build the project Docker image, create fuzzers (binary results in `build/out/NAME/`), create a directory for the data corpsus (`build/out/corpsus`) so the starting input for my fuzzer. Start then the fuzzer, using the provided `--corpus-dir` parameter.
+
