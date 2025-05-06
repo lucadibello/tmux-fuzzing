@@ -61,6 +61,18 @@ In each *project* of *OSS-Fuzz* (subdirectory in `oss-fuzz/projects`) there are 
     ls /out/*-fuzzer
     ```
 
+- How to modify the contents of an already existing container?
+    - First start the container: `python3 infra/helper.py shell tmux`
+    - In *a new terminal* run the Docker command to copy the new files: 
+    ```bash
+    docker cp projects/tmux/cmd-fuzzer.c tmux-container:/src/tmux/fuzz/
+    docker cp projects/tmux/input-fuzzer.c tmux-container:/src/tmux/fuzz/
+    docker cp projects/tmux/input-fuzzer.dict tmux-container:/src/tmux/fuzz/
+    docker cp projects/tmux/input-fuzzer.options tmux-container:/src/tmux/fuzz/
+    docker cp projects/tmux/Makefile.am tmux-container:/src/tmux/
+    ```
+     Where `tmux-container` is the ID of the running container. The ID can be found using `docker ps -a --format "{{.Names}}" | grep -v "CONTAINER"`.
+
 
 ## **tmux**
 
