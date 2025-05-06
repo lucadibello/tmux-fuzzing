@@ -88,10 +88,13 @@ int LLVMFuzzerTestOneInput(const u_char *data, size_t size) {
     struct args_value *first_av = TAILQ_FIRST(&args_head);
     if (c > 0 && sanitized_size > 1) {
         const char *cmd_names[] = {
-            "attach-session", "bind-key", "break-pane", "capture-pane",
-            "choose-buffer", "choose-client", "choose-tree", "clear-history"
+            "attach-session -Ad -t %1",   // Test flags with targets
+            "bind-key -T root C-f",       // Test key tables
+            "new-window -n '${=}'",       // Test format expansions
+            "resize-pane -x 10 -y 5",     // Test numeric arguments
+            "invalid-command"             // Test error handling
         };
-        size_t n = sizeof(cmd_names) / sizeof(cmd_names[0]);
+                size_t n = sizeof(cmd_names) / sizeof(cmd_names[0]);
         size_t override_idx = sanitized_data[0] % n;
         
         free(first_av->string);
