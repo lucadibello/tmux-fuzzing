@@ -1,156 +1,171 @@
-/*
- * Copyright (c) 2024 OpenAI
- *
- * Permission to use, copy, modify, and distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF MIND, USE, DATA OR PROFITS, WHETHER
- * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
- * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- */
+#include <stddef.h>
+#include <assert.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include "tmux.h"
 
- #include <stddef.h>
- #include <assert.h>
- #include <string.h>
- #include <stdlib.h>
- #include <ctype.h>
- #include "tmux.h"
- 
- #define FUZZER_MAXLEN 1024
- 
- /* Global event base used by tmux */
- struct event_base *libevent;
- 
- int LLVMFuzzerTestOneInput(const u_char *data, size_t size) {
-     u_char *sanitized_data;
-     size_t sanitized_size = 0;
-     size_t i;
-     
-     /* Limit input size to avoid timeouts */
-     if (size > FUZZER_MAXLEN)
-         return 0;
-     
-     /* Allocate worst-case buffer (same size as original input) */
-     sanitized_data = malloc(size);
-     if (sanitized_data == NULL)
-         return 0;
-     
-     /* Filter the input so that only printable characters are kept.
-        This includes characters in the ASCII range 0x20 to 0x7E. */
-     for (i = 0; i < size; i++) {
-         if (isprint(data[i]))
-             sanitized_data[sanitized_size++] = data[i];
-     }
-     
-     /* If nothing printable remains, exit early */
-     if (sanitized_size == 0) {
-         free(sanitized_data);
-         return 0;
-     }
-     
-     /* Process the sanitized input in place of the raw fuzz data.
-        Split the input into null-terminated arguments.
-        We assume that tokens are separated by '\0'.
-        If no '\0' is found, the rest of the data is treated as one token. */
-     TAILQ_HEAD(, args_value) args_head;
-     TAILQ_INIT(&args_head);
-     
-     const u_char *p = sanitized_data;
-     const u_char *end;
-     u_int count = 0;
-     size_t len;
-     size_t remaining = sanitized_size;
-     
-     while (remaining > 0) {
-         end = memchr(p, '\0', remaining);
-         if (end != NULL) {
-             len = end - p;
-             remaining -= len + 1;
-         } else {
-             len = remaining;
-             remaining = 0;
-         }
-         
-         /* Create a temporary null-terminated string from the token */
-         char *arg_str = malloc(len + 1);
-         if (arg_str == NULL)
-             break;
-         memcpy(arg_str, p, len);
-         arg_str[len] = '\0';
-         
-         /* Validate that the string is valid UTF-8.
-            If not, drop this token. */
-         if (!utf8_isvalid(arg_str)) {
-             free(arg_str);
-             p = end != NULL ? end + 1 : p + len;
-             continue;
-         }
-         
-         /* Create an args_value entry and insert it into the list */
-         struct args_value *av = malloc(sizeof(*av));
-         if (av == NULL) {
-             free(arg_str);
-             break;
-         }
-         av->type = ARGS_STRING;
-         av->string = arg_str;
-         TAILQ_INSERT_TAIL(&args_head, av, entry);
-         count++;
-         
-         p = end != NULL ? end + 1 : p + len;
-     }
-     
-     /* Call the command parser with the generated arguments */
-     char *error = NULL;
-     struct cmd *cmd = cmd_parse(TAILQ_FIRST(&args_head), count, "fuzz", 0, &error);
-     if (cmd != NULL)
-         cmd_free(cmd);
-     free(error);
-     
-     /* Clean up the argument list */
-     struct args_value *av;
-     while (!TAILQ_EMPTY(&args_head)) {
-         av = TAILQ_FIRST(&args_head);
-         TAILQ_REMOVE(&args_head, av, entry);
-         free(av->string);
-         free(av);
-     }
-     
-     free(sanitized_data);
-     return 0;
- }
- 
- int LLVMFuzzerInitialize(int *argc, char ***argv) {
-     const struct options_table_entry *oe;
-     
-     /* Initialize tmux environment globals */
-     global_environ = environ_create();
-     global_options = options_create(NULL);
-     global_s_options = options_create(NULL);
-     global_w_options = options_create(NULL);
-     
-     /* Set default options */
-     for (oe = options_table; oe->name != NULL; oe++) {
-         if (oe->scope & OPTIONS_TABLE_SERVER)
-             options_default(global_options, oe);
-         if (oe->scope & OPTIONS_TABLE_SESSION)
-             options_default(global_s_options, oe);
-         if (oe->scope & OPTIONS_TABLE_WINDOW)
-             options_default(global_w_options, oe);
-     }
-     
-     /* Set critical options */
-     options_set_number(global_options, "set-clipboard", 2);
-     socket_path = xstrdup("dummy");
-     
-     /* Initialize libevent */
-     libevent = osdep_event_init();
-     
-     return 0;
- }
- 
+/* Max data length */
+#define FUZZER_MAXLEN 1024
+
+struct event_base *libevent;
+
+/* Fuzzer entry point */
+int LLVMFuzzerTestOneInput(const u_char *data, size_t size) {
+    u_char *sanitized_data;
+    size_t sanitized_size = 0;
+    size_t i;
+    
+    /* Limit fuzzing `data` size*/
+    if (size > FUZZER_MAXLEN)
+        return 0;
+    
+    /* Allocate buffer for sanitized data. */
+    sanitized_data = malloc(size);
+    if (sanitized_data == NULL)
+        return 0;
+    
+    /* As non-printable characters must not be used in tmux, they should be
+     filtered out to create a valid argument string. */
+    for (i = 0; i < size; i++) {
+        if (isprint(data[i]))
+            sanitized_data[sanitized_size++] = data[i];
+    }
+    if (sanitized_size == 0) {
+        free(sanitized_data);
+        return 0;
+    }
+    
+    /* Initialize a tail queue to hold parsed command arguments. */
+    TAILQ_HEAD(, args_value) args_head;
+    TAILQ_INIT(&args_head);
+    
+    const u_char *p = sanitized_data;
+    const u_char *end;
+    u_int c = 0;
+    size_t len;
+    size_t remaining = sanitized_size;
+    
+    /* Split sanitized data into null-terminated arguments. */
+    while (remaining > 0) {
+        end = memchr(p, '\0', remaining);
+        if (end != NULL) {
+            len = end - p;
+            remaining -= len + 1;
+        } else {
+            len = remaining;
+            remaining = 0;
+        }
+        
+        /* Copy the current argument. */
+        char *arg_str = malloc(len + 1);
+        if (arg_str == NULL)
+            break;
+        memcpy(arg_str, p, len);
+        arg_str[len] = '\0';
+        
+        /* Check if the argument is valid UTF-8, skip it otherwise to avoid tmux parsing errors */
+        if (!utf8_isvalid(arg_str)) {
+            free(arg_str);
+            p = end != NULL ? end + 1 : p + len;
+            continue;
+        }
+        
+        struct args_value *av = malloc(sizeof(*av));
+        if (av == NULL) {
+            free(arg_str);
+            break;
+        }
+        av->type = ARGS_STRING;
+        av->string = arg_str;
+        TAILQ_INSERT_TAIL(&args_head, av, entry);
+        c++;
+        
+        p = end != NULL ? end + 1 : p + len;
+    }
+    
+    /* Replace the first argument with a valid tmux command name to ensure meaningful tests. */
+    struct args_value *first_av = TAILQ_FIRST(&args_head);
+    if (c > 0 && sanitized_size > 1) {
+        const char *cmd_names[] = {
+            "attach-session", "bind-key", "break-pane", "capture-pane",
+            "choose-buffer", "choose-client", "choose-tree", "clear-history"
+        };
+        size_t n = sizeof(cmd_names) / sizeof(cmd_names[0]);
+        size_t override_idx = sanitized_data[0] % n;
+        
+        free(first_av->string);
+        first_av->string = xstrdup(cmd_names[override_idx]);
+    }
+    
+    /* Parse the command for validity and structure. */
+    char *error = NULL;
+    struct cmd *cmd = cmd_parse(first_av, c, "fuzz", 0, &error);
+    if (cmd == NULL) {
+        free(error);
+    }
+    
+    /* Command lookup by name functionality. */
+    {
+        char *cause = NULL;
+        const struct cmd_entry *entry = cmd_find(first_av->string, &cause);
+        if (entry == NULL)
+            free(cause);
+    }
+    
+    /* If parsing succeded, continue by parsing other command operations. */
+    if (cmd != NULL) {
+        char *printed = cmd_print(cmd);
+        free(printed);
+        
+        /* Command copying with dummy arguments. */
+        char *dummy_argv[] = { "fuzz", "arg1", "arg2" };
+        struct cmd *cmd_copy_result = cmd_copy(cmd, 3, dummy_argv);
+        cmd_free(cmd_copy_result);
+        
+        char *templated = cmd_template_replace("%1", "replacement", 1);
+        free(templated);
+    }
+    
+    /* Clean up all allocated argument structures. */
+    struct args_value *av;
+    while (!TAILQ_EMPTY(&args_head)) {
+        av = TAILQ_FIRST(&args_head);
+        TAILQ_REMOVE(&args_head, av, entry);
+        free(av->string);
+        free(av);
+    }
+    free(sanitized_data);
+    
+    if (cmd != NULL)
+        cmd_free(cmd);
+    
+    return 0;
+}
+
+/* Initialize global state. */
+int LLVMFuzzerInitialize(int *argc, char ***argv) {
+    const struct options_table_entry *oe;
+    
+    global_environ = environ_create();
+    global_options = options_create(NULL);
+    global_s_options = options_create(NULL);
+    global_w_options = options_create(NULL);
+    
+    for (oe = options_table; oe->name != NULL; oe++) {
+        if (oe->scope & OPTIONS_TABLE_SERVER)
+            options_default(global_options, oe);
+        if (oe->scope & OPTIONS_TABLE_SESSION)
+            options_default(global_s_options, oe);
+        if (oe->scope & OPTIONS_TABLE_WINDOW)
+            options_default(global_w_options, oe);
+    }
+    
+    options_set_number(global_options, "set-clipboard", 2);
+    socket_path = xstrdup("dummy");
+    
+    /* Initialize libevent for asynchronous I/O handling. */
+    libevent = osdep_event_init();
+    
+    return 0;
+}
