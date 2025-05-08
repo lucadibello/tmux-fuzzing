@@ -34,8 +34,10 @@ def copy_files(container_name, src_dir="projects/tmux", src_root="/src"):
     # Define file types and their destinations
     file_map = {
         "*.c": fuzz_dest,
+        "*.cc": fuzz_dest,
         "*.dict": fuzz_dest,
         "*.options": fuzz_dest,
+        "*.ac": tmux_dest,
         "*.h": tmux_dest,
         "*.am": tmux_dest,
     }

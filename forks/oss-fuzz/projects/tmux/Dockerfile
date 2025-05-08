@@ -28,8 +28,8 @@ RUN git clone https://github.com/libevent/libevent.git && \
 RUN git clone --depth 1 https://github.com/tmux/tmux.git
 RUN git clone --depth 1 https://github.com/tmux/tmux-fuzzing-corpus.git
 
-COPY *.c *.dict *.options *.h $SRC/tmux/fuzz/
-COPY *.am $SRC/tmux/
+COPY *.c *.cc *.dict *.options *.h $SRC/tmux/fuzz/
+COPY *.am *.ac $SRC/tmux/
 
 WORKDIR tmux
 COPY build.sh $SRC/
