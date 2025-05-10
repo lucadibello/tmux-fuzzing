@@ -22,8 +22,8 @@ static struct event_base *global_base = nullptr;
 
 // Helper to initialize tmux globals
 static void init_tmux_globals() {
-  if (!global_environ)   global_environ   = environ_create();
-  if (!global_options)   global_options   = options_create(nullptr);
+  if (!global_environ) global_environ = environ_create();
+  if (!global_options) global_options = options_create(nullptr);
   if (!global_s_options) global_s_options = options_create(nullptr);
   if (!global_w_options) global_w_options = options_create(nullptr);
   for (const struct options_table_entry *oe = options_table;
