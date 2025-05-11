@@ -62,7 +62,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     
     char *error = NULL;
     struct args *args_parsed = args_parse(&parse, vals, args, &error);
-    if (error != NULL || !args_parsed || size < 3) {
+    if (error != NULL || !args_parsed || size < 10) {
         free(error);
         for (int i = 0; i < args; i++) free(argv[i]);
         free(argv);
@@ -81,6 +81,16 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     size--;
     struct args_entry *entry;
     char first = args_first(args_parsed, &entry);
+    if (entry != NULL) char next = args_next(&entry);
+    int count = args_count(args_parsed);
+    struct args_value *value = args_values(args_parsed);
+    value = args_value(args_parsed, data[0]);
+    value = args_first_value(args_parsed, data[1]);
+    data += 2;
+    size -= 2;
+    char *argument_string = args_string(args_parsed, data[0]);
+    data++;
+    size--;
 
     struct args *copy = args_copy(args_parsed, args, argv);
     if (copy == NULL) {
@@ -98,7 +108,6 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     free(argv);
     for (int i = 0; i < args; i++) free(vals[i].string);
     free(vals);
-    if (args_parsed != NULL) args_free(args_parsed);
     free(buf);
     
     int argc;
@@ -106,6 +115,13 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     args_to_vector(copy, &argc, &argvs);
     cmd_free_argv(argc, argvs);
     if (copy != NULL) args_free(copy);
+
+    long long str_to_num = args_strtonum(args_parsed, data[0], data[1], data[2], &error);
+    data += 3;
+    size -= 3;
+
+    if (error != NULL) free(error);
+    if (args_parsed != NULL) args_free(args_parsed);
 
     return 0;
 }
