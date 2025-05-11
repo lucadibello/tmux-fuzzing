@@ -62,7 +62,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     
     char *error = NULL;
     struct args *args_parsed = args_parse(&parse, vals, args, &error);
-    if (error != NULL || !args_parsed || size < 10) {
+    if (error != NULL || !args_parsed || size < 15) {
         free(error);
         for (int i = 0; i < args; i++) free(argv[i]);
         free(argv);
@@ -116,11 +116,19 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     cmd_free_argv(argc, argvs);
     if (copy != NULL) args_free(copy);
 
+    long long percentage = args_percentage(args_parsed, data[0], data[1], data[2], data[3], &error);
+    data += 4;
+    size -= 4;
+    if (error != NULL || size < 3) {
+        free(error);
+        args_free(args_parsed);
+        return 0;
+    }
+
     long long str_to_num = args_strtonum(args_parsed, data[0], data[1], data[2], &error);
     data += 3;
     size -= 3;
-
-    if (error != NULL) free(error);
+    if (error != NULL || size < 4) free(error);
     if (args_parsed != NULL) args_free(args_parsed);
 
     return 0;
