@@ -16,17 +16,15 @@ echo "Docker image built successfully."
 
 # Test exploit in different versions of tmux
 # a) vulnerable version (3.1b)
-echo -e "\n=========================================="
-echo "Running vulnerable version test (expecting a crash/error)..."
-echo "=========================================="
-docker run --rm -it tmux-cve-2020-27347 /bin/bash -c "./test_vulnerable.sh"
+docker run --name "tmux-cve-2020-27347-vuln" \
+  --rm -it tmux-cve-2020-27347 \
+  /bin/bash -c "./test_vulnerable.sh"
 echo "Vulnerable version test completed. Review output above for crash details."
 
 # b) fixed version (3.1c)
-echo -e "\n=========================================="
-echo "Running fixed version test (expecting NO crash)..."
-echo "=========================================="
-docker run --rm -it tmux-cve-2020-27347 /bin/bash -c "./test_fixed.sh"
+docker run --name "tmux-cve-2020-27347-fixed" \
+  --rm -it tmux-cve-2020-27347 \
+  /bin/bash -c "./test_fixed.sh"
 echo "Fixed version test completed. Review output above to confirm no crash."
 
 popd # back to original directory
