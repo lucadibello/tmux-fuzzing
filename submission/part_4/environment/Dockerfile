@@ -16,9 +16,8 @@ RUN apt-get update && \
   rm -rf /var/lib/apt/lists/*
 
 # get tmux locally
-WORKDIR /opt/tmux_cve_2020_27347
-RUN git clone https://github.com/tmux/tmux.git
 WORKDIR /opt/tmux_cve_2020_27347/tmux
+RUN git clone https://github.com/tmux/tmux.git .
 
 # copy test scripts
 COPY test_vulnerable.sh .

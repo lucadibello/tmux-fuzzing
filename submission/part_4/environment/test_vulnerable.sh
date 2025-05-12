@@ -8,5 +8,4 @@ source ./run_tmux_cve_test.sh
 run_tmux_test \
   "6a33a12798b2afeee6fb7bba74d86d628137921e" \
   "vulnerable version (3.1b)" \
-  "Expecting a crash (e.g., segmentation fault or similar error)." \
-  20 # 20s timeout
+  "crash"
