@@ -38,6 +38,12 @@ Generate a coverage report:
 ```bash
 python3 infra/helper.py coverage tmux --corpus-dir build/out/corpus --fuzz-target input-fuzzer
 ```
+
+Reproduce a crash: 
+```bash
+python3 infra/helper.py reproduce tmux client-fuzzer build/out/tmux/crash-6002bc54e6a0a43a80a3cea8cc1b7c3dd745d1a0
+```
+
 This uses the `llvm-cov` command.
 
 ### OSS-Fuzz *Project* Files

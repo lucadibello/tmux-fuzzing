@@ -29,7 +29,7 @@ RUN git clone --depth 1 https://github.com/tmux/tmux.git
 RUN git clone --depth 1 https://github.com/tmux/tmux-fuzzing-corpus.git
 
 COPY *.c *.cc *.dict *.options *.h $SRC/tmux/fuzz/
-COPY *.am *.ac $SRC/tmux/
+COPY *.am *.ac *.y $SRC/tmux/
 
 WORKDIR tmux
 COPY build.sh $SRC/

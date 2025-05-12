@@ -40,6 +40,7 @@ def copy_files(container_name, src_dir="projects/tmux", src_root="/src"):
         "*.ac": tmux_dest,
         "*.h": tmux_dest,
         "*.am": tmux_dest,
+        "*.y": tmux_dest,
     }
 
     # Copy files

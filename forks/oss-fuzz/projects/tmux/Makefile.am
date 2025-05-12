@@ -233,7 +233,7 @@ check_PROGRAMS = fuzz/input-fuzzer fuzz/client-fuzzer fuzz/cmd-fuzzer
 fuzz_input_fuzzer_LDFLAGS = $(FUZZING_LIBS)
 fuzz_input_fuzzer_LDADD = $(LDADD) $(tmux_OBJECTS)
 
-fuzz_client_fuzzer_SOURCES = fuzz/client-fuzzer.cc
+fuzz_client_fuzzer_SOURCES = fuzz/client-fuzzer.c
 fuzz_client_fuzzer_LDFLAGS = $(FUZZING_LIBS)
 fuzz_client_fuzzer_LDADD = $(LDADD) $(tmux_OBJECTS)
 fuzz_client_fuzzer_CXXFLAGS = -std=c++11 -O1
