@@ -1,2 +1,78 @@
-Detail crash reproduction (\texttt{run\_poc.sh}), ASAN log snippet, root cause,
-proposed patch, and exploitability.
+This section details the analysis of vulnerabilities within \texttt{tmux}.
+
+The first vulnerability triaged is CVE-2020-27347, the second is CVE-TO-CHANGE.
+
+\subsection{Vulnerability Triage: CVE-2020-27347 - Stack Buffer Overflow in SGR Parsing}
+
+\subsubsection{Vulnerability Description (CVE-2020-27347)}
+
+CVE-2020-27347 is a stack-based buffer overflow in \texttt{tmux} versions prior to 3.1c (specifically affecting 2.9 through 3.1b). The vulnerability resides in the \texttt{input\_csi\_dispatch\_sgr\_colon()} function within \texttt{input.c}, which parses colon-separated SGR (Select Graphic Rendition) escape sequences. An attacker capable of writing to a \texttt{tmux} pane can send a specially crafted SGR sequence with numerous or malformed empty parameters, causing a buffer overflow. This can crash the \texttt{tmux} server (Denial of Service) and potentially allow arbitrary code execution.
+
+\subsubsection{Proof of Concept (PoC) and Reproduction}
+
+A reproducible test was implemented using shell scripts (\texttt{run\_poc.sh}, \texttt{test\_vulnerable.sh}, \texttt{test\_fixed.sh}, and \texttt{run\_tmux\_cve\_test.sh}) within a Dockerized \texttt{ubuntu:22.04} environment.
+
+\paragraph{Test Approach:}
+The \texttt{run\_poc.sh} script automates testing by:
+
+\begin{enumerate}
+	\item Building a Docker image with \texttt{tmux} build dependencies and the \texttt{tmux} source code cloned from GitHub.
+	\item Running tests for a vulnerable and a fixed version of \texttt{tmux} in isolated container instances.
+\end{enumerate}
+
+\paragraph{Per-Version Test Steps:}
+\begin{enumerate}
+	\item \textbf{Version Checkout:} The specific \texttt{tmux} versions are checked out using \texttt{git reset --hard <commit\_hash>}:
+	      \begin{center}
+		      \begin{tabular}{@{}r@{\hspace{1em}}l@{}}
+			      \textbf{Vulnerable}: & version \texttt{3.1b}     \\
+			                           & (commit \texttt{6a33a12}) \\[1.5ex]
+			      \textbf{Fixed}:      & version \texttt{3.1c}     \\
+			                           & (commit \texttt{25cae5d}) \\[1.5ex]
+		      \end{tabular}
+	      \end{center}
+
+	\item \textbf{Compilation:} \texttt{tmux} is compiled from source using the same process as in the \texttt{tmux} Dockerfile, but without any fuzzer-related flags. The compilation process is as follows:
+
+	      \noindent \begin{lstlisting}[language=bash, caption=Bash to compile tmux from source without fuzzer support, label=lst:tmux-compile]
+sh autogen.sh && ./configure && make -j"$(nproc)"
+\end{lstlisting}
+
+
+	\item \textbf{\texttt{tmux} Launch:} A detached \texttt{tmux} session with a unique name is started using the bash command in \autoref{lst:tmux-new-session}. This is done to ensure reliable startup in the scripted environment.
+
+	      \noindent \begin{lstlisting}[language=bash, caption=Bash to create a new detached tmux sesssion, label=lst:tmux-new-session]
+tmux new-session -d -s cve_test_session_<PID>
+\end{lstlisting}
+
+	\item \textbf{Target Identification:} The script waits for the session to be ready and identifies the target pane's TTY path using the \texttt{tmux list-panes} utility.
+
+	\item \textbf{Payload Delivery:} The SGR escape sequence reported in \autoref{lst:tmux-payload-delivery} is written directly to the identified pane TTY to trigger the vulnerability. This simulates a user typing the sequence into the \texttt{tmux} pane.
+
+	      \begin{lstlisting}[language=bash, caption=Payload delivery to the tmux pane, label=lst:tmux-payload-delivery]
+\033[::::::7::1:2:3::5:6:7:m
+\end{lstlisting}
+
+	\item \textbf{Observation \& Verification:} After an observation period (e.g., 10 seconds where the script sleeps waiting for a result), the script checks if the \texttt{tmux} session and server are still responsive (\texttt{tmux has-session}, \texttt{tmux ls}). The outcome is compared against the expected behavior (\emph{crash} in version \texttt{3.1b}, \emph{no crash} in version \texttt{3.1c}).
+
+	\item \textbf{Cleanup:} Both the tmux test session created earlier, and the tmux and server are terminated.
+\end{enumerate}
+
+This setup consistently reproduces the crash on the vulnerable version and confirms the fix on the patched version.
+
+\subsubsection{Root Cause Analysis}
+
+The vulnerability is due to a stack-based buffer overflow in \texttt{input\_csi\_dispatch\_sgr\_colon()} in \texttt{input.c}. This function processes SGR escape sequences that use colons as sub-parameter separators (e.g., for 24-bit color). The function fails to adequately validate the number of these sub-parameters before copying them into a fixed-size stack buffer. An escape sequence with many empty or numerous sub-parameters, such as the PoC \texttt{\textbackslash{}033[::::::7::1:2:3::5:6:7:m}, overflows this buffer.
+
+\subsubsection{Fix Discussion}
+
+\texttt{tmux} version 3.1c fixed this by adding bounds checking in \texttt{input\_csi\_dispatch\_sgr\_colon()}. This ensures the number of parsed SGR sub-parameters does not exceed the buffer's capacity, preventing the overflow.
+
+\subsubsection{Security Implication and Severity}
+
+CVE-2020-27347 has a high severity (CVSS v3.x scores typically 7.8-8.8).
+\begin{itemize}
+	\item \textbf{Denial of Service (DoS):} Most commonly, it crashes the \texttt{tmux} server.
+	\item \textbf{Potential Arbitrary Code Execution (ACE):} As a stack overflow, it could allow ACE, though modern mitigations (ASLR/PIE) make this more challenging.
+	\item \textbf{Attack Vector:} The attack is local, requiring the ability to write to a \texttt{tmux} pane's input.
+\end{itemize}
