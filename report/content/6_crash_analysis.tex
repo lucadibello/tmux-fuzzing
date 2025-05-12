@@ -41,7 +41,7 @@ sh autogen.sh && ./configure && make -j"$(nproc)"
 
 	\item \textbf{\texttt{tmux} Launch:} A detached \texttt{tmux} session with a unique name is started using the bash command in \autoref{lst:tmux-new-session}. This is done to ensure reliable startup in the scripted environment.
 
-	      \noindent \begin{lstlisting}[language=bash, caption=Bash to create a new detached tmux sesssion, label=lst:tmux-new-session]
+	      \noindent \begin{lstlisting}[language=bash, caption=Bash to create a new detached tmux sesssion, label={lst:tmux-new-session}]
 tmux new-session -d -s cve_test_session_<PID>
 \end{lstlisting}
 
@@ -49,7 +49,7 @@ tmux new-session -d -s cve_test_session_<PID>
 
 	\item \textbf{Payload Delivery:} The SGR escape sequence reported in \autoref{lst:tmux-payload-delivery} is written directly to the identified pane TTY to trigger the vulnerability. This simulates a user typing the sequence into the \texttt{tmux} pane.
 
-	      \begin{lstlisting}[language=bash, caption=Payload delivery to the tmux pane, label=lst:tmux-payload-delivery]
+	      \begin{lstlisting}[language=bash, caption=Payload delivery to the tmux pane, label={lst:tmux-payload-delivery}]
 \033[::::::7::1:2:3::5:6:7:m
 \end{lstlisting}
 
