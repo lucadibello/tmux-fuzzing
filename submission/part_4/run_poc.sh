@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # path to the directory containing the Dockerfile and utility scripts
-DOCKERFILE_DIR="environment/"
+DOCKERFILE_DIR="submission/part_4/environment/"
 
 echo "Starting Docker image build and tests for CVE-2020-27347."
 

