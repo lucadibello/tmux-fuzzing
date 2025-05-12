@@ -87,21 +87,21 @@ int LLVMFuzzerTestOneInput(const u_char *data, size_t size) {
 
   struct args_value	*values = args_from_vector(argc, argv);
   pr = cmd_parse_from_arguments(values, argc, NULL);
+  
+  // for `args_make_commands_now`
+  // get struct cmd from cmd_parse
+  
+  // How to redo:
+  
   if (pr->status == CMD_PARSE_SUCCESS) {
     cmd_list_free(pr->cmdlist);
-  } else
+  }
+  //struct cmd_parse_result *pr2 = cmd_parse_from_string(buf, NULL);
+  //free_pr_contents(pr2);
   free(pr->error);
   args_free_values(values, argc);
   free(values);
-
-  // for `args_make_commands_now`
-  // get struct cmd from cmd_parse
-
-  // How to redo:
-	//pr = cmd_parse_from_string(buf, NULL);
-
   //free(new_cmd);
-
 
   /*if (pr->status == CMD_PARSE_SUCCESS) {
     cmdq_append(NULL, cmdq_get_command(pr->cmdlist, NULL));
@@ -118,7 +118,6 @@ int LLVMFuzzerTestOneInput(const u_char *data, size_t size) {
   // cmd_parse_and_insert
   // cmd_parse_and_append
     
-  //free_pr_contents(pr);
 
   return 0;
 }
@@ -145,12 +144,12 @@ int LLVMFuzzerInitialize(int *argc, char ***argv) {
 
     input_key_build();
 
-    //key_bindings_init();
+    key_bindings_init();
     
-    //socket_path = xstrdup("dummy");
+    socket_path = xstrdup("dummy");
     
     /* Initialize libevent for asynchronous I/O handling. */
-    //libevent = osdep_event_init();
+    libevent = osdep_event_init();
     
     return 0;
 }
