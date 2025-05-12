@@ -1,4 +1,2 @@
 [libfuzzer]
 max_len = 512
-fork = 1
-detect_leaks=0
