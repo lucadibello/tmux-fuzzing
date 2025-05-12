@@ -4,12 +4,13 @@ set -euo pipefail
 # Configuration
 ## general information
 PROJECT=tmux
-HARNESS=input-fuzzer
+HARNESS="${HARNESS:-input-harness}"
 ENGINE=libfuzzer
 SANITIZER=address # address or undefined
-REBUILD=true
+REBUILD=${REBUILD:-true}
+OUTPUT=${OUTPUT:-submission/part_1}
 ## libfuzzer settings
-RUNTIME=14400 # 4 hours in seconds
+RUNTIME=${RUNTIME:-14400} # 4 hours in seconds
 FLAGS="\
   -max_total_time=$RUNTIME \
   -timeout=25 \
@@ -24,8 +25,8 @@ ROOT=$(pwd)
 OSS_FUZZ_DIR=$ROOT/forks/oss-fuzz
 
 # ---- apply git diff to remove the corpus from the build.sh file ----
-# FIXME: Uncomment for final submission
-# git reset --hard HEAD
+git restore forks/oss-fuzz/projects/tmux/Dockerfile
+git restore forks/oss-fuzz/projects/tmux/build.sh
 git apply submission/part_1/remove_seed_corpus.patch
 
 # 1) Build OSS-Fuzz image and fuzzers with coverage instrumentation
@@ -88,7 +89,7 @@ docker stop "$(docker ps -q)" || true
 echo "[!] Done: coverage report generation complete. Exporting.."
 
 # 8) Copy results to submission directory
-DEST=$ROOT/submission/part_1/${ts}_coverage_wo_corpus
+DEST=$ROOT/$OUTPUT/${ts}_coverage_w_corpus
 mkdir -p "$DEST"
 cp -r "$GLOBAL_REPORT_DIR" "$DEST/"
 

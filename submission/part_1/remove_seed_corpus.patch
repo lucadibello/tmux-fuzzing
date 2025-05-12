@@ -1,56 +1,25 @@
 diff --git a/forks/oss-fuzz/projects/tmux/Dockerfile b/forks/oss-fuzz/projects/tmux/Dockerfile
-index 91b2ca5..da279a1 100644
+index 942a72d..7021d4b 100644
 --- a/forks/oss-fuzz/projects/tmux/Dockerfile
 +++ b/forks/oss-fuzz/projects/tmux/Dockerfile
-@@ -16,20 +16,20 @@
- 
- FROM gcr.io/oss-fuzz-base/base-builder
- RUN apt-get update && apt-get install -y autoconf automake bison pkg-config \
--    ncurses-dev libtool
-+  ncurses-dev libtool
- 
- RUN git clone https://github.com/libevent/libevent.git && \
--    cd libevent && \
--    mkdir build && \
--    cd build && \
--    cmake -DEVENT__DISABLE_MBEDTLS=ON -DEVENT__DISABLE_OPENSSL=ON -DEVENT__LIBRARY_TYPE=STATIC ../ && \
--    make && make install
-+  cd libevent && \
-+  mkdir build && \
-+  cd build && \
-+  cmake -DEVENT__DISABLE_MBEDTLS=ON -DEVENT__DISABLE_OPENSSL=ON -DEVENT__LIBRARY_TYPE=STATIC ../ && \
-+  make && make install
+@@ -26,10 +26,10 @@ RUN git clone https://github.com/libevent/libevent.git && \
+     make && make install
  
  RUN git clone --depth 1 https://github.com/tmux/tmux.git
 -RUN git clone --depth 1 https://github.com/tmux/tmux-fuzzing-corpus.git
 +# RUN git clone --depth 1 https://github.com/tmux/tmux-fuzzing-corpus.git
  
- COPY *.c *.dict *.options $SRC/tmux/fuzz/
- COPY *.am $SRC/tmux/
+ COPY *.c *.cc *.dict *.options *.h $SRC/tmux/fuzz/
+ COPY *.am *.ac *.y $SRC/tmux/
  
  WORKDIR tmux
 -COPY build.sh $SRC/
 \ No newline at end of file
 +COPY build.sh $SRC/
 diff --git a/forks/oss-fuzz/projects/tmux/build.sh b/forks/oss-fuzz/projects/tmux/build.sh
-index 7b0bf3c..7209030 100644
+index 7b0bf3c..2515bc3 100644
 --- a/forks/oss-fuzz/projects/tmux/build.sh
 +++ b/forks/oss-fuzz/projects/tmux/build.sh
-@@ -20,10 +20,10 @@ export PKG_CONFIG_PATH="/usr/local/lib/"
- 
- ./autogen.sh
- ./configure \
--    --enable-fuzzing \
--    FUZZING_LIBS="${LIB_FUZZING_ENGINE} -lc++" \
--    LIBEVENT_LIBS="-Wl,-Bstatic -levent -Wl,-Bdynamic" \
--    LIBTINFO_LIBS=" -l:libtinfo.a "
-+  --enable-fuzzing \
-+  FUZZING_LIBS="${LIB_FUZZING_ENGINE} -lc++" \
-+  LIBEVENT_LIBS="-Wl,-Bstatic -levent -Wl,-Bdynamic" \
-+  LIBTINFO_LIBS=" -l:libtinfo.a "
- 
- make -j"$(nproc)" check
- find "${SRC}/tmux/fuzz/" -name '*-fuzzer' -exec cp -v '{}' "${OUT}"/ \;
 @@ -32,21 +32,21 @@ find "${SRC}/tmux/fuzz/" -name '*-fuzzer.dict' -exec cp -v '{}' "${OUT}"/ \;
  
  MAXLEN=$(grep -Po 'max_len\s+=\s+\K\d+' "${OUT}/input-fuzzer.options")
@@ -75,19 +44,19 @@ index 7b0bf3c..7209030 100644
 -fi
 +# if [ ! -d "${WORK}/fuzzing_corpus" ]; then
 +#     mkdir "${WORK}/fuzzing_corpus"
-+#     cd "${WORK}/fuzzing_corpus"
-+#     bash "${SRC}/tmux/tools/24-bit-color.sh" | \
-+#         split -a4 -db$MAXLEN - 24-bit-color.out.
-+#     perl "${SRC}/tmux/tools/256colors.pl" | \
-+#         split -a4 -db$MAXLEN - 256colors.out.
-+#     cat "${SRC}/tmux/tools/UTF-8-demo.txt" | \
-+#         split -a4 -db$MAXLEN - UTF-8-demo.txt.
-+#     cat "${SRC}/tmux-fuzzing-corpus/alacritty"/* | \
-+#         split -a4 -db$MAXLEN - alacritty.
-+#     cat "${SRC}/tmux-fuzzing-corpus/esctest"/* | \
-+#         split -a4 -db$MAXLEN - esctest.
-+#     cat "${SRC}/tmux-fuzzing-corpus/iterm2"/* | \
-+#         split -a5 -db$MAXLEN - iterm2.
-+#     zip -q -j -r "${OUT}/input-fuzzer_seed_corpus.zip" \
-+#         "${WORK}/fuzzing_corpus/"
++#    cd "${WORK}/fuzzing_corpus"
++#    bash "${SRC}/tmux/tools/24-bit-color.sh" | \
++#        split -a4 -db$MAXLEN - 24-bit-color.out.
++#    perl "${SRC}/tmux/tools/256colors.pl" | \
++#        split -a4 -db$MAXLEN - 256colors.out.
++#    cat "${SRC}/tmux/tools/UTF-8-demo.txt" | \
++#        split -a4 -db$MAXLEN - UTF-8-demo.txt.
++#    cat "${SRC}/tmux-fuzzing-corpus/alacritty"/* | \
++#        split -a4 -db$MAXLEN - alacritty.
++#    cat "${SRC}/tmux-fuzzing-corpus/esctest"/* | \
++#        split -a4 -db$MAXLEN - esctest.
++#    cat "${SRC}/tmux-fuzzing-corpus/iterm2"/* | \
++#        split -a5 -db$MAXLEN - iterm2.
++#    zip -q -j -r "${OUT}/input-fuzzer_seed_corpus.zip" \
++#        "${WORK}/fuzzing_corpus/"
 +# fi
