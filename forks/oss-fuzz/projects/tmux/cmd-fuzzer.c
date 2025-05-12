@@ -86,6 +86,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     struct args_value *value = args_values(args_parsed);
     value = args_value(args_parsed, data[0]);
     value = args_first_value(args_parsed, data[1]);
+    if (value != NULL) value = args_next_value(value);
     data += 2;
     size -= 2;
     char *argument_string = args_string(args_parsed, data[0]);
