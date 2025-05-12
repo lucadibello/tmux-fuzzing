@@ -59,7 +59,7 @@ echo "[!] Done: corpus generation complete. Exporting.."
 ts=$(date +%Y%m%d_%H%M%S)
 mkdir -p "$ROOT/experiments"
 cp -r "$CORPUS_DIR" "$ROOT/experiments/${ts}_wo_corpus"
-(cd "$ROOT/experiments" && zip -qr "${ts}_wo_corpus.zip" "${ts}_wo_corpus")
+#(cd "$ROOT/experiments" && zip -qr "${ts}_wo_corpus.zip" "${ts}_wo_corpus")
 
 # 6) Generate HTML coverage report
 echo "Generating HTML coverage report..."
@@ -89,7 +89,7 @@ docker stop "$(docker ps -q)" || true
 echo "[!] Done: coverage report generation complete. Exporting.."
 
 # 8) Copy results to submission directory
-DEST=$ROOT/$OUTPUT/${ts}_coverage_w_corpus
+DEST=$ROOT/$OUTPUT/${ts}_coverage_wo_corpus
 mkdir -p "$DEST"
 cp -r "$GLOBAL_REPORT_DIR" "$DEST/"
 
