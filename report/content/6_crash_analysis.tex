@@ -8,7 +8,7 @@ CVE-2020-27347 is a high-severity (CVSS v3.x score 7.8) stack-based buffer overf
 
 \subsection{Proof of Concept (PoC) and Reproduction}
 
-A reproducible PoC was developed using shell scripts (\texttt{run\_poc.sh}, \texttt{test\_vulnerable.sh}, \texttt{test\_fixed.sh}, and \texttt{run\_tmux\_cve\_test.sh}) executed within a Dockerized \href{https://hub.docker.com/layers/library/ubuntu/22.04/images/sha256-a76d0e9d99f0e91640e35824a6259c93156f0f07b7778ba05808c750e7fa6e68}{\texttt{ubuntu:22.04}} environment.
+A reproducible PoC was developed using the bash script \texttt{run\_poc.sh}. This script leverages \texttt{test\_vulnerable.sh}, \texttt{test\_fixed.sh}, and \texttt{run\_tmux\_cve\_test.sh} to execute tests within a Dockerized \href{https://hub.docker.com/layers/library/ubuntu/22.04/images/sha256-a76d0e9d99f0e91640e35824a6259c93156f0f07b7778ba05808c750e7fa6e68}{\texttt{ubuntu:22.04}} environment.
 
 \paragraph{Test Approach:}
 The \texttt{run\_poc.sh} script automates testing by:
