@@ -7,7 +7,7 @@ PROJECT=tmux
 HARNESS="${HARNESS:-input-harness}"
 ENGINE=libfuzzer
 SANITIZER=address # address or undefined
-REBUILD=true
+REBUILD=${REBUILD:-true}
 OUTPUT=${OUTPUT:-submission/part_1}
 ## libfuzzer settings
 RUNTIME=${RUNTIME:-14400} # 4 hours in seconds
@@ -46,7 +46,7 @@ python3 infra/helper.py run_fuzzer \
   --engine "$ENGINE" \
   --corpus-dir "build/work/$PROJECT/fuzzing_corpus" \
   "$PROJECT" "$HARNESS" -- \
-  "$FLAGS"
+  "$FLAGS" || true
 
 # 4) Stop any remaining Docker containers
 docker stop "$(docker ps -q)" || true
