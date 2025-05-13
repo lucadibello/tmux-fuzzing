@@ -228,20 +228,16 @@ dist_tmux_SOURCES += image.c image-sixel.c
 endif
 
 if NEED_FUZZING
-check_PROGRAMS = fuzz/input-fuzzer fuzz/client-fuzzer fuzz/cmd-fuzzer
+check_PROGRAMS = fuzz/input-fuzzer fuzz/argument-fuzzer fuzz/cmd-fuzzer
 
 fuzz_input_fuzzer_LDFLAGS = $(FUZZING_LIBS)
 fuzz_input_fuzzer_LDADD = $(LDADD) $(tmux_OBJECTS)
 
-fuzz_client_fuzzer_SOURCES = fuzz/client-fuzzer.c
-fuzz_client_fuzzer_LDFLAGS = $(FUZZING_LIBS)
-fuzz_client_fuzzer_LDADD = $(LDADD) $(tmux_OBJECTS)
-fuzz_client_fuzzer_CXXFLAGS = -std=c++11 -O1
+fuzz_argument_fuzzer_LDFLAGS = $(FUZZING_LIBS)
+fuzz_argument_fuzzer_LDADD = $(LDADD) $(tmux_OBJECTS)
 
-fuzz_cmd_fuzzer_SOURCES = fuzz/cmd-fuzzer.c
 fuzz_cmd_fuzzer_LDFLAGS = $(FUZZING_LIBS)
 fuzz_cmd_fuzzer_LDADD = $(LDADD) $(tmux_OBJECTS)
-fuzz_cmd_fuzzer_CXXFLAGS = -std=c++11 -O1
 
 endif
 
