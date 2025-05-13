@@ -89,4 +89,23 @@
 	urlcolor=blue
 ]{hyperref}
 
+% Define a custom style for C code
+\lstdefinestyle{C}{
+	language=C,
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	frame=single,
+	backgroundcolor=\color{gray!5},
+	keywordstyle=\color{blue}\bfseries,
+	commentstyle=\color{green!60!black},
+	stringstyle=\color{red},
+	tabsize=4,
+	breaklines=true,
+	breakatwhitespace=true,
+	basicstyle=\ttfamily\small,
+	showspaces=false,
+	showtabs=false,
+	% morekeywords={u_int, int, char, static, void, while, if, else, struct, const}
+}
+
 \endinput
