@@ -93,7 +93,7 @@ for corpus_zip in "${source_zips[@]}"; do
 
     # Unzip contents into the temporary directory. -q for quiet.
     # This extracts contents directly into MAIN_TEMP_DIR_ABS without subdirs for each zip.
-    if unzip -j -q "$corpus_zip" -d "$MAIN_TEMP_DIR_ABS"; then
+    if unzip -q "$corpus_zip" -d "$MAIN_TEMP_DIR_ABS"; then
       info "Successfully unzipped $corpus_zip into $MAIN_TEMP_DIR_ABS."
       SUCCESSFUL_MERGE_COUNT=$((SUCCESSFUL_MERGE_COUNT + 1))
     else
@@ -177,6 +177,11 @@ else
   warn "You may inspect its contents at: $MAIN_TEMP_DIR_ABS"
 fi
 
+popd || {
+  warn "Failed to return to the original directory. You may need to do this manually."
+  exit 1
+}
+
 # --- Final Exit ---
 if [ $ZIP_COMMAND_EXIT_STATUS -ne 0 ]; then
   error_exit "Merge process finished with errors during final zip creation."
@@ -184,8 +189,3 @@ else
   info "Merge process finished successfully."
   exit 0
 fi
-
-popd || {
-  warn "Failed to return to the original directory. You may need to do this manually."
-  exit 1
-}
