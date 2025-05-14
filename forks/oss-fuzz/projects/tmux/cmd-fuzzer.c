@@ -92,9 +92,10 @@ int LLVMFuzzerInitialize(int *argc, char ***argv) {
         if (oe->scope & OPTIONS_TABLE_WINDOW)
             options_default(global_w_options, oe);
     }
-    
-    //options_set_number(global_options, "set-clipboard", 2);
 
+    libevent = osdep_event_init();
+
+    
     /* Initialize key input processing and bindings */
     input_key_build();
     key_bindings_init();
