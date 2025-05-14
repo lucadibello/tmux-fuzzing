@@ -15,8 +15,8 @@ FLAGS="\
   -max_total_time=$RUNTIME \
   -timeout=25 \
   -print_final_stats=1 \
-  -fork=1 \
   -ignore_crashes=1 \
+  -rss_limit_mb=8192 \
   -artifact_prefix=crash-"
 
 ## corpus settings
