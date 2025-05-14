@@ -16,13 +16,14 @@ FLAGS="\
   -timeout=25 \
   -print_final_stats=1 \
   -ignore_crashes=1 \
-  -artifact_prefix=./build/work/$PROJECT/fuzzing_corpus/crashes/"
+  -artifact_prefix=./crashes/"
 
 ## corpus settings
 ROOT=$(pwd)
 
 # OSS Fuzz directory
 OSS_FUZZ_DIR=$ROOT/forks/oss-fuzz
+CORPUS_DIR="$OSS_FUZZ_DIR/build/work/$PROJECT/fuzzing_corpus"
 
 # ---- apply git diff to remove the corpus from the build.sh file ----
 git restore forks/oss-fuzz/projects/tmux/Dockerfile
@@ -36,11 +37,6 @@ if [ "$REBUILD" = true ]; then
   python3 infra/helper.py build_image "$PROJECT" --pull
 fi
 python3 infra/helper.py build_fuzzers --sanitizer "$SANITIZER" "$PROJECT"
-
-# 2) Ensure the corpus directory is empty
-CORPUS_DIR="$OSS_FUZZ_DIR/build/work/$PROJECT/fuzzing_corpus"
-rm -rf "$CORPUS_DIR" || true
-mkdir -p "$CORPUS_DIR/crashes"
 
 # 3) Run the fuzzer for RUNTIME
 cd "$OSS_FUZZ_DIR"
