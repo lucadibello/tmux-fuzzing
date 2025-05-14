@@ -16,7 +16,7 @@ FLAGS="\
   -timeout=25 \
   -print_final_stats=1 \
   -ignore_crashes=1 \
-  -artifact_prefix=./crashes"
+  -artifact_prefix=./build/work/$PROJECT/fuzzing_corpus/crashes/"
 
 ## corpus settings
 ROOT=$(pwd)
