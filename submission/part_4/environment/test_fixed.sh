@@ -6,7 +6,7 @@ source ./run_tmux_cve_test.sh
 
 # donwload the patch for tmux
 PATCH_URL="https://github.com/tmux/tmux/commit/a868bacb46e3c900530bed47a1c6f85b0fbe701c.diff"
-wget $PATCH_URL -O tmux.patch
+curl $PATCH_URL -o tmux.patch
 
 # Run the test for the fixed version
 run_tmux_test \
