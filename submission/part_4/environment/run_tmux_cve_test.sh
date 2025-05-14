@@ -6,12 +6,14 @@ set -euo pipefail
 #   $1: Git commit hash to checkout
 #   $2: Description of the version (e.g., "vulnerable version", "fixed version")
 #   $3: Expected outcome (e.g., "Expecting a crash", "Expecting NO crash")
-#   $4: Observation period in seconds (optional, defaults to 10 seconds)
+#   $4: Path to the patch file (optional, e.g., "path/to/your.patch" or "" to skip)
+#   $5: Observation period in seconds (optional, defaults to 10 seconds)
 run_tmux_test() {
   local commit_hash="$1"
   local version_description="$2"
   local expected_outcome="$3"
-  local observation_period="${4:-10}"
+  local patch_file_path="${4:-}"      # New parameter for the patch file
+  local observation_period="${5:-10}" # Adjusted parameter index
 
   echo "=========================================="
   echo "Testing ${version_description} (${commit_hash})"
@@ -30,13 +32,31 @@ run_tmux_test() {
   fi
   echo "Successfully reset to commit ${commit_hash}."
 
+  # Apply patch if a patch file path is provided
+  if [ -n "$patch_file_path" ]; then
+    if [ -f "$patch_file_path" ]; then
+      echo "Applying patch: ${patch_file_path}"
+      if patch -p1 <"$patch_file_path"; then
+        echo "Patch applied successfully."
+      else
+        echo "ERROR: Failed to apply patch ${patch_file_path}."
+        return 1
+      fi
+    else
+      echo "ERROR: Patch file ${patch_file_path} not found."
+      return 1
+    fi
+  fi
+
   echo "Building tmux from source..."
   if (sh autogen.sh && ./configure && make -j"$(nproc)") >/dev/null 2>&1; then
     echo "Build complete."
   else
-    echo "ERROR: Build FAILED."
+    echo "ERROR: Build FAILED: $?"
     return 1
   fi
+
+  # ... (rest of the script remains the same) ...
 
   echo -e "\n--- Running ${version_description} and attempting to trigger CVE ---"
   echo "Current TERM environment variable: '$TERM'"
