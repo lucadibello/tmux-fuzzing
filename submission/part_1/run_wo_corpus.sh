@@ -4,7 +4,7 @@ set -euo pipefail
 # Configuration
 ## general information
 PROJECT=tmux
-HARNESS="${HARNESS:-input-harness}"
+HARNESS="${HARNESS:-input-fuzzer}"
 ENGINE=libfuzzer
 SANITIZER=address # address or undefined
 REBUILD=${REBUILD:-true}

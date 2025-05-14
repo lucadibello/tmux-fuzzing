@@ -4,11 +4,11 @@ set -euo pipefail
 # Configuration
 ## general information
 PROJECT=tmux
-HARNESS="${HARNESS:-input-fuzzer}"
+HARNESS="${HARNESS:-argument-fuzzer}"
 ENGINE=libfuzzer
 SANITIZER=address # address or undefined
 REBUILD=${REBUILD:-true}
-OUTPUT=${OUTPUT:-submission/part_1}
+OUTPUT=${OUTPUT:-submission/part_3/improve1}
 ## libfuzzer settings
 RUNTIME=${RUNTIME:-14400} # 4 hours in seconds
 FLAGS="\
@@ -24,9 +24,10 @@ ROOT=$(pwd)
 # OSS Fuzz directory
 OSS_FUZZ_DIR=$ROOT/forks/oss-fuzz
 
-# ---- reset to default build.sh file ----
+# ---- apply git diff to remove the corpus from the build.sh file ----
 git restore forks/oss-fuzz/projects/tmux/Dockerfile
 git restore forks/oss-fuzz/projects/tmux/build.sh
+git apply submission/part_1/remove_seed_corpus.patch
 
 # 1) Build OSS-Fuzz image and fuzzers with coverage instrumentation
 cd "$OSS_FUZZ_DIR"
@@ -36,8 +37,9 @@ if [ "$REBUILD" = true ]; then
 fi
 python3 infra/helper.py build_fuzzers --sanitizer "$SANITIZER" "$PROJECT"
 
-# 2) Ensure crashes directory is present
+# 2) Ensure the corpus directory is empty
 CORPUS_DIR="$OSS_FUZZ_DIR/build/work/$PROJECT/fuzzing_corpus"
+rm -rf "$CORPUS_DIR" || true
 mkdir -p "$CORPUS_DIR/crashes"
 
 # 3) Run the fuzzer for RUNTIME
@@ -53,11 +55,11 @@ docker stop "$(docker ps -q)" || true
 
 echo "[!] Done: corpus generation complete. Exporting.."
 
-# 5) Zip and store the corpus in `experiments/{timestamp}_w_corpus`
+# 5) Zip and store the corpus in `experiments/{timestamp}_wo_corpus`
 ts=$(date +%Y%m%d_%H%M%S)
 mkdir -p "$ROOT/experiments"
-cp -r "$CORPUS_DIR" "$ROOT/experiments/${ts}_w_corpus"
-(cd "$ROOT/experiments" && zip -qr "${ts}_w_corpus.zip" "${ts}_w_corpus")
+cp -r "$CORPUS_DIR" "$ROOT/experiments/${ts}_wo_corpus"
+#(cd "$ROOT/experiments" && zip -qr "${ts}_wo_corpus.zip" "${ts}_wo_corpus")
 
 # 6) Generate HTML coverage report
 echo "Generating HTML coverage report..."
@@ -87,8 +89,8 @@ docker stop "$(docker ps -q)" || true
 echo "[!] Done: coverage report generation complete. Exporting.."
 
 # 8) Copy results to submission directory
-DEST=$ROOT/$OUTPUT/${ts}_coverage_w_corpus
+DEST=$ROOT/$OUTPUT/${ts}_coverage_wo_corpus
 mkdir -p "$DEST"
 cp -r "$GLOBAL_REPORT_DIR" "$DEST/"
 
-echo "[!] Done: coverage WITH corpus in $DEST"
+echo "[!] Done: coverage WITHOUT corpus in $DEST"
