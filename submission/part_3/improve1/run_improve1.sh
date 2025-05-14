@@ -38,6 +38,7 @@ if [ "$REBUILD" = true ]; then
 fi
 # remove corpus dir to ensure a clean build
 rm -rf "$CORPUS_DIR" || true
+mkdir -p "$CORPUS_DIR"
 python3 infra/helper.py build_fuzzers --sanitizer "$SANITIZER" "$PROJECT"
 
 # 3) Run the fuzzer for RUNTIME
