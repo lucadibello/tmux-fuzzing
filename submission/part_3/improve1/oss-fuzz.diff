@@ -1,0 +1,14 @@
+diff --git a/projects/tmux/Dockerfile b/projects/tmux/Dockerfile
+index a6ef1b3c2..27368029c 100644
+--- a/projects/tmux/Dockerfile
++++ b/projects/tmux/Dockerfile
+@@ -27,5 +27,9 @@ RUN git clone https://github.com/libevent/libevent.git && \
+ 
+ RUN git clone --depth 1 https://github.com/tmux/tmux.git
+ RUN git clone --depth 1 https://github.com/tmux/tmux-fuzzing-corpus.git
++
++COPY project.diff /tmp/project.diff
++RUN cd tmux && git apply /tmp/project.diff
++
+ WORKDIR tmux
+ COPY build.sh $SRC/
