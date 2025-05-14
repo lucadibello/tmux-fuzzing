@@ -4,11 +4,11 @@ set -euo pipefail
 # Configuration
 ## general information
 PROJECT=tmux
-HARNESS="${HARNESS:-argument-fuzzer}"
+HARNESS="${HARNESS:-cmd-fuzzer}"
 ENGINE=libfuzzer
 SANITIZER=address # address or undefined
 REBUILD=${REBUILD:-true}
-OUTPUT=${OUTPUT:-submission/part_3/improve1}
+OUTPUT=${OUTPUT:-submission/part_3/improve2}
 ## libfuzzer settings
 RUNTIME=${RUNTIME:-14400} # 4 hours in seconds
 FLAGS="\
