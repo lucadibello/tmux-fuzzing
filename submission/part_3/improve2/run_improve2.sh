@@ -16,7 +16,7 @@ FLAGS="\
   -timeout=25 \
   -print_final_stats=1 \
   -ignore_crashes=1 \
-  -artifact_prefix=./crashes/"
+  -artifact_prefix=crash-"
 
 ## corpus settings
 ROOT=$(pwd)

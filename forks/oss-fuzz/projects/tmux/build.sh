@@ -33,7 +33,7 @@ find "${SRC}/tmux/fuzz/" -name '*-fuzzer.dict' -exec cp -v '{}' "${OUT}"/ \;
 MAXLEN=$(grep -Po 'max_len\s+=\s+\K\d+' "${OUT}/input-fuzzer.options")
 
 if [ ! -d "${WORK}/fuzzing_corpus" ]; then
-    mkdir -p "${WORK}/fuzzing_corpus/crashes"
+    mkdir "${WORK}/fuzzing_corpus/crashes"
     cd "${WORK}/fuzzing_corpus"
     bash "${SRC}/tmux/tools/24-bit-color.sh" | \
         split -a4 -db$MAXLEN - 24-bit-color.out.
