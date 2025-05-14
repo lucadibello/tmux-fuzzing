@@ -35,6 +35,8 @@ if [ "$REBUILD" = true ]; then
   rm -rf "$OSS_FUZZ_DIR/build" || true
   python3 infra/helper.py build_image "$PROJECT" --pull
 fi
+# remove corpus dir to ensure a clean build
+rm -rf "$CORPUS_DIR" || true
 python3 infra/helper.py build_fuzzers --sanitizer "$SANITIZER" "$PROJECT"
 
 # 3) Run the fuzzer for RUNTIME
