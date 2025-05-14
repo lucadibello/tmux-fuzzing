@@ -4,7 +4,7 @@ set -euo pipefail
 # Configuration
 ## general information
 PROJECT=tmux
-HARNESS="${HARNESS:-input-harness}"
+HARNESS="${HARNESS:-input-fuzzer}"
 ENGINE=libfuzzer
 SANITIZER=address # address or undefined
 REBUILD=${REBUILD:-true}
@@ -16,13 +16,14 @@ FLAGS="\
   -timeout=25 \
   -print_final_stats=1 \
   -ignore_crashes=1 \
-  -artifact_prefix=./crashes"
+  -artifact_prefix=crash-"
 
 ## corpus settings
 ROOT=$(pwd)
 
 # OSS Fuzz directory
 OSS_FUZZ_DIR=$ROOT/forks/oss-fuzz
+CORPUS_DIR="$OSS_FUZZ_DIR/build/work/$PROJECT/fuzzing_corpus"
 
 # ---- apply git diff to remove the corpus from the build.sh file ----
 git restore forks/oss-fuzz/projects/tmux/Dockerfile
@@ -35,12 +36,10 @@ if [ "$REBUILD" = true ]; then
   rm -rf "$OSS_FUZZ_DIR/build" || true
   python3 infra/helper.py build_image "$PROJECT" --pull
 fi
-python3 infra/helper.py build_fuzzers --sanitizer "$SANITIZER" "$PROJECT"
-
-# 2) Ensure the corpus directory is empty
-CORPUS_DIR="$OSS_FUZZ_DIR/build/work/$PROJECT/fuzzing_corpus"
+# remove corpus dir to ensure a clean build
 rm -rf "$CORPUS_DIR" || true
-mkdir -p "$CORPUS_DIR/crashes"
+mkdir -p "$CORPUS_DIR"
+python3 infra/helper.py build_fuzzers --sanitizer "$SANITIZER" "$PROJECT"
 
 # 3) Run the fuzzer for RUNTIME
 cd "$OSS_FUZZ_DIR"

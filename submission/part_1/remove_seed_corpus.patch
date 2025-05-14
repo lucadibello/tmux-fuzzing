@@ -25,7 +25,7 @@ index 7b0bf3c..2515bc3 100644
  MAXLEN=$(grep -Po 'max_len\s+=\s+\K\d+' "${OUT}/input-fuzzer.options")
  
 -if [ ! -d "${WORK}/fuzzing_corpus" ]; then
--    mkdir "${WORK}/fuzzing_corpus"
+-    mkdir "${WORK}/fuzzing_corpus/crashes"
 -    cd "${WORK}/fuzzing_corpus"
 -    bash "${SRC}/tmux/tools/24-bit-color.sh" | \
 -        split -a4 -db$MAXLEN - 24-bit-color.out.
@@ -42,8 +42,8 @@ index 7b0bf3c..2515bc3 100644
 -    zip -q -j -r "${OUT}/input-fuzzer_seed_corpus.zip" \
 -        "${WORK}/fuzzing_corpus/"
 -fi
-+# if [ ! -d "${WORK}/fuzzing_corpus" ]; then
-+#     mkdir "${WORK}/fuzzing_corpus"
++#if [ ! -d "${WORK}/fuzzing_corpus" ]; then
++#    mkdir -p "${WORK}/fuzzing_corpus/crashes"
 +#    cd "${WORK}/fuzzing_corpus"
 +#    bash "${SRC}/tmux/tools/24-bit-color.sh" | \
 +#        split -a4 -db$MAXLEN - 24-bit-color.out.
@@ -59,4 +59,4 @@ index 7b0bf3c..2515bc3 100644
 +#        split -a5 -db$MAXLEN - iterm2.
 +#    zip -q -j -r "${OUT}/input-fuzzer_seed_corpus.zip" \
 +#        "${WORK}/fuzzing_corpus/"
-+# fi
++#fi
