@@ -1,9 +1,9 @@
 ###############################################################################
 # General configuration
 ###############################################################################
-PROJECT        = tmux
-FUZZER         = input-fuzzer
-OSS_FUZZ_DIR   = forks/oss-fuzz
+PROJECT        ?= tmux
+FUZZER         ?= cmd-fuzzer
+OSS_FUZZ_DIR   ?= forks/oss-fuzz
 
 # Path to the submission scripts for Part 1
 SUBMISSION_DIR = submission/part_1
