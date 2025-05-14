@@ -52,7 +52,7 @@ run_tmux_test() {
   if (sh autogen.sh && ./configure && make -j"$(nproc)") >/dev/null 2>&1; then
     echo "Build complete."
   else
-    echo "ERROR: Build FAILED."
+    echo "ERROR: Build FAILED: $?"
     return 1
   fi
 

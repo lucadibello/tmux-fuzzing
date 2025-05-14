@@ -8,6 +8,7 @@ RUN apt-get update && \
   build-essential \
   bison \
   git \
+  curl \
   libevent-dev \
   ncurses-dev \
   automake \
