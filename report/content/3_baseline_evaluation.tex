@@ -140,5 +140,5 @@ From the summary tables in \autoref{tbl:coverage-w-corpus} and \autoref{tbl:cove
 
 	      As \texttt{tmux} is a hotkey-based terminal multiplexer, we expected to get high coverage results in both runs as, as soon as the fuzzer identifies a valid hotkey sequence, it can trigger a large number of code paths with minimal effort.
 
-	\item Overall coverage remains low ($\sim$14\%), indicating large untested areas. By inspecting the full coverage reports, was discovered that \texttt{client.c}, \texttt{server.c}, and most \texttt{cmd-*.c} modules are not covered using the \texttt{input-fuzzer}
+	\item Overall coverage remains low ($\sim$14\%), indicating large untested areas. By inspecting the full coverage reports, was discovered that \texttt{client.c}, \texttt{server.c}, and most \texttt{cmd-*.c} modules are not covered using the \texttt{input-fuzzer}, in fact their coverage is $0\%$ in the OSS-Fuzz generaed report.
 \end{itemize}
