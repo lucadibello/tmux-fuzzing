@@ -1,7 +1,7 @@
-diff --git a/forks/oss-fuzz/projects/tmux/Dockerfile b/forks/oss-fuzz/projects/tmux/Dockerfile
+diff --git a/projects/tmux/Dockerfile b/projects/tmux/Dockerfile
 index ecbc662e..594f9dd3 100644
---- a/forks/oss-fuzz/projects/tmux/Dockerfile
-+++ b/forks/oss-fuzz/projects/tmux/Dockerfile
+--- a/projects/tmux/Dockerfile
++++ b/projects/tmux/Dockerfile
 @@ -26,7 +26,7 @@ RUN git clone https://github.com/libevent/libevent.git && \
      make && make install
  
@@ -11,10 +11,10 @@ index ecbc662e..594f9dd3 100644
  
  COPY *.c *.dict *.options $SRC/tmux/fuzz/
  COPY *.am $SRC/tmux/
-diff --git a/forks/oss-fuzz/projects/tmux/build.sh b/forks/oss-fuzz/projects/tmux/build.sh
+diff --git a/projects/tmux/build.sh b/projects/tmux/build.sh
 index 7b0bf3c9..b06f00fe 100644
---- a/forks/oss-fuzz/projects/tmux/build.sh
-+++ b/forks/oss-fuzz/projects/tmux/build.sh
+--- a/projects/tmux/build.sh
++++ b/projects/tmux/build.sh
 @@ -34,19 +34,19 @@ MAXLEN=$(grep -Po 'max_len\s+=\s+\K\d+' "${OUT}/input-fuzzer.options")
  
  if [ ! -d "${WORK}/fuzzing_corpus" ]; then

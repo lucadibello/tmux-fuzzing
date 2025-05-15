@@ -101,13 +101,14 @@ fi
 # Apply patch if specified
 if [ -n "$PATCH_FILE" ] && [ -f "${ROOT_DIR}/${PATCH_FILE}" ]; then
   echo "Applying patch: ${PATCH_FILE}"
+  echo "curr: $(pwd)"
   if [ "$APPLY_PATCH_TO" == "oss-fuzz" ]; then
     git apply "${ROOT_DIR}/${PATCH_FILE}" || {
       echo "Failed to apply patch to OSS-Fuzz"
       exit 1
     }
   elif [ "$APPLY_PATCH_TO" == "project" ] && [ -d "${OSS_FUZZ_PROJECT_PATH}" ]; then
-    (cd "${OSS_FUZZ_PROJECT_PATH}" && git apply "${ROOT_DIR}/${PATCH_FILE}") || {
+    (cd "${OSS_FUZZ_PROJECT_PATH}" && echo $(pwd) && git apply "${ROOT_DIR}/${PATCH_FILE}") || {
       echo "Failed to apply patch to project ${PROJECT}"
       exit 1
     }
@@ -126,8 +127,6 @@ elif [ -n "$PATCH_FILE" ]; then
   echo "Warning: Patch file ${ROOT_DIR}/${PATCH_FILE} not found. Skipping patch application."
   exit 1
 fi
-
-exit
 
 # 1. Build OSS-Fuzz Docker image (conditionally)
 if [ "$REBUILD_IMAGE" == "true" ]; then

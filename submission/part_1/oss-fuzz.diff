@@ -1,3 +1,17 @@
+diff --git a/projects/tmux/Dockerfile b/projects/tmux/Dockerfile
+index a6ef1b3c2..ecbc662e6 100644
+--- a/projects/tmux/Dockerfile
++++ b/projects/tmux/Dockerfile
+@@ -27,5 +27,9 @@ RUN git clone https://github.com/libevent/libevent.git && \
+ 
+ RUN git clone --depth 1 https://github.com/tmux/tmux.git
+ RUN git clone --depth 1 https://github.com/tmux/tmux-fuzzing-corpus.git
++
++COPY *.c *.dict *.options $SRC/tmux/fuzz/
++COPY *.am $SRC/tmux/
++
+ WORKDIR tmux
+ COPY build.sh $SRC/
 diff --git a/projects/tmux/input-fuzzer.c b/projects/tmux/input-fuzzer.c
 new file mode 100644
 index 000000000..c7c5c99b5
