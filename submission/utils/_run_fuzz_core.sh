@@ -38,7 +38,7 @@ DEFAULT_LIBFUZZER_FLAGS="\
 LIBFUZZER_FLAGS="${LIBFUZZER_FLAGS:-$DEFAULT_LIBFUZZER_FLAGS}"
 
 # --- Derived Variables ---
-OSS_FUZZ_DIR="${ROOT_DIR}/oss-fuzz" # Assuming oss-fuzz is cloned here
+OSS_FUZZ_DIR="${ROOT_DIR}/oss-fuzz" # where to store OSS-Fuzz repo
 OSS_FUZZ_PROJECT_PATH="${OSS_FUZZ_DIR}/projects/${OSS_FUZZ_PROJECT_DIR_NAME}"
 BUILD_WORK_CORPUS_DIR="${OSS_FUZZ_DIR}/build/work/${PROJECT}/fuzzing_corpus" # Used by helper.py run_fuzzer
 ARTIFACT_DIR="${OSS_FUZZ_DIR}/build/out/${PROJECT}/crashes"
@@ -77,7 +77,18 @@ if [ -d "${OSS_FUZZ_PROJECT_PATH}/${PROJECT}" ]; then
   (cd "${OSS_FUZZ_PROJECT_PATH}/${PROJECT}" && git reset --hard HEAD && git clean -fdx)
 fi
 
-# First, we need to apply the default patches (applied everty time)
+# First, we need to apply the patch to oss-fuzz itself (in the same directory as the script we are currently running)
+BASE_DIR=$(dirname "$0")
+if [ -f "$BASE_DIR/oss-fuzz.diff" ]; then
+  echo "Applying patch to OSS-Fuzz..."
+  git apply "$BASE_DIR/oss-fuzz.diff" || {
+    echo "Failed to apply patch to OSS-Fuzz"
+    exit 1
+  }
+else
+  echo "No patch file found for OSS-Fuzz. This step is required to prepare the environment. NOTE: if you don't want to apply a patch, please create an empty oss-fuzz.diff file."
+  exit 1
+fi
 
 # Apply patch if specified
 if [ -n "$PATCH_FILE" ] && [ -f "${ROOT_DIR}/${PATCH_FILE}" ]; then
