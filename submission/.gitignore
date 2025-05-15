@@ -1,0 +1,2 @@
+# avoid versioning the oss-fuzz directory (cloned by the script here!)
+oss-fuzz
