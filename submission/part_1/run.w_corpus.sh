@@ -6,8 +6,10 @@ export PROJECT="tmux"
 export HARNESS="input-fuzzer"
 export ENGINE="libfuzzer"
 export SANITIZER="address"
-export RUNTIME=$((4 * 60 * 60)) # 4 hours
+export RUNTIME=14400 # 4h in seconds
 export LABEL="part1_wo_corpus"
+export SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+export ROOT_DIR="$(cd "${SCRIPT_DIR}/.." &> /dev/null && pwd)"
 
 export PATCH_FILE="" # Do not apply any patch
 

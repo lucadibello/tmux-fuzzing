@@ -7,3 +7,6 @@ forks/nginx
 # push only zip files
 experiments/**
 !experiments/**/*.zip
+
+# vim / nvim swap files
+*.swp

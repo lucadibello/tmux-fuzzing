@@ -13,6 +13,7 @@ ENGINE=${ENGINE:-"libfuzzer"}
 SANITIZER=${SANITIZER:-"address"}
 RUNTIME=${RUNTIME:-14400} # Default 4 hours
 LABEL=${LABEL:?"LABEL variable must be set (e.g., w_corpus, wo_corpus, improve1_cmd-fuzzer)"}
+SCRIPT_DIR=${SCRIPT_DIR:?"SCRIPT_DIR must be set by the parent script"}
 # PATCH_FILE can be empty if no patch is needed for a specific run
 PATCH_FILE=${PATCH_FILE:-""}
 # APPLY_PATCH_TO can be "oss-fuzz" or "project" or ""
@@ -31,7 +32,6 @@ COVERAGE_EXPORT_DIR_BASE=${COVERAGE_EXPORT_DIR_BASE:-"${ROOT_DIR}/submission"} #
 # LIBFUZZER_FLAGS can be overridden by the caller if needed
 DEFAULT_LIBFUZZER_FLAGS="\
   -max_total_time=$RUNTIME \
-  -timeout=25 \
   -print_final_stats=1 \
   -ignore_crashes=1 \
   -artifact_prefix=./crashes/" # Note: ./crashes is relative to where the fuzzer runs
@@ -53,6 +53,7 @@ echo "Starting Fuzzing Run: Project=${PROJECT}, Harness=${HARNESS}, Label=${LABE
 echo "Runtime: ${RUNTIME}s, Sanitizer: ${SANITIZER}"
 echo "OSS-Fuzz Directory: ${OSS_FUZZ_DIR}"
 echo "Patch File: ${PATCH_FILE:-"None"}, Apply Patch To: ${APPLY_PATCH_TO:-"None"}"
+echo "Root:" ${ROOT_DIR}
 echo "========================================================================"
 
 # 0. Clone OSS-Fuzz if it doesn't exist
@@ -70,23 +71,30 @@ cd "$OSS_FUZZ_DIR" || {
   exit 1
 }
 
-# Reset OSS-Fuzz and project repos to a clean state before applying any patches for this run
-echo "Resetting OSS-Fuzz git repository to HEAD..."
-if [ -d "${OSS_FUZZ_PROJECT_PATH}/${PROJECT}" ]; then
-  echo "Resetting project ${PROJECT} OSS-Fuzz project to HEAD..."
-  (cd "${OSS_FUZZ_PROJECT_PATH}/${PROJECT}" && git reset --hard HEAD && git clean -fdx)
-fi
+# Reset OSS-Fuzz to a clean state before applying any patches for this run
+echo "Resetting OSS-Fuzz repository to HEAD and cleaning..."
+(cd "$OSS_FUZZ_DIR" && git reset --hard HEAD && git clean -fdx) || {
+    echo "Failed to reset OSS-Fuzz repo at ${OSS_FUZZ_DIR}"
+    exit 1
+}
 
 # First, we need to apply the patch to oss-fuzz itself (in the same directory as the script we are currently running)
-BASE_DIR=$(dirname "$0")
-if [ -f "$BASE_DIR/oss-fuzz.diff" ]; then
-  echo "Applying patch to OSS-Fuzz..."
-  git apply "$BASE_DIR/oss-fuzz.diff" || {
-    echo "Failed to apply patch to OSS-Fuzz"
+# Apply the mandatory oss-fuzz.diff from this script's directory
+# This patch modifies the OSS-Fuzz configuration (e.g., project.yaml, build.sh for tmux)
+if [ -f "$SCRIPT_DIR/oss-fuzz.diff" ]; then
+  echo "Applying $SCRIPT_DIR/oss-fuzz.diff to ${OSS_FUZZ_DIR}..."
+  (cd "$OSS_FUZZ_DIR" && git apply "$SCRIPT_DIR/oss-fuzz.diff") || {
+    echo "Failed to apply $SCRIPT_DIR/oss-fuzz.diff to OSS-Fuzz repository."
     exit 1
   }
+  echo "Successfully applied $SCRIPT_DIR/oss-fuzz.diff."
 else
-  echo "No patch file found for OSS-Fuzz. This step is required to prepare the environment. NOTE: if you don't want to apply a patch, please create an empty oss-fuzz.diff file."
+  # As per your requirement, this is a mandatory step.
+  # If no changes to oss-fuzz config are needed for a particular run,
+  # an empty oss-fuzz.diff file should exist in SCRIPT_DIR.
+  echo "ERROR: $SCRIPT_DIR/oss-fuzz.diff not found."
+  echo "This script requires an oss-fuzz.diff file in its directory to prepare the OSS-Fuzz environment."
+  echo "If no OSS-Fuzz level changes are needed for this run, please create an empty oss-fuzz.diff file."
   exit 1
 fi
 
@@ -98,13 +106,14 @@ if [ -n "$PATCH_FILE" ] && [ -f "${ROOT_DIR}/${PATCH_FILE}" ]; then
       echo "Failed to apply patch to OSS-Fuzz"
       exit 1
     }
-  elif [ "$APPLY_PATCH_TO" == "project" ] && [ -d "${OSS_FUZZ_PROJECT_PATH}/${PROJECT}" ]; then
-    (cd "${OSS_FUZZ_PROJECT_PATH}/${PROJECT}" && git apply "${ROOT_DIR}/${PATCH_FILE}") || {
+  elif [ "$APPLY_PATCH_TO" == "project" ] && [ -d "${OSS_FUZZ_PROJECT_PATH}" ]; then
+    (cd "${OSS_FUZZ_PROJECT_PATH}" && git apply "${ROOT_DIR}/${PATCH_FILE}") || {
       echo "Failed to apply patch to project ${PROJECT}"
       exit 1
     }
   elif [ -n "$APPLY_PATCH_TO" ]; then
     echo "Warning: Unknown APPLY_PATCH_TO value: ${APPLY_PATCH_TO}. Patch not applied."
+    exit 1
   else
     echo "APPLY_PATCH_TO not set, applying patch to current directory (OSS-Fuzz root)."
     git apply "${ROOT_DIR}/${PATCH_FILE}" || {
@@ -115,7 +124,10 @@ if [ -n "$PATCH_FILE" ] && [ -f "${ROOT_DIR}/${PATCH_FILE}" ]; then
   echo "Patch applied successfully."
 elif [ -n "$PATCH_FILE" ]; then
   echo "Warning: Patch file ${ROOT_DIR}/${PATCH_FILE} not found. Skipping patch application."
+  exit 1
 fi
+
+exit
 
 # 1. Build OSS-Fuzz Docker image (conditionally)
 if [ "$REBUILD_IMAGE" == "true" ]; then
@@ -128,7 +140,7 @@ if [ "$REBUILD_IMAGE" == "true" ]; then
 fi
 
 # ensure crashes directory is present
-mkdir -p "${ARTIFACT_DIR}" # ensure artifact directory exists
+mkdir -p "${ARTIFACT_DIR}" || true
 
 # 2. Build fuzzers
 echo "Building fuzzers for ${PROJECT} with sanitizer ${SANITIZER}..."
