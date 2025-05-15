@@ -1,0 +1,105 @@
+\relax 
+\abx@aux@refcontext{none/global//global/global}
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand*\HyPL@Entry[1]{}
+\abx@aux@cite{0}{oss-fuzz:tmux_project_yaml}
+\abx@aux@segm{0}{0}{oss-fuzz:tmux_project_yaml}
+\abx@aux@cite{0}{oss-fuzz:tmux_project_yaml}
+\abx@aux@segm{0}{0}{oss-fuzz:tmux_project_yaml}
+\HyPL@Entry{0<</S/D>>}
+\@LN@col{1}
+\newlabel{sec:introduction}{{}{1}{Introduction}{section*.2}{}}
+\@LN@col{2}
+\newlabel{sec:methodology}{{}{1}{Methodology}{section*.3}{}}
+\newlabel{sec:methodology_configuration}{{}{1}{Configuration}{section*.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Configuration}{1}{section*.4}\protected@file@percent }
+\@LN@col{1}
+\newlabel{sec:methodology_setup_patching}{{}{2}{Setup and Patching}{section*.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{Setup and Patching}{2}{section*.5}\protected@file@percent }
+\newlabel{sec:methodology_clean}{{}{2}{Clean build directory}{section*.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Clean build directory}{2}{section*.6}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}{\ignorespaces Bash script to clean the OSS-Fuzz build directory with error handling}}{2}{lstlisting.1}\protected@file@percent }
+\@LN@col{2}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}{\ignorespaces Bash script to apply the patch to remove the seed corpus from the Docker image and build script}}{2}{lstlisting.2}\protected@file@percent }
+\newlabel{sec:methodology_build}{{}{2}{Build OSS-Fuzz image and fuzzers}{section*.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{Build OSS-Fuzz image and fuzzers}{2}{section*.7}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}{\ignorespaces Bash script to build the Docker image for the configured project}}{2}{lstlisting.3}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}{\ignorespaces OSS-Fuzz helper script command to build the project fuzzers with the specified sanitizer}}{2}{lstlisting.4}\protected@file@percent }
+\newlabel{sec:methodology_corpus_prep_build}{{}{2}{Corpus Preparation for Build}{section*.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{Corpus Preparation for Build}{2}{section*.8}\protected@file@percent }
+\@LN@col{1}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}{\ignorespaces Bash command to remove the build-time corpus directory for unseeded runs}}{3}{lstlisting.5}\protected@file@percent }
+\newlabel{sec:methodology_run}{{}{3}{Run the fuzzer}{section*.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{Run the fuzzer}{3}{section*.9}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6}{\ignorespaces Bash command to run a single fuzzing campaign leveraging OSS-Fuzz helper script}}{3}{lstlisting.6}\protected@file@percent }
+\newlabel{sec:methodology_export}{{}{3}{Export Results (Corpus and Coverage)}{section*.10}{}}
+\@writefile{toc}{\contentsline {paragraph}{Export Results (Corpus and Coverage)}{3}{section*.10}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {7}{\ignorespaces Bash commands to export and zip the generated corpus}}{3}{lstlisting.7}\protected@file@percent }
+\@LN@col{2}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {8}{\ignorespaces Bash commands to rebuild with coverage and generate report}}{3}{lstlisting.8}\protected@file@percent }
+\newlabel{sec:with-seed}{{}{3}{With Seed Corpus}{section*.12}{}}
+\@LN@col{1}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {9}{\ignorespaces Bash command to run an automated fuzzing campaign with seed corpus}}{4}{lstlisting.9}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Coverage with seed corpus after a 4-hour fuzzing run.\relax }}{4}{table.caption.13}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tbl:coverage-w-corpus}{{1}{4}{Coverage with seed corpus after a 4-hour fuzzing run.\relax }{table.caption.13}{}}
+\newlabel{sec:without-seed}{{}{4}{Without Seed Corpus}{section*.14}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {10}{\ignorespaces Bash command to run an automated fuzzing campaign without seed corpus}}{4}{lstlisting.10}\protected@file@percent }
+\@LN@col{2}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Coverage without seed corpus after a 4-hour fuzzing run.\relax }}{4}{table.caption.15}\protected@file@percent }
+\newlabel{tbl:coverage-wo-corpus}{{2}{4}{Coverage without seed corpus after a 4-hour fuzzing run.\relax }{table.caption.15}{}}
+\newlabel{sec:coverage-comparison}{{}{4}{Coverage Comparison}{section*.16}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Per-file line-coverage comparison between two \texttt  {libfuzzer} runs (with and without a seed corpus) using the \texttt  {input-fuzzer} harness compiled with \texttt  {AddressSanitizer}. Highlighted rows show differing coverage.\relax }}{5}{table.caption.17}\protected@file@percent }
+\newlabel{tbl:coverage-comparison}{{3}{5}{Per-file line-coverage comparison between two \texttt {libfuzzer} runs (with and without a seed corpus) using the \texttt {input-fuzzer} harness compiled with \texttt {AddressSanitizer}. Highlighted rows show differing coverage.\relax }{table.caption.17}{}}
+\@LN@col{1}
+\@LN@col{2}
+\@LN@col{1}
+\@LN@col{2}
+\newlabel{lst:input-fuzzer}{{11}{6}{Core of the `input-fuzzer` fuzzer code, including in-memory window and pane creation}{lstlisting.11}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {11}{\ignorespaces Core of the `input-fuzzer` fuzzer code, including in-memory window and pane creation}}{6}{lstlisting.11}\protected@file@percent }
+\@LN@col{1}
+\@LN@col{2}
+\@LN@col{1}
+\@LN@col{2}
+\@LN@col{1}
+\@LN@col{2}
+\abx@aux@cite{0}{CVE-2020-27347}
+\abx@aux@segm{0}{0}{CVE-2020-27347}
+\@LN@col{1}
+\@LN@col{2}
+\@LN@col{1}
+\@writefile{toc}{\contentsline {paragraph}{Test Approach:}{11}{section*.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Per-Version Test Steps:}{11}{section*.29}\protected@file@percent }
+\newlabel{lst:tmux-compile}{{12}{11}{Bash to compile tmux from source}{lstlisting.12}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {12}{\ignorespaces Bash to compile tmux from source}}{11}{lstlisting.12}\protected@file@percent }
+\@LN@col{2}
+\newlabel{lst:tmux-new-session}{{13}{11}{Bash to create a new detached tmux sesssion}{lstlisting.13}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {13}{\ignorespaces Bash to create a new detached tmux sesssion}}{11}{lstlisting.13}\protected@file@percent }
+\newlabel{lst:tmux-payload-delivery}{{14}{11}{Payload sent to the tmux pane}{lstlisting.14}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {14}{\ignorespaces Payload sent to the tmux pane}}{11}{lstlisting.14}\protected@file@percent }
+\abx@aux@cite{0}{CVE-2020-27347}
+\abx@aux@segm{0}{0}{CVE-2020-27347}
+\newlabel{lst:vulnerable-sgr-simplified}{{15}{12}{Vulnerable logic simplified: Stack buffer overflow in empty SGR parameter handling}{lstlisting.15}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {15}{\ignorespaces Vulnerable logic simplified: Stack buffer overflow in empty SGR parameter handling}}{12}{lstlisting.15}\protected@file@percent }
+\@LN@col{1}
+\newlabel{ssec:fix_cve_2020_27347}{{}{12}{Fix Discussion}{section*.32}{}}
+\@LN@col{2}
+\newlabel{lst:fixed-sgr-simplified}{{16}{12}{Fixed logic: Bounds check added to prevent stack buffer overflow in else statement}{lstlisting.16}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {16}{\ignorespaces Fixed logic: Bounds check added to prevent stack buffer overflow in else statement}}{12}{lstlisting.16}\protected@file@percent }
+\newlabel{ssec:implications_cve_2020_27347}{{}{12}{Security Implication and Severity}{section*.33}{}}
+\@LN@col{1}
+\@LN@col{2}
+\abx@aux@read@bbl@mdfivesum{nohash}
+\abx@aux@read@bblrerun
+\gdef \@abspage@last{13}

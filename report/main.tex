@@ -596,7 +596,7 @@ The vulnerability was fixed in \texttt{tmux 3.1c} by commit \href{https://github
 \subsubsection*{Security Implication and Severity}
 \label{ssec:implications_cve_2020_27347}
 
-The high-severity {\texttt{tmux}} vulnerability \cite{CVE-2020-27347} (CVSS v3.x score 7.8) is a stack-based buffer overflow. The memory corruption causes a crash that can lead to \textit{Denial of Service}: a crash of the \texttt{tmux} server process causes the termination of all user sessions managed by that server.
+The high-severity {\texttt{tmux}} vulnerability \cite{CVE-2020-27347} (CVSS v3.x score 7.8) is a stack-based buffer overflow. The memory corruption crash can lead to \textit{Denial of Service}: a crash of the \texttt{tmux} server process causes the termination of all user sessions managed by the server.
 The vulnerability requires local access, specifically the ability of an attacker to write in a \texttt{tmux} pane.
 
 \printbibliography

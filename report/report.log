@@ -1,0 +1,1935 @@
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022/Debian) (preloaded format=xelatex 2025.1.19)  15 MAY 2025 16:33
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**report.tex
+(./report.tex
+LaTeX2e <2022-11-01> patch level 1
+L3 programming layer <2023-01-16>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2022/07/02 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2022/07/02 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count181
+\c@section=\count182
+\c@subsection=\count183
+\c@subsubsection=\count184
+\c@paragraph=\count185
+\c@subparagraph=\count186
+\c@figure=\count187
+\c@table=\count188
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen140
+) (./report_style.sty
+Package: report_style 2025/04/26 Fuzzing Lab Report style
+
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+))
+\Gm@cnth=\count189
+\Gm@cntv=\count190
+\c@Gm@tempcnt=\count191
+\Gm@bindingoffset=\dimen141
+\Gm@wd@mp=\dimen142
+\Gm@odd@mp=\dimen143
+\Gm@even@mp=\dimen144
+\Gm@layoutwidth=\dimen145
+\Gm@layoutheight=\dimen146
+\Gm@layouthoffset=\dimen147
+\Gm@layoutvoffset=\dimen148
+\Gm@dimlist=\toks17
+)
+(/usr/share/texmf/tex/latex/lm/lmodern.sty
+Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
+2.
+
+(/usr/share/texmf/tex/latex/lm/t1lmr.fd
+File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+))
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2021/02/14 v1.3d Input encoding file
+\inpenc@prehook=\toks18
+\inpenc@posthook=\toks19
+
+
+Package inputenc Warning: inputenc package ignored with utf8 based engines.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2022/04/08 v2.17n AMS math features
+\@mathmargin=\skip50
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks20
+\ex@=\dimen149
+))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen150
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count192
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count193
+\leftroot@=\count194
+LaTeX Info: Redefining \overline on input line 399.
+LaTeX Info: Redefining \colon on input line 410.
+\classnum@=\count195
+\DOTSCASE@=\count196
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box51
+\strutbox@=\box52
+LaTeX Info: Redefining \big on input line 722.
+LaTeX Info: Redefining \Big on input line 723.
+LaTeX Info: Redefining \bigg on input line 724.
+LaTeX Info: Redefining \Bigg on input line 725.
+\big@size=\dimen151
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count197
+LaTeX Info: Redefining \bmod on input line 905.
+LaTeX Info: Redefining \pmod on input line 910.
+LaTeX Info: Redefining \smash on input line 940.
+LaTeX Info: Redefining \relbar on input line 970.
+LaTeX Info: Redefining \Relbar on input line 971.
+\c@MaxMatrixCols=\count198
+\dotsspace@=\muskip16
+\c@parentequation=\count199
+\dspbrk@lvl=\count266
+\tag@help=\toks21
+\row@=\count267
+\column@=\count268
+\maxfields@=\count269
+\andhelp@=\toks22
+\eqnshift@=\dimen152
+\alignsep@=\dimen153
+\tagshift@=\dimen154
+\tagwidth@=\dimen155
+\totwidth@=\dimen156
+\lineht@=\dimen157
+\@envbody=\toks23
+\multlinegap=\skip51
+\multlinetaggap=\skip52
+\mathdisplay@stack=\toks24
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/sectsty/sectsty.sty
+Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading sty
+les
+
+
+LaTeX Warning: Command \underbar  has changed.
+               Check if current package is valid.
+
+
+LaTeX Warning: Command \underline  has changed.
+               Check if current package is valid.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: xetex.def on input line 107.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/xetex.def
+File: xetex.def 2022/09/22 v5.0n Graphics/color driver for xetex
+))
+\Gin@req@height=\dimen158
+\Gin@req@width=\dimen159
+)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2022/03/01 v3.6b Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2022/03/17 v2.3b caption3 kernel (AR)
+\caption@tempdima=\dimen160
+\captionmargin=\dimen161
+\caption@leftmargin=\dimen162
+\caption@rightmargin=\dimen163
+\caption@width=\dimen164
+\caption@indent=\dimen165
+\caption@parindent=\dimen166
+\caption@hangindent=\dimen167
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count270
+\c@continuedfloat=\count271
+)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2022/01/07 v1.5 Sub-captions (AR)
+\c@subfigure=\count272
+\c@subtable=\count273
+)
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count274
+\float@exts=\toks25
+\float@box=\box53
+\@float@everytoks=\toks26
+\@floatcapt=\box54
+)
+(/usr/share/texlive/texmf-dist/tex/latex/supertabular/supertabular.sty
+Package: supertabular 2020/02/02 v4.1g the supertabular environment
+\c@tracingst=\count275
+\ST@wd=\dimen168
+\ST@rightskip=\skip53
+\ST@leftskip=\skip54
+\ST@parfillskip=\skip55
+\ST@pageleft=\dimen169
+\ST@headht=\dimen170
+\ST@tailht=\dimen171
+\ST@pagesofar=\dimen172
+\ST@pboxht=\dimen173
+\ST@lineht=\dimen174
+\ST@prevht=\dimen175
+\ST@toadd=\dimen176
+\ST@dimen=\dimen177
+\ST@pbox=\box55
+)
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen178
+\lightrulewidth=\dimen179
+\cmidrulewidth=\dimen180
+\belowrulesep=\dimen181
+\belowbottomsep=\dimen182
+\aboverulesep=\dimen183
+\abovetopsep=\dimen184
+\cmidrulesep=\dimen185
+\cmidrulekern=\dimen186
+\defaultaddspace=\dimen187
+\@cmidla=\count276
+\@cmidlb=\count277
+\@aboverulesep=\dimen188
+\@belowrulesep=\dimen189
+\@thisruleclass=\count278
+\@lastruleclass=\count279
+\@thisrulewidth=\dimen190
+)
+(/usr/share/texlive/texmf-dist/tex/latex/sttools/stfloats.sty
+Package: stfloats 2017/03/27 v3.3 Improve float mechanism and baselineskip sett
+ings
+\@dblbotnum=\count280
+\c@dblbotnumber=\count281
+)
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: xetex.def on input line 227.
+
+(/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2022/06/20 v1.0f Color table columns (DPC)
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2022/09/04 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen191
+\ar@mcellbox=\box56
+\extrarowheight=\dimen192
+\NC@list=\toks27
+\extratabsurround=\skip56
+\backup@length=\skip57
+\ar@cellbox=\box57
+)
+\everycr=\toks28
+\minrowclearance=\skip58
+\rownum=\count282
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1369.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count283
+\lst@gtempboxa=\box58
+\lst@token=\toks29
+\lst@length=\count284
+\lst@currlwidth=\dimen193
+\lst@column=\count285
+\lst@pos=\count286
+\lst@lostspace=\dimen194
+\lst@width=\dimen195
+\lst@newlines=\count287
+\lst@lineno=\count288
+\lst@maxwidth=\dimen196
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
+\c@lstnumber=\count289
+\lst@skipnumbers=\count290
+\lst@framebox=\box59
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2020/03/24 1.8d listings configuration
+))
+Package: listings 2020/03/24 1.8d (Carsten Heinz)
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2020/03/24 1.8d listings language file
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.sty
+Package: biblatex 2022/07/12 v3.18b programmable bibliographies (PK/MW)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode not found.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count291
+)
+(/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.sty
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count292
+
+(/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.def
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
+))
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+\c@tabx@nest=\count293
+\c@listtotal=\count294
+\c@listcount=\count295
+\c@liststart=\count296
+\c@liststop=\count297
+\c@citecount=\count298
+\c@citetotal=\count299
+\c@multicitecount=\count300
+\c@multicitetotal=\count301
+\c@instcount=\count302
+\c@maxnames=\count303
+\c@minnames=\count304
+\c@maxitems=\count305
+\c@minitems=\count306
+\c@citecounter=\count307
+\c@maxcitecounter=\count308
+\c@savedcitecounter=\count309
+\c@uniquelist=\count310
+\c@uniquename=\count311
+\c@refsection=\count312
+\c@refsegment=\count313
+\c@maxextratitle=\count314
+\c@maxextratitleyear=\count315
+\c@maxextraname=\count316
+\c@maxextradate=\count317
+\c@maxextraalpha=\count318
+\c@abbrvpenalty=\count319
+\c@highnamepenalty=\count320
+\c@lownamepenalty=\count321
+\c@maxparens=\count322
+\c@parenlevel=\count323
+\blx@tempcnta=\count324
+\blx@tempcntb=\count325
+\blx@tempcntc=\count326
+\c@blx@maxsection=\count327
+\blx@maxsegment@0=\count328
+\blx@notetype=\count329
+\blx@parenlevel@text=\count330
+\blx@parenlevel@foot=\count331
+\blx@sectionciteorder@0=\count332
+\blx@sectionciteorderinternal@0=\count333
+\blx@entrysetcounter=\count334
+\blx@biblioinstance=\count335
+\labelnumberwidth=\skip59
+\labelalphawidth=\skip60
+\biblabelsep=\skip61
+\bibitemsep=\skip62
+\bibnamesep=\skip63
+\bibinitsep=\skip64
+\bibparsep=\skip65
+\bibhang=\skip66
+\blx@bcfin=\read2
+\blx@bcfout=\write3
+\blx@langwohyphens=\language87
+\c@mincomprange=\count336
+\c@maxcomprange=\count337
+\c@mincompwidth=\count338
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-dm.def
+File: blx-dm.def 2022/07/12 v3.18b biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load biblatex style data model...
+Package biblatex Info: ... file 'numeric.dbx' not found.
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count339
+\c@savedafterword=\count340
+\c@annotator=\count341
+\c@savedannotator=\count342
+\c@author=\count343
+\c@savedauthor=\count344
+\c@bookauthor=\count345
+\c@savedbookauthor=\count346
+\c@commentator=\count347
+\c@savedcommentator=\count348
+\c@editor=\count349
+\c@savededitor=\count350
+\c@editora=\count351
+\c@savededitora=\count352
+\c@editorb=\count353
+\c@savededitorb=\count354
+\c@editorc=\count355
+\c@savededitorc=\count356
+\c@foreword=\count357
+\c@savedforeword=\count358
+\c@holder=\count359
+\c@savedholder=\count360
+\c@introduction=\count361
+\c@savedintroduction=\count362
+\c@namea=\count363
+\c@savednamea=\count364
+\c@nameb=\count365
+\c@savednameb=\count366
+\c@namec=\count367
+\c@savednamec=\count368
+\c@translator=\count369
+\c@savedtranslator=\count370
+\c@shortauthor=\count371
+\c@savedshortauthor=\count372
+\c@shorteditor=\count373
+\c@savedshorteditor=\count374
+\c@labelname=\count375
+\c@savedlabelname=\count376
+\c@institution=\count377
+\c@savedinstitution=\count378
+\c@lista=\count379
+\c@savedlista=\count380
+\c@listb=\count381
+\c@savedlistb=\count382
+\c@listc=\count383
+\c@savedlistc=\count384
+\c@listd=\count385
+\c@savedlistd=\count386
+\c@liste=\count387
+\c@savedliste=\count388
+\c@listf=\count389
+\c@savedlistf=\count390
+\c@location=\count391
+\c@savedlocation=\count392
+\c@organization=\count393
+\c@savedorganization=\count394
+\c@origlocation=\count395
+\c@savedoriglocation=\count396
+\c@origpublisher=\count397
+\c@savedorigpublisher=\count398
+\c@publisher=\count399
+\c@savedpublisher=\count400
+\c@language=\count401
+\c@savedlanguage=\count402
+\c@origlanguage=\count403
+\c@savedoriglanguage=\count404
+\c@pageref=\count405
+\c@savedpageref=\count406
+\shorthandwidth=\skip67
+\shortjournalwidth=\skip68
+\shortserieswidth=\skip69
+\shorttitlewidth=\skip70
+\shortauthorwidth=\skip71
+\shorteditorwidth=\skip72
+\locallabelnumberwidth=\skip73
+\locallabelalphawidth=\skip74
+\localshorthandwidth=\skip75
+\localshortjournalwidth=\skip76
+\localshortserieswidth=\skip77
+\localshorttitlewidth=\skip78
+\localshortauthorwidth=\skip79
+\localshorteditorwidth=\skip80
+Package biblatex Info: Trying to load enhanced support for Unicode engines...
+Package biblatex Info: ... file 'blx-unicode.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-unicode.def)
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-compat.def
+File: blx-compat.def 2022/07/12 v3.18b biblatex compatibility (PK/MW)
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.def
+File: biblatex.def 2022/07/12 v3.18b biblatex compatibility (PK/MW)
+\c@textcitecount=\count407
+\c@textcitetotal=\count408
+\c@textcitemaxnames=\count409
+\c@biburlbigbreakpenalty=\count410
+\c@biburlbreakpenalty=\count411
+\c@biburlnumpenalty=\count412
+\c@biburlucpenalty=\count413
+\c@biburllcpenalty=\count414
+\biburlbigskip=\muskip18
+\biburlnumskip=\muskip19
+\biburlucskip=\muskip20
+\biburllcskip=\muskip21
+\c@smartand=\count415
+)
+Package biblatex Info: Trying to load bibliography style 'numeric'...
+Package biblatex Info: ... file 'numeric.bbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/numeric.bbx
+File: numeric.bbx 2022/07/12 v3.18b biblatex bibliography style (PK/MW)
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
+File: standard.bbx 2022/07/12 v3.18b biblatex bibliography style (PK/MW)
+\c@bbx:relatedcount=\count416
+\c@bbx:relatedtotal=\count417
+))
+Package biblatex Info: Trying to load citation style 'numeric'...
+Package biblatex Info: ... file 'numeric.cbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/cbx/numeric.cbx
+File: numeric.cbx 2022/07/12 v3.18b biblatex citation style (PK/MW)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\supercite'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\textcites'.
+Package biblatex Info: Redefining '\cites'.
+Package biblatex Info: Redefining '\parencites'.
+Package biblatex Info: Redefining '\smartcites'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.cfg
+File: biblatex.cfg 
+)
+Package biblatex Info: XeTeX detected.
+(biblatex)             Assuming input encoding 'utf8'.
+Package biblatex Info: Document encoding is UTF8 ....
+
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2023-01-16 L3 programming layer (loader) 
+
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
+File: l3backend-xetex.def 2023-01-16 L3 backend support: XeTeX
+\g__graphics_track_int=\count418
+\l__pdf_internal_box=\box60
+\g__pdf_backend_object_int=\count419
+\g__pdf_backend_annotation_int=\count420
+\g__pdf_backend_link_int=\count421
+))
+Package biblatex Info: ... and expl3
+(biblatex)             2023-01-16 L3 programming layer (loader) 
+(biblatex)             is new enough (at least 2020/04/06),
+(biblatex)             setting 'casechanger=expl3'.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+Package: xparse 2023-01-16 L3 Experimental document command parser
+)
+Package: blx-case-expl3 2022/07/12 v3.18b expl3 case changing code for biblatex
+
+))
+(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
+
+\f@nch@headwidth=\skip81
+\f@nch@O@elh=\skip82
+\f@nch@O@erh=\skip83
+\f@nch@O@olh=\skip84
+\f@nch@O@orh=\skip85
+\f@nch@O@elf=\skip86
+\f@nch@O@erf=\skip87
+\f@nch@O@olf=\skip88
+\f@nch@O@orf=\skip89
+)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.sty
+Package: microtype 2022/06/23 v3.0f Micro-typographical refinements (RS)
+\MT@toks=\toks30
+\MT@tempbox=\box61
+\MT@count=\count422
+LaTeX Info: Redefining \noprotrusionifhmode on input line 1045.
+LaTeX Info: Redefining \leftprotrusion on input line 1046.
+LaTeX Info: Redefining \rightprotrusion on input line 1056.
+LaTeX Info: Redefining \textls on input line 1234.
+\MT@outer@kern=\dimen197
+LaTeX Info: Redefining \textmicrotypecontext on input line 1858.
+\MT@listname@count=\count423
+
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype-xetex.def
+File: microtype-xetex.def 2022/06/23 v3.0f Definitions specific to xetex (RS)
+LaTeX Info: Redefining \lsstyle on input line 236.
+)
+Package microtype Info: Loading configuration file microtype.cfg.
+
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.cfg
+File: microtype.cfg 2022/06/23 v3.0f microtype main configuration file (RS)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2019/06/20 v3.9 Customized lists
+\labelindent=\skip90
+\enit@outerparindent=\dimen198
+\enit@toks=\toks31
+\enit@inbox=\box62
+\enit@count@id=\count424
+\enitdp@description=\count425
+)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2022-11-13 v7.00u Hypertext links for LaTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2022-05-17 v2.50 Cross-referencing by name of section
+
+(/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count426
+)
+\@linkdim=\dimen199
+\Hy@linkcounter=\count427
+\Hy@pagecounter=\count428
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2022-11-13 v7.00u Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count429
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2022-11-13 v7.00u Hyperref: PDF Unicode definition (HO)
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 4045.
+Package hyperref Info: Hyper figures OFF on input line 4162.
+Package hyperref Info: Link nesting OFF on input line 4167.
+Package hyperref Info: Hyper index ON on input line 4170.
+Package hyperref Info: Plain pages OFF on input line 4177.
+Package hyperref Info: Backreferencing OFF on input line 4182.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4410.
+\c@Hy@tempcnt=\count430
+LaTeX Info: Redefining \url on input line 4748.
+\XeTeXLinkMargin=\dimen256
+
+(/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count431
+\Field@Width=\dimen257
+\Fld@charsize=\dimen258
+Package hyperref Info: Hyper figures OFF on input line 6027.
+Package hyperref Info: Link nesting OFF on input line 6032.
+Package hyperref Info: Hyper index ON on input line 6035.
+Package hyperref Info: backreferencing OFF on input line 6042.
+Package hyperref Info: Link coloring ON on input line 6045.
+Package hyperref Info: Link coloring with OCG OFF on input line 6052.
+Package hyperref Info: PDF/A mode OFF on input line 6057.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+\Hy@abspage=\count432
+\c@Item=\count433
+\c@Hfootnote=\count434
+)
+Package hyperref Info: Driver (autodetected): hxetex.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hxetex.def
+File: hxetex.def 2022-11-13 v7.00u Hyperref driver for XeTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+\pdfm@box=\box63
+\c@Hy@AnnotLevel=\count435
+\HyField@AnnotCount=\count436
+\Fld@listcount=\count437
+\c@bookmark@seq@number=\count438
+
+(/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
+kage
+with kernel methods
+)
+(/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+85.
+)
+\Hy@SectionHShift=\skip91
+))
+(/usr/share/texlive/texmf-dist/tex/latex/minted/minted.sty
+Package: minted 2022/12/12 v2.7 Yet another Pygments shim for LaTeX
+
+(/usr/share/texlive/texmf-dist/tex/latex/fvextra/fvextra.sty
+Package: fvextra 2022/11/30 v1.5 fvextra - extensions and patches for fancyvrb
+
+(/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2023/01/19 4.5a verbatim text (tvz,hv)
+\FV@CodeLineNo=\count439
+\FV@InFile=\read3
+\FV@TabBox=\box64
+\c@FancyVerbLine=\count440
+\FV@StepNumber=\count441
+\FV@OutFile=\write4
+)
+(/usr/share/texlive/texmf-dist/tex/latex/upquote/upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+))
+(/usr/share/texlive/texmf-dist/tex/latex/lineno/lineno.sty
+Package: lineno 2023/01/19 line numbers on paragraphs v5.1
+Invalid UTF-8 byte or sequence at line 290 replaced by U+FFFD.
+\linenopenalty=\count442
+\output=\toks32
+\linenoprevgraf=\count443
+\linenumbersep=\dimen259
+\linenumberwidth=\dimen260
+\c@linenumber=\count444
+\c@pagewiselinenumber=\count445
+\c@LN@truepage=\count446
+\c@internallinenumber=\count447
+\c@internallinenumbers=\count448
+\quotelinenumbersep=\dimen261
+\bframerule=\dimen262
+\bframesep=\dimen263
+\bframebox=\box65
+\linenoamsmath@ams@eqpen=\count449
+LaTeX Info: Redefining \\ on input line 3131.
+)
+\c@FV@TrueTabGroupLevel=\count450
+\c@FV@TrueTabCounter=\count451
+\FV@TabBox@Group=\box66
+\FV@TmpLength=\skip92
+\c@FV@HighlightLinesStart=\count452
+\c@FV@HighlightLinesStop=\count453
+\FV@LoopCount=\count454
+\FV@NCharsBox=\box67
+\FV@BreakIndent=\dimen264
+\FV@BreakIndentNChars=\count455
+\FV@BreakSymbolSepLeft=\dimen265
+\FV@BreakSymbolSepLeftNChars=\count456
+\FV@BreakSymbolSepRight=\dimen266
+\FV@BreakSymbolSepRightNChars=\count457
+\FV@BreakSymbolIndentLeft=\dimen267
+\FV@BreakSymbolIndentLeftNChars=\count458
+\FV@BreakSymbolIndentRight=\dimen268
+\FV@BreakSymbolIndentRightNChars=\count459
+\c@FancyVerbLineBreakLast=\count460
+\FV@LineBox=\box68
+\FV@LineIndentBox=\box69
+\c@FV@BreakBufferDepth=\count461
+\FV@LineWidth=\dimen269
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count462
+\calc@Bcount=\count463
+\calc@Adimen=\dimen270
+\calc@Bdimen=\dimen271
+\calc@Askip=\skip93
+\calc@Bskip=\skip94
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count464
+\calc@Cskip=\skip95
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/shellesc.sty
+Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
+Package shellesc Info: Restricted shell escape enabled on input line 77.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/ifplatform/ifplatform.sty
+Package: ifplatform 2017/10/13 v0.4a Testing for the operating system
+
+(/usr/share/texlive/texmf-dist/tex/generic/catchfile/catchfile.sty
+Package: catchfile 2019/12/09 v1.8 Catch the contents of a file (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/ifluatex.sty
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+)
+
+Package ifplatform Warning: 
+    shell escape is disabled, so I can only detect \ifwindows.
+
+) (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex
+\integerpart=\count465
+\decimalpart=\count466
+)
+Package: xstring 2023/01/14 v1.85 String manipulations (CT)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/framed/framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip96
+\fb@frw=\dimen272
+\fb@frh=\dimen273
+\FrameRule=\dimen274
+\FrameSep=\dimen275
+)
+\minted@appexistsfile=\read4
+\minted@bgbox=\box70
+\minted@code=\write5
+\c@minted@FancyVerbLineTemp=\count467
+\c@minted@pygmentizecounter=\count468
+\@float@every@listing=\toks33
+\c@listing=\count469
+)
+runsystem(mkdir -p _minted-report)...disabled (restricted).
+
+
+
+! Package minted Error: You must invoke LaTeX with the -shell-escape flag.
+
+See the minted package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.22 
+     
+Pass the -shell-escape flag to LaTeX. Refer to the minted.sty documentation for
+ more information.
+
+\@quotelevel=\count470
+\@quotereset=\count471
+runsystem(which pygmentize && touch report.aex)...disabled (restricted).
+
+
+! Package minted Error: You must have `pygmentize' installed to use this packag
+e.
+
+See the minted package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.23 \begin{document}
+                     
+Refer to the installation instructions in the minted documentation for more inf
+ormation.
+
+No file report.aux.
+\openout1 = `report.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 23.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 2
+3.
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 2022/07/10 v2.5l Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: xetex
+*geometry* verbose mode - [ preamble ] result:
+* driver: xetex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=455.24411pt
+* \textheight=702.78308pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
+* \topmargin=-40.1381pt
+* \headheight=14.0pt
+* \headsep=25.0pt
+* \topskip=11.0pt
+* \footskip=30.0pt
+* \marginparwidth=4.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumntrue
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: supertabular package is loaded.
+Package caption Info: End \AtBeginDocument code.
+\c@lstlisting=\count472
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2022/07/12 v3.18b biblatex localization (PK/MW)
+)
+Package biblatex Info: XeTeX detected.
+(biblatex)             Assuming input encoding 'utf8'.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout3 = `report.bcf'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'report.bbl' not found.
+
+No file report.bbl.
+Package biblatex Info: Reference section=0 on input line 23.
+Package biblatex Info: Reference segment=0 on input line 23.
+LaTeX Info: Redefining \microtypecontext on input line 23.
+Package microtype Info: Applying patch `item' on input line 23.
+Package microtype Info: Applying patch `toc' on input line 23.
+Package microtype Info: Applying patch `eqnum' on input line 23.
+Package microtype Info: Applying patch `footnote' on input line 23.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using default protrusion set `alltext'.
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of spacing.
+Package microtype Info: No adjustment of kerning.
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-cmr.cfg
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
+(RS)
+)
+Package hyperref Info: Link coloring ON on input line 23.
+\@outlinefile=\write6
+\openout6 = `report.out'.
+
+
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
+
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
+5.
+(/usr/share/texmf/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
+5.
+
+(/usr/share/texmf/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+25.
+
+(/usr/share/texmf/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+25.
+
+(/usr/share/texmf/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <12> on input line 25.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 25.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 25.
+LaTeX Font Info:    Trying to load font information for T1+lmss on input line 2
+6.
+
+(/usr/share/texmf/tex/latex/lm/t1lmss.fd
+File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `lmss' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
+7.
+
+(/usr/share/texmf/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `lmtt' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+
+Missing character: There is no ’ ("2019) in font ec-lmr10!
+
+Underfull \hbox (badness 1466) in paragraph at lines 52--61
+\T1/lmr/m/n/10.95 All ex-per-i-ments were per-formed on a De-
+ []
+
+
+Underfull \hbox (badness 1331) in paragraph at lines 52--61
+\T1/lmr/m/n/10.95 bian sys-tem with Linux ker-nel 6.1 (LTS),
+ []
+
+
+Underfull \hbox (badness 4859) in paragraph at lines 52--61
+\T1/lmr/m/n/10.95 Docker 28.1.1, and Python 3.11. We
+ []
+
+
+Underfull \hbox (badness 1308) in paragraph at lines 52--61
+\T1/lmr/m/n/10.95 used a lo-cal fork of OSS-Fuzz lo-cated at
+ []
+
+
+Underfull \hbox (badness 1163) in paragraph at lines 52--61
+\T1/lmtt/m/n/10.95 run_wo_corpus.sh\T1/lmr/m/n/10.95 ---that au-tonomously per-
+
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \hbox (badness 1264) in paragraph at lines 62--64
+ []\T1/lmss/bx/n/10.95 Configuration[] \T1/lmr/m/n/10.95 The script is highly c
+on-fig-
+ []
+
+
+Underfull \hbox (badness 1067) in paragraph at lines 65--66
+[]\T1/lmtt/m/n/10.95 HARNESS=input-fuzzer \T1/lmr/m/n/10.95 -- name of the
+ []
+
+
+LaTeX Warning: Citation 'oss-fuzz:tmux_project_yaml' on page 1 undefined on inp
+ut line 66.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--67
+[]\T1/lmtt/m/n/10.95 ENGINE=libfuzzer \T1/lmr/m/n/10.95 -- en-gine to
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--67
+\T1/lmr/m/n/10.95 use. The tmux project sup-ports
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--67
+\T1/lmtt/m/n/10.95 libfuzzer\T1/lmr/m/n/10.95 , \T1/lmtt/m/n/10.95 afl++\T1/lmr
+/m/n/10.95 , and \T1/lmtt/m/n/10.95 honggfuzz
+ []
+
+
+LaTeX Warning: Citation 'oss-fuzz:tmux_project_yaml' on page 1 undefined on inp
+ut line 67.
+
+
+Underfull \hbox (badness 5490) in paragraph at lines 67--68
+\T1/lmr/m/n/10.95 The tmux project sup-ports \T1/lmtt/m/n/10.95 address
+ []
+
+[1
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 73--74
+[]\T1/lmtt/m/n/10.95 LIBFUZZER_FLAGS \T1/lmr/m/n/10.95 -- Fuzzer en-gine
+ []
+
+
+Underfull \hbox (badness 1609) in paragraph at lines 73--74
+\T1/lmr/m/n/10.95 flags (e.g., \T1/lmtt/m/n/10.95 -max_total_time=$RUNTIME
+ []
+
+
+Underfull \hbox (badness 1137) in paragraph at lines 73--74
+\T1/lmr/m/n/10.95 to over-ride the de-fault harness-specific
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--85
+[]\T1/lmr/m/n/10.95 The script nav-i-gates into the
+ []
+
+
+Underfull \hbox (badness 3657) in paragraph at lines 84--85
+\T1/lmtt/m/n/10.95 $OSS_FUZZ_DIR \T1/lmr/m/n/10.95 and per-forms a hard
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--85
+\T1/lmtt/m/n/10.95 && git clean -fdx\T1/lmr/m/n/10.95 ) to dis-card any
+ []
+
+
+Underfull \hbox (badness 1173) in paragraph at lines 85--86
+\T1/lmr/m/n/10.95 repos-i-tory. This patch con-tains base-
+ []
+
+
+Underfull \hbox (badness 1939) in paragraph at lines 91--92
+ []\T1/lmss/bx/n/10.95 Clean build di-rec-tory[] \T1/lmr/m/n/10.95 If \T1/lmtt/
+m/n/10.95 $REBUILD_IMAGE
+ []
+
+
+Underfull \hbox (badness 7595) in paragraph at lines 91--92
+\T1/lmr/m/n/10.95 is true, the script re-moves the en-tire
+ []
+
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 92.
+
+Underfull \hbox (badness 10000) in paragraph at lines 96--97
+[]\T1/lmr/m/n/10.95 This en-sures no stale build ar-ti-facts
+ []
+
+
+Underfull \hbox (badness 2486) in paragraph at lines 96--97
+\T1/lmr/m/n/10.95 re-main from pre-vi-ous runs and that the
+ []
+
+
+Underfull \hbox (badness 5652) in paragraph at lines 96--97
+\T1/lmr/m/n/10.95 Docker im-age build pro-cess starts from
+ []
+
+
+Underfull \hbox (badness 3965) in paragraph at lines 96--97
+\T1/lmr/m/n/10.95 a clean slate. Ad-di-tion-ally, the script
+ []
+
+
+Underfull \hbox (badness 5924) in paragraph at lines 96--97
+\T1/lmr/m/n/10.95 en-sures the fuzzer ar-ti-fact di-rec-tory ex-
+ []
+
+
+Overfull \hbox (12.50308pt too wide) in paragraph at lines 96--97
+\T1/lmtt/m/n/10.95 $OSS_FUZZ_DIR/build/out/$PROJECT/crashes\T1/lmr/m/n/10.95 ).
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--117
+\T1/lmr/m/n/10.95 This com-piles the fuzzers and in-stru-
+ []
+
+
+Underfull \hbox (badness 6575) in paragraph at lines 116--117
+\T1/lmr/m/n/10.95 ments them with the se-lected san-i-tizer.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--117
+\T1/lmr/m/n/10.95 The re-sult-ing bi-na-ries are placed in
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 118--119
+ []\T1/lmss/bx/n/10.95 Corpus Prepa-ra-tion for Build[] \T1/lmr/m/n/10.95 The
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 118--119
+\T1/lmr/m/n/10.95 tmux build pro-cess pop-u-lates the di-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 118--119
+\T1/lmr/m/n/10.95 rec-tory \T1/lmtt/m/n/10.95 $OSS_FUZZ_DIR/build/work/
+ []
+
+
+Underfull \hbox (badness 7221) in paragraph at lines 118--119
+\T1/lmtt/m/n/10.95 $PROJECT/fuzzing_corpus \T1/lmr/m/n/10.95 with the seed
+ []
+
+
+Underfull \hbox (badness 6188) in paragraph at lines 120--121
+\T1/lmr/m/n/10.95 out ini-tial data, the script checks the
+ []
+
+
+Underfull \hbox (badness 1226) in paragraph at lines 120--121
+\T1/lmtt/m/n/10.95 REMOVE_CORPUS_BEFORE_BUILD \T1/lmr/m/n/10.95 vari-able. If
+ []
+
+[2]
+Underfull \hbox (badness 1173) in paragraph at lines 130--131
+\T1/lmr/m/n/10.95 in-put cor-pus di-rec-tory used by the fuzzer
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
+[]\T1/lmr/m/n/10.95 The con-fig-ured flags from
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
+\T1/lmtt/m/n/10.95 $LIBFUZZER_FLAGS\T1/lmr/m/n/10.95 , such as
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
+\T1/lmtt/m/n/10.95 -ignore_crashes=1 \T1/lmr/m/n/10.95 to con-tinue
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
+\T1/lmr/m/n/10.95 fuzzing af-ter find-ing crashes and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
+\T1/lmtt/m/n/10.95 -artifact_prefix=./crashes/ \T1/lmr/m/n/10.95 to store
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 146--147
+[]\T1/lmr/m/it/10.95 Corpus Ex-port: \T1/lmr/m/n/10.95 The con-tents of
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 146--147
+\T1/lmr/m/n/10.95 the fuzzer's work-ing cor-pus di-rec-tory
+ []
+
+
+Underfull \hbox (badness 7595) in paragraph at lines 146--147
+\T1/lmr/m/n/10.95 (\T1/lmtt/m/n/10.95 $BUILD_WORK_CORPUS_DIR\T1/lmr/m/n/10.95 )
+ are copied to
+ []
+
+
+Underfull \hbox (badness 1681) in paragraph at lines 156--157
+[]\T1/lmr/m/it/10.95 Coverage Re-port Gen-er-a-tion and Ex-port:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 156--157
+\T1/lmr/m/n/10.95 en-abled us-ing \T1/lmtt/m/n/10.95 helper.py build_fuzzers\T1
+/lmr/m/n/10.95 .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 156--157
+\T1/lmr/m/n/10.95 Then, the \T1/lmtt/m/n/10.95 helper.py coverage \T1/lmr/m/n/1
+0.95 com-
+ []
+
+
+Underfull \hbox (badness 4242) in paragraph at lines 156--157
+\T1/lmr/m/n/10.95 mand is ex-e-cuted within \T1/lmtt/m/n/10.95 $OSS_FUZZ_DIR\T1
+/lmr/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 4341) in paragraph at lines 156--157
+\T1/lmr/m/n/10.95 spec-i-fy-ing the gen-er-ated cor-pus di-rec-tory
+ []
+
+
+Underfull \hbox (badness 2875) in paragraph at lines 156--157
+\T1/lmr/m/n/10.95 (\T1/lmtt/m/n/10.95 $BUILD_WORK_CORPUS_DIR\T1/lmr/m/n/10.95 )
+ and the tar-get
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 165--166
+\T1/lmr/m/n/10.95 The cov-er-age com-mand runs in
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 165--166
+\T1/lmr/m/n/10.95 the back-ground. The script then
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 165--166
+\T1/lmr/m/n/10.95 polls the ex-pected out-put di-rec-tory
+ []
+
+
+Overfull \hbox (7.53317pt too wide) in paragraph at lines 165--166
+\T1/lmr/m/n/10.95 (\T1/lmtt/m/n/10.95 $OSS_FUZZ_DIR/build/out/$PROJECT/report\T
+1/lmr/m/n/10.95 )
+ []
+
+
+Underfull \hbox (badness 1565) in paragraph at lines 165--166
+\T1/lmr/m/n/10.95 is reached, any back-ground pro-cesses and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 165--166
+\T1/lmtt/m/n/10.95 $COVERAGE_EXPORT_DIR_BASE\T1/lmr/m/n/10.95 , com-pressed
+ []
+
+
+LaTeX Warning: Reference `sec:methodology_configuration' on page 3 undefined on
+ input line 171.
+
+[3]
+
+LaTeX Warning: Reference `sec:methodology' on page 4 undefined on input line 17
+3.
+
+
+Underfull \hbox (badness 2073) in paragraph at lines 173--174
+[]\T1/lmr/m/n/10.95 The en-tire pro-cess, from Docker im-age
+ []
+
+
+Underfull \hbox (badness 1297) in paragraph at lines 173--174
+\T1/lmr/m/n/10.95 prepa-ra-tion to fuzzer ex-e-cu-tion and cov-er-
+ []
+
+
+Underfull \hbox (badness 2057) in paragraph at lines 173--174
+\T1/lmr/m/n/10.95 age re-port gen-er-a-tion, is fully au-to-mated
+ []
+
+
+LaTeX Warning: Reference `tbl:coverage-w-corpus' on page 4 undefined on input l
+ine 179.
+
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10.95> on input line 183.
+
+LaTeX Warning: Reference `sec:methodology_patching' on page 4 undefined on inpu
+t line 198.
+
+
+Underfull \hbox (badness 1394) in paragraph at lines 198--199
+\T1/lmr/m/n/10.95 To en-sure com-pa-ra-ble re-sults be-tween the
+ []
+
+
+Underfull \hbox (badness 1052) in paragraph at lines 198--199
+\T1/lmr/m/n/10.95 in-clud-ing the fuzzing en-gine, har-ness, and
+ []
+
+
+Underfull \hbox (badness 1728) in paragraph at lines 198--199
+\T1/lmr/m/n/10.95 cor-pus from build script by ap-ply-ing the
+ []
+
+
+LaTeX Warning: Reference `tbl:coverage-wo-corpus' on page 4 undefined on input 
+line 206.
+
+
+LaTeX Warning: Reference `sec:coverage-comparison' on page 4 undefined on input
+ line 223.
+
+
+LaTeX Warning: Reference `tbl:coverage-comparison' on page 4 undefined on input
+ line 228.
+
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 236.
+
+LaTeX Warning: Reference `tbl:coverage-w-corpus' on page 4 undefined on input l
+ine 281.
+
+
+LaTeX Warning: Reference `tbl:coverage-wo-corpus' on page 4 undefined on input 
+line 281.
+
+
+LaTeX Warning: Reference `tbl:coverage-comparison' on page 4 undefined on input
+ line 281.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4]
+Underfull \vbox (badness 1072) has occurred while \output is active []
+
+ [5]
+Underfull \hbox (badness 1406) in paragraph at lines 313--314
+[]\T1/lmr/m/n/10.95 The cur-rent har-ness has a very nar-row
+ []
+
+
+Underfull \hbox (badness 1360) in paragraph at lines 321--322
+[]\T1/lmr/m/n/10.95 Screen and grid man-age-ment code re-
+ []
+
+
+Underfull \vbox (badness 2547) has occurred while \output is active []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 333--334
+[]\T1/lmr/m/n/10.95 Command-line ar-gu-ment han-dling
+ []
+
+
+LaTeX Warning: Reference `lst:input-fuzzer' on page 6 undefined on input line 3
+37.
+
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 349.
+Missing character: There is no ‑ ("2011) in font ec-lmr10!
+Missing character: There is no ‑ ("2011) in font ec-lmr10!
+Missing character: There is no ‑ ("2011) in font ec-lmr10!
+
+Underfull \hbox (badness 1708) in paragraph at lines 354--355
+[]\T1/lmr/m/n/10.95 Because no real client or server bi-nary
+ []
+
+
+Underfull \hbox (badness 1033) in paragraph at lines 354--355
+\T1/lmr/m/n/10.95 dling, and com-mand-dis-patch code in both
+ []
+
+
+Underfull \hbox (badness 1968) in paragraph at lines 354--355
+\T1/lmtt/m/n/10.95 client.c \T1/lmr/m/n/10.95 and \T1/lmtt/m/n/10.95 server.c \
+T1/lmr/m/n/10.95 is never reached.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
+\T1/lmtt/m/n/10.95 cmd-new-window.c\T1/lmr/m/n/10.95 , \T1/lmtt/m/n/10.95 cmd-s
+plit-window.c\T1/lmr/m/n/10.95 )
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
+\T1/lmr/m/n/10.95 ever see fuzzed in-put via the nor-mal
+ []
+
+[6]
+LaTeX Font Info:    Font shape `T1/lmss/bx/it' in size <12> not available
+(Font)              Font shape `T1/lmss/bx/sl' tried instead on input line 357.
+
+
+Underfull \hbox (badness 4266) in paragraph at lines 359--360
+\T1/lmr/m/n/10.95 The \T1/lmtt/m/n/10.95 arguments.c \T1/lmr/m/n/10.95 file im-
+ple-ments tmux's
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 375--376
+[]\T1/lmr/bx/n/10.95 Input de-liv-ery method\T1/lmr/m/n/10.95 : The
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 375--376
+\T1/lmr/m/n/10.95 fuzzer sends data di-rectly to
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 375--376
+\T1/lmtt/m/n/10.95 input_parse_buffer() \T1/lmr/m/n/10.95 rather than
+ []
+
+
+Underfull \hbox (badness 1484) in paragraph at lines 377--378
+\T1/lmr/m/n/10.95 main-tains a per-sis-tent pro-cess, call-ing
+ []
+
+
+Underfull \hbox (badness 1990) in paragraph at lines 379--380
+[]\T1/lmr/bx/n/10.95 Environment iso-la-tion\T1/lmr/m/n/10.95 : The fuzzer
+ []
+
+
+Underfull \hbox (badness 1221) in paragraph at lines 379--380
+\T1/lmr/m/n/10.95 ment with-out ac-cess to the filesys-tem
+ []
+
+
+Underfull \hbox (badness 1552) in paragraph at lines 379--380
+\T1/lmr/m/n/10.95 handling func-tions in-ter-act with, leav-
+ []
+
+
+Underfull \hbox (badness 5245) in paragraph at lines 382--383
+\T1/lmr/m/n/10.95 and \T1/lmtt/m/n/10.95 args_escape() \T1/lmr/m/n/10.95 show z
+ero ex-e-cu-tion
+ []
+
+[7]
+Underfull \hbox (badness 1400) in paragraph at lines 404--405
+\T1/lmr/m/n/10.95 pars-ing, the ran-dom-ized fuzzing in-put
+ []
+
+
+Underfull \vbox (badness 6047) has occurred while \output is active []
+
+
+Underfull \hbox (badness 3009) in paragraph at lines 419--420
+\T1/lmr/m/n/10.95 Improvements to the code cov-er-age were
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 423--424
+\T1/lmr/m/n/10.95 This new har-ness tries to cover the
+ []
+
+
+Underfull \hbox (badness 6808) in paragraph at lines 423--424
+\T1/lmtt/m/n/10.95 arguments.c \T1/lmr/m/n/10.95 file which, as al-ready ex-
+ []
+
+
+Underfull \hbox (badness 1609) in paragraph at lines 425--427
+\T1/lmr/m/n/10.95 ar-gu-ments that are nor-mally passed to a
+ []
+
+
+Underfull \hbox (badness 1137) in paragraph at lines 425--427
+\T1/lmr/m/n/10.95 pro-gram. With these 2 vari-ables we are
+ []
+
+
+Underfull \hbox (badness 1859) in paragraph at lines 425--427
+\T1/lmr/m/n/10.95 which will cre-ate a \T1/lmtt/m/n/10.95 struct args_value *\T
+1/lmr/m/n/10.95 .
+ []
+
+
+Underfull \hbox (badness 2334) in paragraph at lines 425--427
+\T1/lmr/m/n/10.95 Sub-se-quently we used this struct with a
+ []
+
+
+Underfull \hbox (badness 2318) in paragraph at lines 425--427
+\T1/lmtt/m/n/10.95 struct args_parse \T1/lmr/m/n/10.95 (which we can cre-ate
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--427
+\T1/lmr/m/n/10.95 lib-fuzzer to call \T1/lmtt/m/n/10.95 args_print, args_has,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--427
+\T1/lmtt/m/n/10.95 args_get, args_first, args_count,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--427
+\T1/lmtt/m/n/10.95 args_value, args_first_value,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--427
+\T1/lmtt/m/n/10.95 args_next_value, args_string,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--427
+\T1/lmtt/m/n/10.95 args_copy, args_percentage,
+ []
+
+
+Underfull \hbox (badness 1215) in paragraph at lines 425--427
+\T1/lmtt/m/n/10.95 args_strtonum\T1/lmr/m/n/10.95 . Many of these func-tions
+ []
+
+
+Underfull \hbox (badness 3049) in paragraph at lines 425--427
+\T1/lmr/m/n/10.95 al-lo-cate some space on the heap call-ing
+ []
+
+
+Underfull \hbox (badness 2302) in paragraph at lines 425--427
+\T1/lmr/m/n/10.95 have enough bytes from lib-fuzzer to call
+ []
+
+[8]
+Underfull \hbox (badness 1242) in paragraph at lines 432--433
+[]\T1/lmr/m/n/10.95 Further im-prove-ments for this file is to
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 432--433
+\T1/lmtt/m/n/10.95 args_make_commands \T1/lmr/m/n/10.95 and
+ []
+
+
+Underfull \hbox (badness 3525) in paragraph at lines 432--433
+\T1/lmtt/m/n/10.95 args_make_commands_free\T1/lmr/m/n/10.95 ) that were not
+ []
+
+
+Underfull \hbox (badness 2158) in paragraph at lines 432--433
+\T1/lmr/m/n/10.95 that we tar-geted, these don't work with
+ []
+
+
+Underfull \hbox (badness 1400) in paragraph at lines 439--440
+\T1/lmtt/m/n/10.95 cmd-bind-key.c\T1/lmr/m/n/10.95 , \T1/lmtt/m/n/10.95 key-str
+ing.c\T1/lmr/m/n/10.95 , ...), since
+ []
+
+
+Underfull \hbox (badness 1237) in paragraph at lines 444--445
+\T1/lmr/m/n/10.95 tures, cre-at-ing com-mands and pars-ing
+ []
+
+
+Underfull \hbox (badness 1062) in paragraph at lines 444--445
+\T1/lmr/m/n/10.95 To en-sure re-pro-ducibil-ity this parts is
+ []
+
+
+Underfull \vbox (badness 1303) has occurred while \output is active []
+
+ [9]
+Missing character: There is no ‐ ("2010) in font ec-lmr10!
+
+Underfull \hbox (badness 7595) in paragraph at lines 462--463
+[]\T1/lmtt/m/n/10.95 key-string.c \T1/lmr/m/n/10.95 line cov-er-age rose to
+ []
+
+
+Underfull \hbox (badness 7595) in paragraph at lines 463--464
+[]\T1/lmtt/m/n/10.95 key-bindings \T1/lmr/m/n/10.95 line cov-er-age rose to
+ []
+
+
+Underfull \vbox (badness 1303) has occurred while \output is active []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 469--470
+[]\T1/lmtt/m/n/10.95 cmd-command-prompt.c\T1/lmr/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 469--470
+\T1/lmtt/m/n/10.95 cmd-confirm-before.c\T1/lmr/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 469--470
+\T1/lmtt/m/n/10.95 cmd-if-shell.c \T1/lmr/m/n/10.95 and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 469--470
+\T1/lmtt/m/n/10.95 cmd-confirm-before.c \T1/lmr/m/n/10.95 each reached
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 470--471
+[]\T1/lmtt/m/n/10.95 cmd-display-panes.c \T1/lmr/m/n/10.95 and
+ []
+
+
+Underfull \hbox (badness 4366) in paragraph at lines 470--471
+\T1/lmtt/m/n/10.95 cmd-run-shell.c \T1/lmr/m/n/10.95 at-tained a func-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 482--482
+[][]\T1/lmss/bx/n/12 Vulnerability Overview: CVE-2020-
+ []
+
+
+LaTeX Warning: Citation 'CVE-2020-27347' on page 10 undefined on input line 484
+.
+
+
+Underfull \hbox (badness 2573) in paragraph at lines 484--485
+\T1/lmr/m/n/10.95 CVE-2020-27347 is a high-severity (CVSS
+ []
+
+
+Underfull \hbox (badness 7379) in paragraph at lines 484--485
+\T1/lmr/m/n/10.95 v3.x score 7.8) stack-based buffer over-
+ []
+
+
+Underfull \hbox (badness 2486) in paragraph at lines 484--485
+\T1/lmr/m/n/10.95 [[]]. The flaw ex-ists in
+ []
+
+
+Underfull \hbox (badness 2478) in paragraph at lines 484--485
+\T1/lmr/m/n/10.95 tion within \T1/lmtt/m/n/10.95 input.c\T1/lmr/m/n/10.95 , whi
+ch parses colon-
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [10]
+Underfull \hbox (badness 2521) in paragraph at lines 488--489
+\T1/lmtt/m/n/10.95 test_vulnerable.sh\T1/lmr/m/n/10.95 , \T1/lmtt/m/n/10.95 tes
+t_fixed.sh\T1/lmr/m/n/10.95 , and
+ []
+
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 504.
+
+LaTeX Warning: Reference `lst:tmux-new-session' on page 11 undefined on input l
+ine 518.
+
+
+LaTeX Warning: Reference `lst:tmux-payload-delivery' on page 11 undefined on in
+put line 526.
+
+
+Underfull \hbox (badness 1147) in paragraph at lines 532--533
+\T1/lmtt/m/n/10.95 tmux ls\T1/lmr/m/n/10.95 ). The out-come is com-pared
+ []
+
+
+LaTeX Warning: Reference `lst:tmux-payload-delivery' on page 11 undefined on in
+put line 541.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 541--542
+\T1/lmr/m/n/10.95 The vul-ner-a-bil-ity is due to a stack-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 541--542
+\T1/lmr/m/n/10.95 based buffer over-flow within the
+ []
+
+
+Underfull \hbox (badness 6316) in paragraph at lines 541--542
+\T1/lmtt/m/n/10.95 input_csi_dispatch_sgr_colon() \T1/lmr/m/n/10.95 func-tion
+ []
+
+
+Underfull \hbox (badness 1087) in paragraph at lines 541--542
+\T1/lmr/m/n/10.95 se-quences that can con-tain colon-separated
+ []
+
+
+Underfull \hbox (badness 3098) in paragraph at lines 541--542
+\T1/lmr/m/n/10.95 nu-mer-i-cal pa-ram-e-ters (e.g., for spec-i-fy-ing
+ []
+
+[11]
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
+556.
+ (/usr/share/texmf/tex/latex/lm/ts1lmtt.fd
+File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `lmtt' (encoding: TS1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+Package microtype Info: Character `texttrademark ' is missing
+(microtype)             in font `TS1/lmtt/m/n/9'.
+(microtype)             Ignoring protrusion settings for this character.
+Package microtype Info: Character `texttrademark ' is missing
+(microtype)             in font `TS1/lmtt/m/it/9'.
+(microtype)             Ignoring protrusion settings for this character.
+
+Underfull \hbox (badness 1859) in paragraph at lines 582--583
+\T1/lmr/m/n/10.95 The vul-ner-a-bil-ity was fixed in \T1/lmtt/m/n/10.95 tmux 3.
+1c
+ []
+
+
+Underfull \hbox (badness 1028) in paragraph at lines 582--583
+\T1/lmr/m/n/10.95 by com-mit [][]\T1/lmtt/m/n/10.95 a868bac[][]\T1/lmr/m/n/10.9
+5 . The patch mod-i-fies
+ []
+
+
+Underfull \hbox (badness 1173) in paragraph at lines 582--583
+\T1/lmr/m/n/10.95 plicit bounds check -- ef-fec-tively \T1/lmtt/m/n/10.95 if (n
+ ==
+ []
+
+
+LaTeX Warning: Citation 'CVE-2020-27347' on page 12 undefined on input line 599
+.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 599--601
+\T1/lmr/m/n/10.95 The high-severity \T1/lmtt/m/n/10.95 tmux \T1/lmr/m/n/10.95 v
+ul-ner-a-bil-ity
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 599--601
+\T1/lmr/m/n/10.95 [[]] (CVSS v3.x score
+ []
+
+
+LaTeX Warning: Empty bibliography on input line 602.
+
+[12] [13
+
+] (./report.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `report.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `report.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                report
+(biblatex)                and rerun LaTeX afterwards.
+
+Package logreq Info: Writing requests to 'report.run.xml'.
+\openout1 = `report.run.xml'.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 25724 strings out of 476775
+ 464988 string characters out of 5808212
+ 2025991 words of memory out of 5000000
+ 45533 multiletter control sequences out of 15000+600000
+ 585064 words of font info for 76 fonts, out of 8000000 for 9000
+ 1348 hyphenation exceptions out of 8191
+ 75i,13n,82p,1003b,1508s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on report.pdf (13 pages).
