@@ -101,7 +101,6 @@ fi
 # Apply patch if specified
 if [ -n "$PATCH_FILE" ] && [ -f "${ROOT_DIR}/${PATCH_FILE}" ]; then
   echo "Applying patch: ${PATCH_FILE}"
-  echo "curr: $(pwd)"
   if [ "$APPLY_PATCH_TO" == "oss-fuzz" ]; then
     git apply "${ROOT_DIR}/${PATCH_FILE}" || {
       echo "Failed to apply patch to OSS-Fuzz"
