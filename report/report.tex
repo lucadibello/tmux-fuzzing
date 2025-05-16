@@ -24,14 +24,20 @@
 \maketitle
 
 \begin{abstract}
-	In this lab, we integrate and evaluate a fuzzing harness for the \texttt{tmux} terminal
-	multiplexer using Google’s OSS-Fuzz infrastructure. We first establish a baseline
-	by measuring line coverage of the existing \texttt{tmux\_fuzzer} both with and without the
-	provided seed corpus, observing similar results in both cases.
+    In this lab, we improve the fuzzing efforts of the \texttt{tmux} terminal
+    multiplexer within Google's OSS-Fuzz infrastructure. We first establish a
+    baseline by evaluating the line coverage of the existing \texttt{input-fuzzer}
+    harness, both with and without its provided seed corpus, obtaining comparable results.
 
-	We then identify two major code regions not exercised by the baseline harness, implemented
-targeted harness improvements to cover those regions, and finally triage a crash uncovered
-in the session-detach logic, proposing a patch, and assessing its exploitability.
+    Following this, we identify two significant code regions in \texttt{tmux} uncovered
+    by the baseline fuzzer. To address these coverage gaps, we develop
+    and evaluate two new targeted fuzzing harnesses named \texttt{cmd-fuzzer}
+    and \texttt{argument-fuzzer}, demonstrating their ability to improve coverage in these
+    previously under-tested areas. As these specific fuzzing improvements did not uncover
+    new critical vulnerabilities within the project's timeframe, our crash analysis
+    focuses on a known historical vulnerability. We develop a proof-of-concept for
+    CVE-2020-27347, a stack-based buffer overflow, proceed to analyze its
+    root cause, discuss the implemented fix, and assess its overall security implications.
 \end{abstract}
 
 \section*{Introduction}
@@ -51,13 +57,7 @@ modifications can uncover real bugs in a piece of critical infrastructure.
 
 All experiments were performed on a Debian system with Linux kernel 6.1 (LTS),
 Docker 28.1.1, and Python 3.11. We used a local fork of OSS-Fuzz located at
-\texttt{forks/oss-fuzz}. To streamline execution, we developed two
-scripts---\texttt{run\_w\_corpus.sh} and \texttt{run\_wo\_corpus.sh}---that
-autonomously perform 4-hour fuzzing campaigns (with and without the seed corpus,
-respectively) and generate corresponding coverage reports. Both scripts are
-located in \texttt{submission/part\_1}. Their internal logic is modularized to
-share a common sequence of operations, which are detailed in the following
-subsections.
+\texttt{forks/oss-fuzz}. To manage the various fuzzing campaigns for this project we implemented a unified and configurable scripting framework  All individual run scripts -- baseline evaluations for Part 1, and improved fuzzer runs for Part 3 -- share the same core script that handles the common fuzzing workflow. This core script's operational sequence, including environment preparation, building, fuzzing, and reporting, is detailed in the subsections below.
 
 \noindent \paragraph{Configuration} \label{sec:methodology_configuration} The script is highly configurable via environment variables set at the top. Key configuration variables include:
 \begin{itemize}
@@ -96,7 +96,7 @@ rm -rf "$OSS_FUZZ_DIR/build" || true
 This ensures no stale build artifacts remain from previous runs and that the Docker image build process starts from a clean slate. Additionally, the script ensures the fuzzer artifact directory exists by creating it if necessary (located at \texttt{\$OSS\_FUZZ\_DIR/build/out/\$PROJECT/crashes}).
 
 \begin{lstlisting}[language=bash, caption={Bash script to apply the patch to remove the seed corpus from the Docker image and build script}]
-git apply submission/part_1/
+git apply part_1/
   remove_seed_corpus.patch
 \end{lstlisting}
 
@@ -168,12 +168,12 @@ The coverage command runs in the background. The script then polls the expected 
 
 \subsection*{With Seed Corpus} \label{sec:with-seed}
 
-We ran a 4-hour fuzzing campaign using the predefined \texttt{input-fuzzer} harness and the official tmux seed corpus, with \texttt{libfuzzer} as the fuzzing engine and \texttt{AddressSanitizer} enabled. This configuration corresponds to the default parameters outlined in \autoref{sec:methodology_configuration}.
+We ran a 4-hour fuzzing campaign using the predefined \texttt{input-fuzzer} harness and the official tmux seed corpus, with \texttt{libfuzzer} as the fuzzing engine and \texttt{AddressSanitizer} enabled. This configuration corresponds to the default parameters outlined in the \emph{Methodology} section.
 
-The entire process, from Docker image preparation to fuzzer execution and coverage report generation, is fully automated by the script \texttt{run\_w\_corpus.sh}, located in \texttt{submission/part\_1}. This script is intended to be run from the project root and performs automatically all required steps. For a detailed breakdown of its internal logic, refer to \autoref{sec:methodology}.
+The entire process, from Docker image preparation to fuzzer execution and coverage report generation, is fully automated by the script \texttt{run\_w\_corpus.sh}, located in \texttt{submission/part\_1}. This script is intended to be run from the submission folder root and performs automatically all required steps.
 
 \begin{lstlisting}[language=bash, caption=Bash command to run an automated fuzzing campaign with seed corpus]
-submission/part_1/run.w_corpus.sh
+part_1/run.w_corpus.sh
 \end{lstlisting}
 
 The seeded fuzzing campaign completed successfully and produced the following coverage results, summarized in \autoref{tbl:coverage-w-corpus}.
@@ -195,12 +195,12 @@ The seeded fuzzing campaign completed successfully and produced the following co
 
 \subsection*{Without Seed Corpus} \label{sec:without-seed}
 
-To ensure comparable results between the two runs, we used the same configuration, including the fuzzing engine, harness, and sanitizer. The only difference between the two campaigns is that we removed the seed corpus from build script by applying the patch \texttt{remove\_seed\_corpus.patch} using the \texttt{git apply} utility,and ran the fuzzing with an empty seed corpus directory. For more information on how the seed corpus was excluded, refer to \autoref{sec:methodology_patching}.
+To ensure comparable results between the two runs, we used the same configuration, including the fuzzing engine, harness, and sanitizer. The only difference between the two campaigns is that we removed the seed corpus from build script by applying the patch \texttt{remove\_seed\_corpus.patch} using the \texttt{git apply} utility,and ran the fuzzing with an empty seed corpus directory. For more information on how the seed corpus was excluded, refer to \autoref{sec:methodology_setup_patching}.
 
 Similarly as the seeded run script, the unseeded run script is designed to be run from the root of the project, and it takes care of all necessary steps, including building the patched Docker image, compiling the fuzzers, running the fuzzing campaign, and generating the coverage report:
 
 \begin{lstlisting}[language=bash, caption=Bash command to run an automated fuzzing campaign without seed corpus]
-submission/part_1/run.wo_corpus.sh
+part_1/run.wo_corpus.sh
 \end{lstlisting}
 
 The unseeded fuzzing campaign completed successfully and produced the following coverage results, summarized in \autoref{tbl:coverage-wo-corpus}.
@@ -220,7 +220,7 @@ The unseeded fuzzing campaign completed successfully and produced the following 
 	\label{tbl:coverage-wo-corpus}
 \end{table}
 
-The results are very similar to those obtained with the seed corpus, with only minor differences across all metrics. This suggests that the fuzzer is able to reach most of the currently covered code paths even without initial inputs. A detailed comparison of both runs is provided in \autoref{sec:coverage-comparison}.
+The results are very similar to those obtained with the seed corpus, with only minor differences across all metrics. This suggests that the fuzzer is able to reach most of the currently covered code paths even without initial inputs. A detailed comparison of both runs is provided in the next section.
 
 \subsection*{Coverage Comparison}
 \label{sec:coverage-comparison}
@@ -596,7 +596,7 @@ The vulnerability was fixed in \texttt{tmux 3.1c} by commit \href{https://github
 \subsubsection*{Security Implication and Severity}
 \label{ssec:implications_cve_2020_27347}
 
-The high-severity {\texttt{tmux}} vulnerability \cite{CVE-2020-27347} (CVSS v3.x score 7.8) is a stack-based buffer overflow. The memory corruption causes a crash that can lead to \textit{Denial of Service}: a crash of the \texttt{tmux} server process causes the termination of all user sessions managed by that server.
+The high-severity {\texttt{tmux}} vulnerability \cite{CVE-2020-27347} (CVSS v3.x score 7.8) is a stack-based buffer overflow. The memory corruption crash can lead to \textit{Denial of Service}: a crash of the \texttt{tmux} server process causes the termination of all user sessions managed by the server.
 The vulnerability requires local access, specifically the ability of an attacker to write in a \texttt{tmux} pane.
 
 \printbibliography
