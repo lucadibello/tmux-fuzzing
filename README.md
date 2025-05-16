@@ -1,4 +1,6 @@
-# Fuzzing Lab: Enhancing Fuzzing for tmux (Software Security @ EPFL, Lab 2)
+# Fuzzing Lab: Enhancing Fuzzing for tmux
+
+> Software Security @ EPFL, Spring 2025
 
 ## Abstract
 
